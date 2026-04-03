@@ -2,6 +2,9 @@
   "name": "snacks-site",
   "private": true,
   "description": "Snackly: клиент (Vite) + API (Express)",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "node backend/src/server.js",
     "dev:client": "npm run dev --prefix frontend",

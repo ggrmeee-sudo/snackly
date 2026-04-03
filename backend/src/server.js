@@ -25,8 +25,9 @@ app.get("/api/health", function (req, res) {
   res.json({ ok: true, service: "snackly" });
 });
 
-var server = app.listen(port, function () {
-  console.log("Snackly API: http://localhost:" + port + "/api/health");
+var host = process.env.HOST || "0.0.0.0";
+var server = app.listen(port, host, function () {
+  console.log("Snackly: http://localhost:" + port + "  (API: /api/health)");
   if (hasBuiltClient) {
     console.log("  статика: " + frontendDist);
   }
