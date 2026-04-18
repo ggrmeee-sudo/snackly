@@ -423,7 +423,7 @@ body {
   .home-hero__cta {
     position: absolute;
     left: 50%;
-    bottom: max(1.45rem, calc(0.45rem + env(safe-area-inset-bottom, 0px)));
+    bottom: max(0.65rem, env(safe-area-inset-bottom, 0px));
     transform: translateX(-50%);
     display: inline-flex;
     align-items: center;
