@@ -7,7 +7,10 @@
   <title>Полезные снеки</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap&subset=cyrillic"
+    rel="stylesheet"
+  />
 </head>
 <body>
   <header class="header">
@@ -70,7 +73,6 @@
 
   <main id="top">
     <section class="home-hero" aria-labelledby="home-hero-heading">
-      <h1 id="home-hero-heading" class="visually-hidden">Snackly — главная</h1>
       <div class="home-hero__frame">
         <picture class="home-hero__picture">
           <source media="(max-width: 720px)" srcset="/assets/home-hero-banner-mobile.png" />
@@ -82,6 +84,7 @@
             fetchpriority="high"
           />
         </picture>
+        <h1 id="home-hero-heading" class="home-hero__title">Полезные снеки и здоровые перекусы</h1>
         <a href="#catalog" class="home-hero__cta">Выбрать перекус</a>
       </div>
     </section>
