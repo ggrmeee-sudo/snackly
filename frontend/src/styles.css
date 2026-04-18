@@ -422,23 +422,31 @@ body {
   transform: translateX(-50%);
   z-index: 2;
   box-sizing: border-box;
-  width: calc(100% - 2rem);
-  max-width: 34rem;
+  width: calc(100% - 1.25rem);
+  max-width: none;
   margin: 0;
-  padding: 0 0.5rem;
-  font-family: "Playfair Display", "Times New Roman", Times, serif;
-  font-size: clamp(1.2rem, 3.6vw + 0.35rem, 2rem);
+  padding: 0 0.35rem;
+  font-family: "Cormorant", "Palatino Linotype", Palatino, "Times New Roman", serif;
+  font-size: clamp(0.72rem, 3.95vw + 0.28rem, 2.05rem);
   font-weight: 600;
   font-style: normal;
-  line-height: 1.28;
-  letter-spacing: 0.01em;
+  line-height: 1.2;
+  letter-spacing: clamp(0.03em, 0.55vw, 0.1em);
   text-align: center;
   color: #3d2f24;
-  text-wrap: balance;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   text-shadow:
     0 0 1px rgba(255, 252, 247, 0.95),
     0 0 18px rgba(255, 249, 240, 0.75),
     0 2px 8px rgba(255, 255, 255, 0.5);
+}
+
+.home-hero__title::-webkit-scrollbar {
+  display: none;
 }
 
 .home-hero__cta {
