@@ -422,31 +422,24 @@ body {
   transform: translateX(-50%);
   z-index: 2;
   box-sizing: border-box;
-  width: calc(100% - 1.25rem);
-  max-width: none;
+  width: calc(100% - 2rem);
+  max-width: 36rem;
   margin: 0;
-  padding: 0 0.35rem;
-  font-family: "Cormorant", "Palatino Linotype", Palatino, "Times New Roman", serif;
-  font-size: clamp(0.72rem, 3.95vw + 0.28rem, 2.05rem);
-  font-weight: 600;
+  padding: 0 0.5rem;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: clamp(0.95rem, 3.8vw + 0.2rem, 1.55rem);
+  font-weight: 700;
   font-style: normal;
-  line-height: 1.2;
-  letter-spacing: clamp(0.03em, 0.55vw, 0.1em);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   text-align: center;
   color: #3d2f24;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  white-space: normal;
+  text-wrap: balance;
   text-shadow:
     0 0 1px rgba(255, 252, 247, 0.95),
-    0 0 18px rgba(255, 249, 240, 0.75),
-    0 2px 8px rgba(255, 255, 255, 0.5);
-}
-
-.home-hero__title::-webkit-scrollbar {
-  display: none;
+    0 0 14px rgba(255, 249, 240, 0.8),
+    0 1px 6px rgba(255, 255, 255, 0.55);
 }
 
 .home-hero__cta {
@@ -462,18 +455,20 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
     min-height: 48px;
-    padding: 12px 28px;
+    max-width: calc(100% - 2rem);
+    padding: 12px 18px;
     border-radius: 999px;
     font: inherit;
-    font-size: 0.95rem;
+    font-size: clamp(0.84rem, 3.4vw, 0.95rem);
     font-weight: 700;
     text-decoration: none;
     color: var(--brown);
     background: rgba(255, 252, 247, 0.92);
     border: 2px solid rgba(100, 72, 48, 0.55);
     box-shadow: 0 3px 14px rgba(45, 38, 32, 0.18);
-    z-index: 2;
+    z-index: 95;
     transition:
       transform 0.15s ease,
       box-shadow 0.15s ease,
