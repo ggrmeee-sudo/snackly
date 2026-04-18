@@ -1,6 +1,8 @@
-﻿export const PRODUCTS = {
+﻿const _assetBase = import.meta.env.BASE_URL || "/";
+
+export const PRODUCTS = {
     "all-day-smoothie-orange-banana-strawberry": {
-      image: "assets/product-all-day-smoothie-orange-banana-strawberry.png",
+      image: _assetBase + "assets/product-all-day-smoothie-orange-banana-strawberry.png",
       title:
         "Смузи с апельсином бананом и клубникой All Day",
       bullets: [],
@@ -10,7 +12,7 @@
       weight: "300 мл",
     },
     "all-day-lemonade-puer-cola": {
-      image: "assets/product-all-day-lemonade-puer-cola.png",
+      image: _assetBase + "assets/product-all-day-lemonade-puer-cola.png",
       title:
         "Лимонад Пуэр кола газированный All Day",
       bullets: [],
@@ -20,7 +22,7 @@
       weight: "300 мл",
     },
     "all-day-smoothie-blueberry-banana-almond": {
-      image: "assets/product-all-day-smoothie-blueberry-banana-almond.png",
+      image: _assetBase + "assets/product-all-day-smoothie-blueberry-banana-almond.png",
       title:
         "Смузи черника, банан, миндаль All Day",
       bullets: [],
@@ -30,7 +32,7 @@
       weight: "300 мл",
     },
     "smoothie-all-day": {
-      image: "assets/product-smoothie-all-day.png",
+      image: _assetBase + "assets/product-smoothie-all-day.png",
       title: "Смузи лесные ягоды All Day",
       bullets: [],
       desc:
@@ -39,7 +41,7 @@
       weight: "300 мл",
     },
     "fitnessshock-hi-protein": {
-      image: "assets/product-fitnessshock-hi-protein.png",
+      image: _assetBase + "assets/product-fitnessshock-hi-protein.png",
       title:
         "Батончик FitnesShock Hi Protein, 30% протеина, без сахара, черничный десерт, в глазури",
       bullets: [],
@@ -49,7 +51,7 @@
       weight: "40 г",
     },
     "fitnessshock-lemon-chia": {
-      image: "assets/product-fitnessshock-lemon-chia.png",
+      image: _assetBase + "assets/product-fitnessshock-lemon-chia.png",
       title:
         "Батончик FitnesShock Hi Protein, 30% протеина, без сахара, лимон и чиа, в глазури",
       bullets: [],
@@ -59,7 +61,7 @@
       weight: "40 г",
     },
     "fitnessshock-pecan-tart": {
-      image: "assets/product-fitnessshock-pecan-tart.png",
+      image: _assetBase + "assets/product-fitnessshock-pecan-tart.png",
       title:
         "Батончик FitnesShock, 30% протеина, без сахара, глазированный, пекан-тарт",
       bullets: [],
@@ -69,7 +71,7 @@
       weight: "40 г",
     },
     "fitnessshock-strawberry-mojito": {
-      image: "assets/product-fitnessshock-strawberry-mojito.png",
+      image: _assetBase + "assets/product-fitnessshock-strawberry-mojito.png",
       title:
         "Глазированый батончик FitnesShock, 30% протеина, клубника и мята",
       bullets: [],
@@ -79,7 +81,7 @@
       weight: "40 г",
     },
     "semushka-apricot": {
-      image: "assets/product-semushka-apricot.png",
+      image: _assetBase + "assets/product-semushka-apricot.png",
       title: "Курага «Семушка»",
       bullets: [],
       desc:
@@ -88,7 +90,7 @@
       weight: "150 г",
     },
     "semushka-walnut": {
-      image: "assets/product-semushka-walnut.png",
+      image: _assetBase + "assets/product-semushka-walnut.png",
       title: "Грецкий орех «Семушка»",
       bullets: [],
       desc:
@@ -97,7 +99,7 @@
       weight: "200 г",
     },
     "semushka-almond": {
-      image: "assets/product-semushka-almond.png",
+      image: _assetBase + "assets/product-semushka-almond.png",
       title: "Миндаль сушёный «Семушка», 120 г",
       bullets: [],
       desc:
@@ -106,7 +108,7 @@
       weight: "120 г",
     },
     "semushka-cashew": {
-      image: "assets/product-semushka-cashew.png",
+      image: _assetBase + "assets/product-semushka-cashew.png",
       title: "Кешью жареный «Семушка»",
       bullets: [],
       desc:

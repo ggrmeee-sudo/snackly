@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f9f7f2" />
   <title>Полезные снеки</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,18 +12,30 @@
 <body>
   <header class="header">
     <div class="container header__inner">
+      <button
+        type="button"
+        class="header__menu-toggle"
+        id="nav-menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="Открыть меню"
+      >
+        <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+        <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+        <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+      </button>
       <a class="header__brand" href="#top">
         <img
           class="header__logo"
-          src="assets/logo.png"
+          src="/assets/logo.png"
           alt="Snackly"
           decoding="async"
         />
       </a>
       <nav class="nav nav--main" aria-label="Разделы сайта">
-        <a class="nav__link" href="#catalog">Каталог</a>
-        <a class="nav__link" href="#about">О нас</a>
-        <a class="nav__link" href="#reviews">Отзывы</a>
+        <a class="nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
+        <a class="nav__link nav__link--section" href="#about" data-section="about">О нас</a>
+        <a class="nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
       </nav>
       <div class="header__actions">
         <nav class="nav nav--actions" aria-label="Аккаунт и корзина">
@@ -30,26 +43,108 @@
           <span class="nav-auth-logged" id="nav-auth-logged" hidden>
             <span class="nav-auth-logged__email" id="nav-auth-email" title=""></span>
           </span>
-          <a class="nav__link" href="#cart" id="cart-link">Корзина (<span id="cart-count">0</span>)</a>
+          <a class="nav__link" href="#cart" id="cart-link" data-open-cart>Корзина (<span id="cart-count">0</span>)</a>
         </nav>
       </div>
+    </div>
+    <div id="mobile-nav" class="mobile-nav" aria-hidden="true">
+      <div class="mobile-nav__backdrop" data-close-mobile-nav tabindex="-1"></div>
+      <nav class="mobile-nav__panel" aria-label="Мобильная навигация">
+        <div class="mobile-nav__head">
+          <span class="mobile-nav__title">Меню</span>
+          <button type="button" class="mobile-nav__close" data-close-mobile-nav aria-label="Закрыть меню">×</button>
+        </div>
+        <div class="mobile-nav__links">
+          <a class="mobile-nav__link nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
+          <a class="mobile-nav__link nav__link nav__link--section" href="#about" data-section="about">О нас</a>
+          <a class="mobile-nav__link nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
+        </div>
+        <div class="mobile-nav__actions">
+          <p class="mobile-nav__account" id="mobile-nav-account" hidden></p>
+          <a class="mobile-nav__link" href="#login" id="mobile-nav-login-link">Войти</a>
+          <a class="mobile-nav__link" href="#cart" data-open-cart>Корзина (<span id="cart-count-mobile">0</span>)</a>
+        </div>
+      </nav>
     </div>
   </header>
 
   <main id="top">
-    <section class="banner-photo" aria-label="Баннер">
-      <img
-        class="banner-photo__img"
-        src="assets/banner.png"
-        alt="Snackly — полезные перекусы: гранола, орехи, энергетические снеки"
-        fetchpriority="high"
-        decoding="async"
-      />
+    <section class="hero hero--banner" aria-labelledby="hero-heading">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <h1 id="hero-heading" class="hero__title hero__title--banner">
+            Полезные перекусы на каждый день
+          </h1>
+          <p class="hero__tagline">Вкусно • Натурально • С пользой</p>
+          <p class="hero__body">
+            Заряжайся энергией, будь в балансе и выбирай лучшее для своего организма.
+          </p>
+          <ul class="hero__features" aria-label="Преимущества">
+            <li class="hero__feature">
+              <span class="hero__feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 20A7 7 0 0 1 9.8 7A8.5 8.5 0 0 1 21.5 11.2A8 8 0 0 1 11 20Z" />
+                  <path d="M14 14a8 8 0 0 1-8-5" />
+                </svg>
+              </span>
+              <span class="hero__feature-text">100% Натурально</span>
+            </li>
+            <li class="hero__feature">
+              <span class="hero__feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M5.5 5.5l13 13" />
+                </svg>
+              </span>
+              <span class="hero__feature-text">Без добавленного сахара</span>
+            </li>
+            <li class="hero__feature">
+              <span class="hero__feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              </span>
+              <span class="hero__feature-text">Больше пользы, меньше вины</span>
+            </li>
+          </ul>
+          <div class="hero__actions">
+            <a class="btn btn--view hero__btn" href="#catalog">Смотреть каталог</a>
+            <a class="btn hero__btn hero__btn--ghost" href="#about">Как мы работаем</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <img
+            class="hero__img"
+            src="/assets/hero-banner-side.png"
+            alt="Snackly — логотип бренда"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
     </section>
 
     <section id="catalog" class="catalog-block" aria-labelledby="catalog-heading">
       <div class="container">
         <h2 id="catalog-heading" class="catalog-block__title">Выберите свой перекус</h2>
+        <div class="catalog-toolbar">
+          <p id="catalog-filter-label" class="visually-hidden">Фильтр по категории товаров</p>
+          <div class="catalog-filter" role="group" aria-labelledby="catalog-filter-label">
+            <button type="button" class="catalog-filter__chip" data-catalog-filter="all" aria-pressed="true">
+              Все
+            </button>
+            <button type="button" class="catalog-filter__chip" data-catalog-filter="drink" aria-pressed="false">
+              Напитки
+            </button>
+            <button type="button" class="catalog-filter__chip" data-catalog-filter="bar" aria-pressed="false">
+              Батончики
+            </button>
+            <button type="button" class="catalog-filter__chip" data-catalog-filter="nuts" aria-pressed="false">
+              Орехи и сухофрукты
+            </button>
+          </div>
+          <p class="catalog-filter__status" id="catalog-filter-status" aria-live="polite"></p>
+        </div>
         <div class="catalog-grid" role="list">
           <article
             class="catalog-card catalog-card--product"
@@ -57,11 +152,12 @@
             tabindex="0"
             data-open-product
             data-product-id="smoothie-all-day"
+            data-product-category="drink"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-smoothie-all-day.png"
+                src="/assets/product-smoothie-all-day.png"
                 alt="Смузи лесные ягоды All Day в бутылке"
               />
             </div>
@@ -82,11 +178,12 @@
             tabindex="0"
             data-open-product
             data-product-id="all-day-smoothie-orange-banana-strawberry"
+            data-product-category="drink"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-all-day-smoothie-orange-banana-strawberry.png"
+                src="/assets/product-all-day-smoothie-orange-banana-strawberry.png"
                 alt="Смузи с апельсином, бананом и клубникой All Day"
               />
             </div>
@@ -107,11 +204,12 @@
             tabindex="0"
             data-open-product
             data-product-id="all-day-smoothie-blueberry-banana-almond"
+            data-product-category="drink"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-all-day-smoothie-blueberry-banana-almond.png"
+                src="/assets/product-all-day-smoothie-blueberry-banana-almond.png"
                 alt="Смузи черника, банан, миндаль All Day"
               />
             </div>
@@ -132,11 +230,12 @@
             tabindex="0"
             data-open-product
             data-product-id="all-day-lemonade-puer-cola"
+            data-product-category="drink"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-all-day-lemonade-puer-cola.png"
+                src="/assets/product-all-day-lemonade-puer-cola.png"
                 alt="Лимонад Пуэр кола газированный All Day"
               />
             </div>
@@ -157,11 +256,12 @@
             tabindex="0"
             data-open-product
             data-product-id="fitnessshock-hi-protein"
+            data-product-category="bar"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-fitnessshock-hi-protein.png"
+                src="/assets/product-fitnessshock-hi-protein.png"
                 alt="Батончик FitnesShock Hi Protein, черничный десерт"
               />
             </div>
@@ -182,11 +282,12 @@
             tabindex="0"
             data-open-product
             data-product-id="fitnessshock-lemon-chia"
+            data-product-category="bar"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-fitnessshock-lemon-chia.png"
+                src="/assets/product-fitnessshock-lemon-chia.png"
                 alt="Батончик FitnesShock Hi Protein, лимон и чиа"
               />
             </div>
@@ -207,11 +308,12 @@
             tabindex="0"
             data-open-product
             data-product-id="fitnessshock-pecan-tart"
+            data-product-category="bar"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-fitnessshock-pecan-tart.png"
+                src="/assets/product-fitnessshock-pecan-tart.png"
                 alt="Батончик FitnesShock, пекан-тарт"
               />
             </div>
@@ -232,11 +334,12 @@
             tabindex="0"
             data-open-product
             data-product-id="fitnessshock-strawberry-mojito"
+            data-product-category="bar"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-fitnessshock-strawberry-mojito.png"
+                src="/assets/product-fitnessshock-strawberry-mojito.png"
                 alt="Глазированый батончик FitnesShock, клубника и мята"
               />
             </div>
@@ -257,11 +360,12 @@
             tabindex="0"
             data-open-product
             data-product-id="semushka-apricot"
+            data-product-category="nuts"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-semushka-apricot.png"
+                src="/assets/product-semushka-apricot.png"
                 alt="Курага Семушка"
               />
             </div>
@@ -282,11 +386,12 @@
             tabindex="0"
             data-open-product
             data-product-id="semushka-walnut"
+            data-product-category="nuts"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-semushka-walnut.png"
+                src="/assets/product-semushka-walnut.png"
                 alt="Грецкий орех Семушка"
               />
             </div>
@@ -307,11 +412,12 @@
             tabindex="0"
             data-open-product
             data-product-id="semushka-almond"
+            data-product-category="nuts"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-semushka-almond.png"
+                src="/assets/product-semushka-almond.png"
                 alt="Миндаль сушёный Семушка"
               />
             </div>
@@ -332,11 +438,12 @@
             tabindex="0"
             data-open-product
             data-product-id="semushka-cashew"
+            data-product-category="nuts"
           >
             <div class="catalog-card__img-wrap">
               <img
                 class="catalog-card__img"
-                src="assets/product-semushka-cashew.png"
+                src="/assets/product-semushka-cashew.png"
                 alt="Кешью жареный Семушка"
               />
             </div>
@@ -560,7 +667,7 @@
         <div class="product-modal__media">
           <img
             id="product-modal-img"
-            src="assets/product-smoothie-all-day.png"
+            src="/assets/product-smoothie-all-day.png"
             alt=""
             width="400"
             height="400"
