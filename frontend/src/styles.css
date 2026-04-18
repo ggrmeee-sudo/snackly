@@ -386,7 +386,7 @@ body {
   word-break: break-all;
 }
 
-/* Главная: баннер на всю ширину окна */
+/* Главная: баннер на всю ширину окна; на телефоне — отдельное фото + кнопка в каталог */
 .home-hero {
   width: 100%;
   margin: 0;
@@ -395,9 +395,16 @@ body {
 }
 
 .home-hero__frame {
+  position: relative;
   width: 100%;
   margin: 0;
   line-height: 0;
+}
+
+.home-hero__picture {
+  display: block;
+  width: 100%;
+  margin: 0;
 }
 
 .home-hero__banner {
@@ -406,6 +413,53 @@ body {
   height: auto;
   object-fit: cover;
   object-position: center center;
+}
+
+.home-hero__cta {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .home-hero__cta {
+    position: absolute;
+    left: 50%;
+    bottom: max(0.65rem, env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--brown);
+    background: rgba(255, 252, 247, 0.92);
+    border: 2px solid rgba(100, 72, 48, 0.55);
+    box-shadow: 0 3px 14px rgba(45, 38, 32, 0.18);
+    z-index: 2;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .home-hero__cta:hover {
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(45, 38, 32, 0.22);
+    transform: translateX(-50%) translateY(-2px);
+  }
+
+  .home-hero__cta:active {
+    transform: translateX(-50%) scale(0.98);
+  }
+
+  .home-hero__cta:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
 }
 
 .catalog-block {

@@ -72,13 +72,17 @@
     <section class="home-hero" aria-labelledby="home-hero-heading">
       <h1 id="home-hero-heading" class="visually-hidden">Snackly — главная</h1>
       <div class="home-hero__frame">
-        <img
-          class="home-hero__banner"
-          src="/assets/home-hero-banner.png"
-          alt="Иллюстрация: перекусы — батончик, напиток, орехи"
-          decoding="async"
-          fetchpriority="high"
-        />
+        <picture class="home-hero__picture">
+          <source media="(max-width: 720px)" srcset="/assets/home-hero-banner-mobile.png" />
+          <img
+            class="home-hero__banner"
+            src="/assets/home-hero-banner.png"
+            alt="Иллюстрация: перекусы — батончик, напиток, орехи"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </picture>
+        <a href="#catalog" class="home-hero__cta">Выбрать перекус</a>
       </div>
     </section>
 
