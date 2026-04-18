@@ -568,9 +568,11 @@ body {
 }
 
 @media (max-width: 900px) {
+  /* Две колонки: текст слева, логотип справа (как на десктопе), а не блок под текстом */
   .hero--banner .hero__inner {
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
+    grid-template-columns: minmax(0, 1fr) minmax(88px, 32%);
+    gap: 0.5rem 0.6rem;
+    align-items: start;
     padding: 10px max(14px, env(safe-area-inset-right, 0px)) 10px
       max(14px, env(safe-area-inset-left, 0px));
   }
@@ -578,28 +580,29 @@ body {
   .hero__content {
     padding-right: 0;
     padding-bottom: 0;
+    min-width: 0;
   }
 
   .hero__media {
-    order: 1;
     height: auto;
-    min-height: 200px;
+    min-height: 0;
     width: 100%;
-    border-radius: clamp(10px, 2.5vw, 16px);
-    margin-top: 0.25rem;
-    justify-content: center;
+    border-radius: clamp(8px, 2vw, 14px);
+    margin-top: 0;
+    justify-content: flex-end;
+    align-self: start;
     -webkit-mask-image: radial-gradient(
-      ellipse 100% 100% at 50% 50%,
+      ellipse 115% 100% at 92% 28%,
       #000 0%,
-      #000 66%,
-      rgba(0, 0, 0, 0.52) 82%,
+      #000 62%,
+      rgba(0, 0, 0, 0.5) 80%,
       rgba(0, 0, 0, 0) 100%
     );
     mask-image: radial-gradient(
-      ellipse 100% 100% at 50% 50%,
+      ellipse 115% 100% at 92% 28%,
       #000 0%,
-      #000 66%,
-      rgba(0, 0, 0, 0.52) 82%,
+      #000 62%,
+      rgba(0, 0, 0, 0.5) 80%,
       rgba(0, 0, 0, 0) 100%
     );
   }
@@ -608,8 +611,23 @@ body {
     width: 100%;
     max-width: 100%;
     height: auto;
-    max-height: min(52vh, 420px);
-    object-position: center center;
+    max-height: min(42vh, 280px);
+    object-position: right top;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero--banner .hero__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(76px, 30%);
+    gap: 0.45rem 0.45rem;
+  }
+
+  .hero__title--banner {
+    font-size: clamp(1rem, 4.2vw + 0.45rem, 1.35rem);
+  }
+
+  .hero__img {
+    max-height: min(36vh, 220px);
   }
 }
 
