@@ -386,264 +386,63 @@ body {
   word-break: break-all;
 }
 
-/* Герой-баннер: слева текст (как раньше), справа панорамное фото; компактные поля */
-.hero {
-  --hero-vpad: clamp(0.85rem, 2.2vw, 1.35rem);
-  scroll-margin-top: 80px;
-  border-bottom: 1px solid rgba(175, 155, 125, 0.28);
-}
-
-.hero--banner {
-  background-color: var(--banner-bg);
-}
-
-.hero--banner .hero__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
-  gap: clamp(0.65rem, 2vw, 1.1rem);
-  align-items: stretch;
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 10px max(14px, env(safe-area-inset-right, 0px)) 10px
-    max(14px, env(safe-area-inset-left, 0px));
-}
-
-.hero .container {
-  padding-bottom: 0;
-}
-
-.hero__content {
-  min-width: 0;
-  padding: var(--hero-vpad) 0;
-  padding-right: 6px;
+/* Главная: полноширинный баннер + кнопка поверх */
+.home-hero {
+  width: 100%;
+  margin: 0;
+  padding: 0;
   background: var(--banner-bg);
 }
 
-.hero__media {
-  min-width: 0;
-  min-height: 0;
-  height: auto;
-  border-radius: clamp(10px, 1.8vw, 18px);
-  overflow: hidden;
-  background: transparent;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  isolation: isolate;
-  -webkit-mask-image: radial-gradient(
-    ellipse 108% 102% at 72% 50%,
-    #000 0%,
-    #000 68%,
-    rgba(0, 0, 0, 0.55) 84%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 108% 102% at 72% 50%,
-    #000 0%,
-    #000 68%,
-    rgba(0, 0, 0, 0.55) 84%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
+.home-hero__frame {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  line-height: 0;
 }
 
-.hero__img {
+.home-hero__banner {
   display: block;
   width: 100%;
-  max-width: 100%;
   height: auto;
-  object-fit: contain;
-  object-position: right center;
+  object-fit: cover;
+  object-position: center top;
+  vertical-align: top;
 }
 
-.hero__title--banner {
-  margin: 0 0 0.65rem;
-  font-size: clamp(1.15rem, 2.8vw + 0.5rem, 1.85rem);
-  font-weight: 700;
-  color: var(--brown);
-  line-height: 1.18;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.hero__tagline {
-  margin: 0 0 1rem;
-  font-size: clamp(0.95rem, 1.5vw + 0.4rem, 1.12rem);
-  font-weight: 600;
-  color: var(--brown);
-  letter-spacing: 0.02em;
-}
-
-.hero__body {
-  margin: 0 0 1.35rem;
-  font-size: clamp(0.92rem, 1.2vw + 0.35rem, 1.02rem);
-  line-height: 1.65;
-  color: var(--text-muted);
-  max-width: 34em;
-}
-
-.hero__features {
-  list-style: none;
-  margin: 0 0 1.5rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-.hero__feature {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--brown-light);
-  line-height: 1.35;
-}
-
-.hero__feature-icon {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: rgba(143, 107, 68, 0.1);
-  color: var(--accent);
-}
-
-.hero__feature-icon svg {
-  width: 22px;
-  height: 22px;
-}
-
-.hero__feature-text {
-  min-width: 0;
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 0;
-}
-
-.hero__btn {
-  padding: 12px 22px;
-  font-size: 0.95rem;
-  border-radius: 999px;
+.home-hero__cta {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(0.45rem, 4.5vw, 1.85rem);
+  transform: translateX(-50%);
+  display: block;
+  line-height: 0;
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  transition: filter 0.15s, transform 0.1s, background 0.15s;
+  border-radius: 999px;
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
 }
 
-.hero__btn:active {
-  transform: scale(0.98);
+.home-hero__cta:hover {
+  transform: translateX(-50%) translateY(-3px);
+  filter: brightness(1.04);
 }
 
-.hero__btn--ghost {
-  background: rgba(255, 255, 255, 0.5);
-  color: var(--brown);
-  border: 2px solid rgba(100, 72, 48, 0.55);
-  box-shadow: 0 1px 3px rgba(60, 45, 30, 0.12);
+.home-hero__cta:active {
+  transform: translateX(-50%) scale(0.98);
 }
 
-.hero__btn--ghost:hover {
-  background: var(--accent-soft);
-  border-color: rgba(80, 58, 38, 0.72);
-  box-shadow: 0 1px 4px rgba(60, 45, 30, 0.16);
+.home-hero__cta:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 999px;
 }
 
-/* .btn задаёт border: none позже в файле — восстанавливаем обводку у вторичной кнопки героя */
-.btn.hero__btn--ghost {
-  border: 2px solid rgba(100, 72, 48, 0.55);
-}
-
-@media (max-width: 900px) {
-  /* Две колонки: текст слева, логотип справа (как на десктопе), а не блок под текстом */
-  .hero--banner .hero__inner {
-    grid-template-columns: minmax(0, 1fr) minmax(88px, 32%);
-    gap: 0.5rem 0.6rem;
-    align-items: start;
-    padding: 10px max(14px, env(safe-area-inset-right, 0px)) 10px
-      max(14px, env(safe-area-inset-left, 0px));
-  }
-
-  .hero__content {
-    padding-right: 0;
-    padding-bottom: 0;
-    min-width: 0;
-  }
-
-  .hero__media {
-    height: auto;
-    min-height: 0;
-    width: 100%;
-    border-radius: clamp(8px, 2vw, 14px);
-    margin-top: 0;
-    justify-content: flex-end;
-    align-self: start;
-    -webkit-mask-image: radial-gradient(
-      ellipse 115% 100% at 92% 28%,
-      #000 0%,
-      #000 62%,
-      rgba(0, 0, 0, 0.5) 80%,
-      rgba(0, 0, 0, 0) 100%
-    );
-    mask-image: radial-gradient(
-      ellipse 115% 100% at 92% 28%,
-      #000 0%,
-      #000 62%,
-      rgba(0, 0, 0, 0.5) 80%,
-      rgba(0, 0, 0, 0) 100%
-    );
-  }
-
-  .hero__img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: min(42vh, 280px);
-    object-position: right top;
-  }
-}
-
-@media (max-width: 380px) {
-  .hero--banner .hero__inner {
-    grid-template-columns: minmax(0, 1fr) minmax(76px, 30%);
-    gap: 0.45rem 0.45rem;
-  }
-
-  .hero__title--banner {
-    font-size: clamp(1rem, 4.2vw + 0.45rem, 1.35rem);
-  }
-
-  .hero__img {
-    max-height: min(36vh, 220px);
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    --hero-vpad: 0.75rem;
-  }
-
-  .hero__actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .hero__btn {
-    width: 100%;
-  }
+.home-hero__cta img {
+  display: block;
+  width: min(300px, 82vw);
+  height: auto;
 }
 
 .catalog-block {
