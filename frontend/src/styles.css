@@ -386,7 +386,7 @@ body {
   word-break: break-all;
 }
 
-/* Главная: баннер чуть уже полной ширины, по центру */
+/* Главная: баннер на всю ширину окна */
 .home-hero {
   width: 100%;
   margin: 0;
@@ -395,9 +395,8 @@ body {
 }
 
 .home-hero__frame {
-  width: min(880px, 88vw);
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   line-height: 0;
 }
 
@@ -406,7 +405,7 @@ body {
   width: 100%;
   height: auto;
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
 }
 
 .catalog-block {
