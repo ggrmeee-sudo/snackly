@@ -386,7 +386,7 @@ body {
   word-break: break-all;
 }
 
-/* Главная: полноширинный баннер + кнопка поверх */
+/* Главная: баннер чуть уже полной ширины, по центру */
 .home-hero {
   width: 100%;
   margin: 0;
@@ -395,9 +395,9 @@ body {
 }
 
 .home-hero__frame {
-  position: relative;
-  width: 100%;
-  margin: 0;
+  width: min(880px, 88vw);
+  max-width: 100%;
+  margin: 0 auto;
   line-height: 0;
 }
 
@@ -407,42 +407,6 @@ body {
   height: auto;
   object-fit: cover;
   object-position: center top;
-  vertical-align: top;
-}
-
-.home-hero__cta {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(0.45rem, 4.5vw, 1.85rem);
-  transform: translateX(-50%);
-  display: block;
-  line-height: 0;
-  text-decoration: none;
-  border-radius: 999px;
-  transition:
-    transform 0.18s ease,
-    filter 0.18s ease;
-}
-
-.home-hero__cta:hover {
-  transform: translateX(-50%) translateY(-3px);
-  filter: brightness(1.04);
-}
-
-.home-hero__cta:active {
-  transform: translateX(-50%) scale(0.98);
-}
-
-.home-hero__cta:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 4px;
-  border-radius: 999px;
-}
-
-.home-hero__cta img {
-  display: block;
-  width: min(300px, 82vw);
-  height: auto;
 }
 
 .catalog-block {
