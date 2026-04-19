@@ -257,8 +257,141 @@ export function initCatalogFilter() {
   apply("all");
 }
 
+var REVIEWS_SLIDER_GAP = 18;
+
+function reviewsPerView() {
+  if (typeof window.matchMedia !== "function") return 3;
+  if (window.matchMedia("(max-width: 520px)").matches) return 1;
+  if (window.matchMedia("(max-width: 900px)").matches) return 2;
+  return 3;
+}
+
+function initReviewsSlider() {
+  var viewport = document.querySelector("[data-reviews-viewport]");
+  var track = document.querySelector("[data-reviews-track]");
+  var prevBtn = document.querySelector("[data-reviews-prev]");
+  var nextBtn = document.querySelector("[data-reviews-next]");
+  var dotsEl = document.querySelector("[data-reviews-dots]");
+  if (!viewport || !track || !prevBtn || !nextBtn || !dotsEl) return;
+
+  var cards = track.querySelectorAll(".review-card");
+  if (!cards.length) return;
+
+  var dotButtons = [];
+
+  function cardBasisPx() {
+    var per = reviewsPerView();
+    var inner = viewport.clientWidth;
+    if (per <= 1) return inner;
+    return (inner - REVIEWS_SLIDER_GAP * (per - 1)) / per;
+  }
+
+  function applyCardWidths() {
+    var w = cardBasisPx();
+    cards.forEach(function (card) {
+      card.style.flexBasis = w + "px";
+      card.style.width = w + "px";
+    });
+  }
+
+  function pageStep() {
+    return viewport.clientWidth;
+  }
+
+  function maxScroll() {
+    return Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+  }
+
+  function currentPageIndex() {
+    var step = pageStep();
+    if (step <= 0 || !dotButtons.length) return 0;
+    return Math.min(dotButtons.length - 1, Math.round(viewport.scrollLeft / step));
+  }
+
+  function updateArrows() {
+    var max = maxScroll();
+    var sl = viewport.scrollLeft;
+    prevBtn.disabled = sl <= 1;
+    nextBtn.disabled = sl >= max - 1;
+  }
+
+  function updateDotsActive() {
+    var idx = currentPageIndex();
+    dotButtons.forEach(function (b, i) {
+      b.classList.toggle("is-active", i === idx);
+      b.setAttribute("aria-selected", i === idx ? "true" : "false");
+    });
+  }
+
+  function buildDots() {
+    dotsEl.innerHTML = "";
+    dotButtons = [];
+    applyCardWidths();
+    var step = pageStep();
+    var max = maxScroll();
+    var n = 1;
+    if (max > 2 && step > 0) {
+      n = Math.min(30, Math.floor(max / step) + 1);
+    }
+    dotsEl.hidden = n <= 1;
+    for (var i = 0; i < n; i++) {
+      (function (pageIndex) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "reviews-slider__dot";
+        b.setAttribute("role", "tab");
+        b.setAttribute("aria-label", "Отзывы, страница " + (pageIndex + 1));
+        b.addEventListener("click", function () {
+          viewport.scrollTo({
+            left: pageIndex * pageStep(),
+            behavior: "smooth",
+          });
+        });
+        dotsEl.appendChild(b);
+        dotButtons.push(b);
+      })(i);
+    }
+    updateArrows();
+    updateDotsActive();
+  }
+
+  prevBtn.addEventListener("click", function () {
+    viewport.scrollBy({ left: -pageStep(), behavior: "smooth" });
+  });
+  nextBtn.addEventListener("click", function () {
+    viewport.scrollBy({ left: pageStep(), behavior: "smooth" });
+  });
+
+  viewport.addEventListener("scroll", function () {
+    updateArrows();
+    updateDotsActive();
+  });
+
+  viewport.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      viewport.scrollBy({ left: -pageStep(), behavior: "smooth" });
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      viewport.scrollBy({ left: pageStep(), behavior: "smooth" });
+    }
+  });
+
+  if (typeof ResizeObserver !== "undefined") {
+    var ro = new ResizeObserver(function () {
+      buildDots();
+    });
+    ro.observe(viewport);
+  } else {
+    window.addEventListener("resize", buildDots);
+  }
+
+  buildDots();
+}
+
 export function initLanding() {
   initScrollSpy();
   initMobileNav();
   initCatalogFilter();
+  initReviewsSlider();
 }

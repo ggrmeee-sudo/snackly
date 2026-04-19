@@ -5,6 +5,44 @@ var SESSION_KEY = "snackly-session";
 var USERS_KEY = "snackly-users";
 var ORDERS_KEY = "snackly-orders";
 var SETTINGS_KEY = "snackly-profile-settings";
+var CONTACT_DRAFT_KEY = "snackly-contact-draft";
+
+function clearContactDraft() {
+  try {
+    localStorage.removeItem(CONTACT_DRAFT_KEY);
+  } catch (e) {}
+}
+
+function saveContactDraftFromForm(form) {
+  if (!form) return;
+  try {
+    var name = document.getElementById("contact-name");
+    var phone = document.getElementById("contact-phone");
+    var msg = document.getElementById("contact-message");
+    var o = {
+      name: name ? String(name.value || "") : "",
+      phone: phone ? String(phone.value || "") : "",
+      message: msg ? String(msg.value || "") : "",
+    };
+    localStorage.setItem(CONTACT_DRAFT_KEY, JSON.stringify(o));
+  } catch (e) {}
+}
+
+function loadContactDraftToForm(form) {
+  if (!form) return;
+  try {
+    var raw = localStorage.getItem(CONTACT_DRAFT_KEY);
+    if (!raw) return;
+    var o = JSON.parse(raw);
+    if (!o || typeof o !== "object") return;
+    var name = document.getElementById("contact-name");
+    var phone = document.getElementById("contact-phone");
+    var msg = document.getElementById("contact-message");
+    if (name && o.name != null) name.value = String(o.name);
+    if (phone && o.phone != null) phone.value = String(o.phone);
+    if (msg && o.message != null) msg.value = String(o.message);
+  } catch (e) {}
+}
 
 function getSession() {
   try {
@@ -235,12 +273,21 @@ export function initProfile() {
     if (successBlock) successBlock.hidden = true;
     if (formBlock) formBlock.hidden = false;
     if (form) form.reset();
+    clearContactDraft();
+  }
+
+  function revealContactFormForNav() {
+    var formBlock = document.getElementById("contact-form-block");
+    var successBlock = document.getElementById("contact-success-block");
+    if (successBlock) successBlock.hidden = true;
+    if (formBlock) formBlock.hidden = false;
+    loadContactDraftToForm(document.getElementById("contact-feedback-form"));
   }
 
   function goToContactsSection() {
     closeMobileNavIfOpen();
     closeProfileDrawer();
-    resetContactForm();
+    revealContactFormForNav();
     var el = document.getElementById("contacts");
     if (!el) return;
     window.location.hash = "contacts";
@@ -381,12 +428,24 @@ export function initProfile() {
 
   var contactForm = document.getElementById("contact-feedback-form");
   if (contactForm) {
+    loadContactDraftToForm(contactForm);
+    var contactDraftTimer;
+    function queueContactDraftSave() {
+      window.clearTimeout(contactDraftTimer);
+      contactDraftTimer = window.setTimeout(function () {
+        saveContactDraftFromForm(contactForm);
+      }, 320);
+    }
+    contactForm.addEventListener("input", queueContactDraftSave);
+    contactForm.addEventListener("change", queueContactDraftSave);
+
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!contactForm.checkValidity()) {
         contactForm.reportValidity();
         return;
       }
+      clearContactDraft();
       var formBlock = document.getElementById("contact-form-block");
       var successBlock = document.getElementById("contact-success-block");
       if (formBlock) formBlock.hidden = true;
