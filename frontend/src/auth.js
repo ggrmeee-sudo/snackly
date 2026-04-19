@@ -64,20 +64,39 @@ export function initAuth() {
     } catch (e) {}
   }
 
+  /** Подтягиваем имя и телефон из snackly-users, если сессия устарела (другой девайс / старый формат). */
+  function syncSessionWithUserRecord() {
+    var sess = getSession();
+    if (!sess || !sess.email) return;
+    var user = findUserByEmail(sess.email);
+    if (!user) return;
+    var nextName = String(user.name || sess.name || "").trim();
+    var nextPhone = String(user.phone || sess.phone || "").trim();
+    var curName = String(sess.name || "").trim();
+    var curPhone = String(sess.phone || "").trim();
+    if (nextName !== curName || nextPhone !== curPhone) {
+      setSession({
+        email: user.email,
+        name: nextName,
+        phone: nextPhone,
+      });
+    }
+  }
+
   function updateAuthNav() {
+    syncSessionWithUserRecord();
     var sess = getSession();
     var openLink = document.getElementById("nav-auth-open");
     var profileBtn = document.getElementById("nav-profile-btn");
     var mobileLogin = document.getElementById("mobile-nav-login-link");
     var mobileProfile = document.getElementById("mobile-nav-profile-btn");
-    if (!openLink) return;
     if (sess && sess.email) {
-      openLink.hidden = true;
+      if (openLink) openLink.hidden = true;
       if (profileBtn) profileBtn.hidden = false;
       if (mobileLogin) mobileLogin.hidden = true;
       if (mobileProfile) mobileProfile.hidden = false;
     } else {
-      openLink.hidden = false;
+      if (openLink) openLink.hidden = false;
       if (profileBtn) profileBtn.hidden = true;
       if (mobileLogin) mobileLogin.hidden = false;
       if (mobileProfile) mobileProfile.hidden = true;

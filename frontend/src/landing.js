@@ -262,9 +262,10 @@ export function initCatalogFilter() {
 var REVIEWS_SLIDER_GAP = 18;
 
 function reviewsPerView() {
-  if (typeof window.matchMedia !== "function") return 3;
-  if (window.matchMedia("(max-width: 520px)").matches) return 1;
-  if (window.matchMedia("(max-width: 900px)").matches) return 2;
+  if (typeof window.matchMedia !== "function") return 1;
+  /* На телефоне и планшете — по одному отзыву за раз (стрелки листают по шагу одной карточки). */
+  if (window.matchMedia("(max-width: 900px)").matches) return 1;
+  if (window.matchMedia("(max-width: 1200px)").matches) return 2;
   return 3;
 }
 
@@ -297,6 +298,10 @@ function initReviewsSlider() {
   }
 
   function pageStep() {
+    var per = reviewsPerView();
+    if (per <= 1 && cards[0]) {
+      return cards[0].offsetWidth + REVIEWS_SLIDER_GAP;
+    }
     return viewport.clientWidth;
   }
 
@@ -546,8 +551,44 @@ function initReviewComposeForm() {
   document.addEventListener("snackly-orders-updated", syncReviewGate);
 }
 
+function initSectionAnchorLinks() {
+  function goToSection(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    closeMobileNavIfOpen();
+    try {
+      history.pushState(null, "", "#" + id);
+    } catch (e) {
+      location.hash = id;
+    }
+    window.requestAnimationFrame(function () {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    if (SECTION_IDS.indexOf(id) !== -1) setActiveSection(id);
+  }
+
+  document.querySelectorAll(".nav__link--section[href^='#']").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      var href = a.getAttribute("href") || "";
+      if (href.length < 2) return;
+      var id = href.slice(1);
+      if (SECTION_IDS.indexOf(id) === -1) return;
+      e.preventDefault();
+      goToSection(id);
+    });
+  });
+
+  document.querySelectorAll('.header__brand[href="#home"]').forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      goToSection("home");
+    });
+  });
+}
+
 export function initLanding() {
   initScrollSpy();
+  initSectionAnchorLinks();
   initMobileNav();
   initCatalogFilter();
   initReviewsSlider();

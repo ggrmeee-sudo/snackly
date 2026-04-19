@@ -37,7 +37,9 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: clip;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -57,6 +59,10 @@ body {
   min-height: 100dvh;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
 }
 
 main#top {
@@ -578,6 +584,11 @@ button.nav__link {
   gap: 4px;
 }
 
+.mobile-nav__actions > a[hidden],
+.mobile-nav__actions > button[hidden] {
+  display: none !important;
+}
+
 .mobile-nav__account {
   margin: 0 0 8px;
   padding: 10px 14px;
@@ -1078,10 +1089,8 @@ button.nav__link {
 
 .catalog-toolbar__chips {
   min-width: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
+  overflow-x: visible;
+  overflow-y: visible;
 }
 
 .catalog-toolbar__sort {
@@ -1157,26 +1166,50 @@ button.nav__link {
 
 .catalog-toolbar__chips .catalog-filter {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 8px;
-  width: max-content;
-  min-width: 100%;
+  align-content: flex-start;
+  gap: 8px 10px;
+  width: 100%;
+  min-width: 0;
   padding-bottom: 2px;
 }
 
 @media (max-width: 720px) {
   .catalog-toolbar--one-line {
-    grid-template-columns: minmax(110px, min(160px, 40vw)) minmax(0, 1fr) auto;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 12px;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .catalog-toolbar__search {
+    max-width: 100%;
+  }
+
+  .catalog-toolbar__sort {
+    justify-self: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 8px;
-    margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px)))
-      0 calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .catalog-toolbar__sort .catalog-sort__select {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .catalog-toolbar--one-line > .catalog-filter__status {
     text-align: left;
+  }
+
+  .catalog-filter__chip {
+    padding: 8px 14px;
+    font-size: 0.82rem;
   }
 }
 
@@ -1365,7 +1398,33 @@ button.nav__link {
 
 @media (max-width: 520px) {
   .catalog-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 10px;
+  }
+
+  .catalog-card--product {
+    padding: 10px;
+    gap: 8px;
+    border-radius: 16px;
+  }
+
+  .catalog-card--product .catalog-card__img-wrap {
+    border-radius: 14px;
+  }
+
+  .catalog-card--product .catalog-card__name {
+    font-size: 0.78rem;
+    line-height: 1.32;
+  }
+
+  .catalog-card__weight {
+    font-size: 0.75rem;
+  }
+
+  .catalog-card__price-row {
+    padding: 8px 6px;
+    min-height: 0;
+    font-size: 0.82rem;
   }
 }
 
@@ -1977,18 +2036,18 @@ button.catalog-card__price-row:focus-visible {
   --cart-pill-bg: var(--accent);
   --cart-pill-bg-hover: var(--accent-hover);
   position: fixed;
-  right: max(16px, env(safe-area-inset-right, 0px));
-  bottom: max(24px, env(safe-area-inset-bottom, 0px));
+  right: max(14px, env(safe-area-inset-right, 0px));
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
   z-index: 90;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  min-width: min(168px, calc(100vw - 32px));
-  max-width: min(300px, calc(100vw - 32px));
+  gap: 3px;
+  min-width: min(148px, calc(100% - 32px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
+  max-width: min(260px, calc(100% - 32px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)));
   margin: 0;
-  padding: 12px 26px;
+  padding: 10px 20px;
   border: 1px solid rgba(255, 248, 240, 0.12);
   border-radius: 9999px;
   background: var(--cart-pill-bg);
@@ -2018,7 +2077,7 @@ button.catalog-card__price-row:focus-visible {
 }
 
 .cart-summary-pill__price {
-  font-size: 1.2rem;
+  font-size: 1.08rem;
   font-weight: 700;
   color: #faf7f2;
   font-variant-numeric: tabular-nums;
@@ -2026,7 +2085,7 @@ button.catalog-card__price-row:focus-visible {
 }
 
 .cart-summary-pill__delivery {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 500;
   color: rgba(250, 247, 242, 0.72);
   line-height: 1.3;
@@ -3700,6 +3759,7 @@ button.catalog-card__price-row:focus-visible {
 
 /* Тост «добавлено в корзину» */
 .cart-toast {
+  --toast-shift-x: -50%;
   position: fixed;
   bottom: 28px;
   left: 50%;
@@ -3707,18 +3767,18 @@ button.catalog-card__price-row:focus-visible {
   display: flex;
   align-items: center;
   gap: 10px;
-  max-width: calc(100vw - 40px);
-  padding: 14px 22px 14px 18px;
+  max-width: calc(100% - 40px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  padding: 12px 18px 12px 16px;
   border-radius: 999px;
   background: linear-gradient(145deg, var(--accent) 0%, var(--accent-hover) 100%);
   color: var(--white);
   box-shadow: 0 8px 32px rgba(90, 62, 42, 0.35);
   border: 1px solid rgba(255, 248, 240, 0.12);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   opacity: 0;
-  transform: translate(-50%, 24px) scale(0.96);
+  transform: translate(var(--toast-shift-x), 24px) scale(0.96);
   pointer-events: none;
   transition:
     opacity 0.35s ease,
@@ -3727,7 +3787,28 @@ button.catalog-card__price-row:focus-visible {
 
 .cart-toast.cart-toast--visible {
   opacity: 1;
-  transform: translate(-50%, 0) scale(1);
+  transform: translate(var(--toast-shift-x), 0) scale(1);
+}
+
+/* Длинные сообщения (модерация отзыва): ниже по высоте, шире, без «капсулы-овал» */
+.cart-toast.cart-toast--notice {
+  --toast-shift-x: 0;
+  left: max(14px, env(safe-area-inset-left, 0px));
+  right: max(14px, env(safe-area-inset-right, 0px));
+  width: auto;
+  max-width: none;
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.45;
+  align-items: flex-start;
+}
+
+.cart-toast.cart-toast--notice .cart-toast__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-wrap: balance;
 }
 
 .cart-toast__icon {
@@ -3742,9 +3823,21 @@ button.catalog-card__price-row:focus-visible {
 
 @media (max-width: 520px) {
   .cart-toast {
-    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
-    max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
-    padding: 12px 18px;
-    font-size: 0.88rem;
+    --toast-shift-x: 0;
+    left: max(12px, env(safe-area-inset-left, 0px));
+    right: max(92px, calc(12px + env(safe-area-inset-right, 0px)));
+    width: auto;
+    max-width: none;
+    bottom: max(22px, env(safe-area-inset-bottom, 0px));
+    padding: 10px 14px;
+    font-size: 0.84rem;
+    border-radius: 12px;
+  }
+
+  .cart-toast.cart-toast--notice {
+    left: max(12px, env(safe-area-inset-left, 0px));
+    right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: max(96px, calc(88px + env(safe-area-inset-bottom, 0px)));
+    padding: 11px 14px;
   }
 }

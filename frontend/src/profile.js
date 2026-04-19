@@ -108,6 +108,24 @@ function displayNameUpper(sess) {
   return "ГОСТЬ";
 }
 
+function phoneForProfile(sess) {
+  if (!sess || !sess.email) return "";
+  var fromSess = String(sess.phone || "").trim();
+  if (fromSess) return fromSess;
+  try {
+    var raw = localStorage.getItem(USERS_KEY);
+    var users = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(users)) return "";
+    var e = String(sess.email).toLowerCase();
+    var u = users.find(function (x) {
+      return x && String(x.email || "").toLowerCase() === e;
+    });
+    return u && u.phone ? String(u.phone).trim() : "";
+  } catch (err) {
+    return "";
+  }
+}
+
 function formatPhoneLine(phone) {
   var p = String(phone || "").replace(/\D/g, "");
   if (p.length === 11 && p[0] === "7") {
@@ -241,7 +259,7 @@ export function initProfile() {
     if (!sess) return;
     if (avatarEl) avatarEl.textContent = initialsFromName(sess.name);
     if (nameEl) nameEl.textContent = displayNameUpper(sess);
-    if (phoneEl) phoneEl.textContent = formatPhoneLine(sess.phone);
+    if (phoneEl) phoneEl.textContent = formatPhoneLine(phoneForProfile(sess));
     renderOrders();
   }
 
