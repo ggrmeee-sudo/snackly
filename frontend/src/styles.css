@@ -1907,36 +1907,6 @@ button.catalog-card__price-row:focus-visible {
   transform: scale(0.99);
 }
 
-.review-compose__success {
-  text-align: center;
-  padding: 8px 4px 4px;
-}
-
-.review-compose__success-text {
-  margin: 0 0 16px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--brown-light);
-}
-
-.review-compose__again {
-  padding: 10px 20px;
-  border: 1px solid rgba(175, 155, 125, 0.55);
-  border-radius: 999px;
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  background: var(--cream);
-  color: var(--brown);
-  transition: background 0.15s, border-color 0.15s;
-}
-
-.review-compose__again:hover {
-  background: var(--accent-soft);
-  border-color: rgba(157, 113, 77, 0.5);
-}
-
 .review-compose__locked {
   text-align: center;
   padding: 8px 4px 4px;

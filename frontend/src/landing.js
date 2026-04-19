@@ -3,6 +3,7 @@
  */
 import { PRODUCTS } from "./data/products.js";
 import { getSessionEmailNorm, userHasCompletedPurchase } from "./cart.js";
+import { showSnacklyToast } from "./toast.js";
 
 var SECTION_IDS = ["home", "catalog", "about", "contacts", "reviews"];
 
@@ -453,11 +454,9 @@ function initReviewComposeForm() {
   var lockedText = document.getElementById("review-compose-locked-text");
   var loginBtn = document.getElementById("review-compose-open-login");
   var fieldsBlock = document.getElementById("review-compose-fields");
-  var successBlock = document.getElementById("review-compose-success");
-  var againBtn = document.getElementById("review-compose-again");
   var ratingInput = document.getElementById("review-compose-rating");
   var starWrap = form.querySelector("[data-review-stars]");
-  if (!locked || !fieldsBlock || !successBlock || !ratingInput || !starWrap) return;
+  if (!locked || !fieldsBlock || !ratingInput || !starWrap) return;
 
   var starBtns = starWrap.querySelectorAll("[data-star]");
 
@@ -482,7 +481,6 @@ function initReviewComposeForm() {
 
   function syncReviewGate() {
     var email = getSessionEmailNorm();
-    successBlock.hidden = true;
     fieldsBlock.hidden = false;
     if (!email) {
       locked.hidden = false;
@@ -529,19 +527,13 @@ function initReviewComposeForm() {
       return;
     }
     clearReviewDraft();
-    fieldsBlock.hidden = true;
-    successBlock.hidden = false;
+    form.reset();
+    setRating(5);
+    showSnacklyToast(
+      "Спасибо! Ваш отзыв отправлен на модерацию. После проверки он появится на сайте.",
+      4200
+    );
   });
-
-  if (againBtn) {
-    againBtn.addEventListener("click", function () {
-      successBlock.hidden = true;
-      fieldsBlock.hidden = false;
-      form.reset();
-      setRating(5);
-      loadReviewDraftToForm(setRating);
-    });
-  }
 
   if (loginBtn) {
     loginBtn.addEventListener("click", function () {
