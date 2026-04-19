@@ -106,13 +106,12 @@ main#top {
   align-items: center;
   justify-content: space-between;
   gap: 12px 16px;
-  /* На всю ширину окна: логотип у левого края, «Войти» и «Корзина» у правого */
+  /* На всю ширину окна: логотип, меню и аккаунт в одном ряду по центру по вертикали */
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 12px max(20px, env(safe-area-inset-right, 0px)) 12px
+  padding: max(12px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) 12px
     max(20px, env(safe-area-inset-left, 0px));
-  padding-top: max(12px, env(safe-area-inset-top, 0px));
   min-height: 56px;
 }
 
@@ -152,12 +151,14 @@ main#top {
 }
 
 .header__brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   flex-shrink: 0;
   text-decoration: none;
-  line-height: 0;
   z-index: 2;
+  /* Одинаковый «воздух» сверху и снизу у логотипа (компенсирует оптику PNG) */
+  padding-block: 5px;
+  box-sizing: border-box;
 }
 
 .header__logo {
@@ -194,14 +195,13 @@ button.nav__link {
 }
 
 .nav--main {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  flex: 1 1 auto;
   justify-content: center;
   flex-wrap: nowrap;
   z-index: 1;
-  max-width: min(100% - 180px, 100%);
+  min-width: 0;
+  align-self: center;
 }
 
 .nav--actions {
@@ -382,6 +382,9 @@ button.nav__link {
   color: var(--brown-light);
   padding: 8px 18px;
   border-radius: 999px;
+  line-height: 1.25;
+  display: inline-flex;
+  align-items: center;
 }
 
 .nav__link:not(.nav__link--icon-tile):hover {
