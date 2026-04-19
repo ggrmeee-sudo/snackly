@@ -12,6 +12,7 @@
     "build": "npm install --prefix frontend && npm run build:client",
     "build:client": "npm run build --prefix frontend",
     "start": "node backend/src/server.js",
+    "bot:telegram": "node backend/src/telegram-feedback-bot.js",
     "process-logo": "node tools/process_logo.js"
   },
   "dependencies": {
