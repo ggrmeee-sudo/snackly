@@ -162,13 +162,6 @@ function addToCart(productId) {
 }
 
 function updateCartBadge() {
-  var n = String(cartTotalQty(loadCart()));
-  var el = document.getElementById("cart-count");
-  if (el) el.textContent = n;
-  var elM = document.getElementById("cart-count-mobile");
-  if (elM) elM.textContent = n;
-  var badge = document.getElementById("cart-badge");
-  if (badge) badge.hidden = n === "0";
   syncCartChrome();
 }
 
@@ -176,10 +169,6 @@ function syncCartChrome() {
   var cart = loadCart();
   var qty = cartTotalQty(cart);
   var show = isLoggedIn() && qty > 0;
-  var cartLink = document.getElementById("cart-link");
-  if (cartLink) cartLink.hidden = !show;
-  var mobileCart = document.getElementById("mobile-nav-cart-link");
-  if (mobileCart) mobileCart.hidden = !show;
   var pill = document.getElementById("cart-summary-pill");
   var pillTotal = document.getElementById("cart-summary-pill-total");
   if (pill) pill.hidden = !show;
