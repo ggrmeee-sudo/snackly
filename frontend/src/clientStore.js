@@ -1,9 +1,5 @@
 import { reactive, readonly } from "vue";
 
-/**
- * Централизованное реактивное состояние клиента (Vue 3 reactive).
- * Источник правды по данным по-прежнему localStorage; здесь — снимок для UI и отчёта.
- */
 export const clientState = reactive({
   isLoggedIn: false,
   cartQuantity: 0,

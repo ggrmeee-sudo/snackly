@@ -1,7 +1,3 @@
-/**
- * Асинхронная проверка доступности API (fetch + AbortController).
- * На GitHub Pages отдаётся статический public/api/health.json; при Express — /api/health.
- */
 function basePath() {
   var b = import.meta.env.BASE_URL || "/";
   if (!b.endsWith("/")) b += "/";

@@ -2,7 +2,6 @@ import { copyFileSync } from "node:fs";
 import { join } from "node:path";
 import { defineConfig } from "vite";
 
-/** Для GitHub Pages: VITE_BASE=/имя-репозитория/ (со слэшем в конце). Локально не задаём. */
 function viteBase() {
   const b = process.env.VITE_BASE || "/";
   if (b === "/" || b === "") return "/";

@@ -1,7 +1,7 @@
 {
   "name": "snackly",
   "private": true,
-  "description": "Snackly: frontend (Vite) + backend (Express, Telegram-бот)",
+  "description": "Snackly",
   "engines": {
     "node": ">=20"
   },

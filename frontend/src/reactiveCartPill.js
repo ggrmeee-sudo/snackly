@@ -7,7 +7,6 @@ export function isCartPillVueActive() {
   return pillVueActive;
 }
 
-/** Реактивный движок Vue 3: сумма в плавающей плашке корзины без смены вёрстки/CSS. */
 export function initReactiveCartPill() {
   var mountEl = document.getElementById("cart-summary-pill-total");
   if (!mountEl) return;
