@@ -15,7 +15,7 @@ import {
   saveDeliveryAddr,
   setCartProductQty,
 } from "./cart.js";
-import { getLinkedCard, linkCardFromInputs } from "./payment.js";
+import { formatCardMaskLast4, getLinkedCard, linkCardFromInputs } from "./payment.js";
 import { showCartToast, showSnacklyToast } from "./toast.js";
 
 function fillDeliveryFieldsFromStorage() {
@@ -141,11 +141,11 @@ function openCheckoutModal() {
   if (linked) {
     if (withCard) withCard.hidden = false;
     if (without) without.hidden = true;
-    if (mask) mask.textContent = "•• " + linked.last2;
+    if (mask) mask.textContent = formatCardMaskLast4(linked.last4);
   } else {
     if (withCard) withCard.hidden = true;
     if (without) without.hidden = false;
-    if (mask) mask.textContent = "•• 00";
+    if (mask) mask.textContent = "*0000";
   }
   m.hidden = false;
   document.body.style.overflow = "hidden";

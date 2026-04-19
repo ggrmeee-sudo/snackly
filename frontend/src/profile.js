@@ -1,6 +1,12 @@
 import { formatPriceRub } from "./cart.js";
 import { closeMobileNavIfOpen } from "./landing.js";
-import { getLinkedCard, linkCardFromInputs, removeLinkedCardForEmail } from "./payment.js";
+import {
+  formatCardMaskLast4,
+  getLinkedCard,
+  linkCardFromInputs,
+  removeLinkedCardForEmail,
+  unlinkLinkedCard,
+} from "./payment.js";
 import { showSnacklyToast } from "./toast.js";
 
 var SESSION_KEY = "snackly-session";
@@ -294,7 +300,7 @@ export function initProfile() {
       linkedView.hidden = false;
       formBlock.hidden = true;
       title.textContent = "Моя карта";
-      if (mask) mask.textContent = "•• " + linked.last2;
+      if (mask) mask.textContent = formatCardMaskLast4(linked.last4);
     } else {
       linkedView.hidden = true;
       formBlock.hidden = false;
@@ -443,6 +449,15 @@ export function initProfile() {
     });
     paymentModal.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closePaymentModal();
+    });
+  }
+
+  var unlinkCardBtn = document.getElementById("payment-card-unlink");
+  if (unlinkCardBtn) {
+    unlinkCardBtn.addEventListener("click", function () {
+      unlinkLinkedCard();
+      showSnacklyToast("Карта отвязана.");
+      syncPaymentModalView();
     });
   }
 

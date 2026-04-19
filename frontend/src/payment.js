@@ -24,10 +24,15 @@ export function validateCardFields(numRaw, expRaw, cvvRaw) {
   return "";
 }
 
-function normalizeLast2(digits) {
+function normalizeLast4(digits) {
   var d = String(digits || "").replace(/\D/g, "");
-  if (!d.length) return "00";
-  return d.slice(-2).padStart(2, "0");
+  if (!d.length) return "0000";
+  return d.slice(-4).padStart(4, "0");
+}
+
+/** Отображение: *1234 */
+export function formatCardMaskLast4(last4) {
+  return "*" + normalizeLast4(last4);
 }
 
 export function getLinkedCard() {
@@ -39,11 +44,11 @@ export function getLinkedCard() {
       var leg = localStorage.getItem(LEGACY_CARD_KEY);
       if (leg) {
         var parsed = JSON.parse(leg);
-        var last2 = "";
-        if (parsed && parsed.last2) last2 = normalizeLast2(parsed.last2);
-        else if (parsed && parsed.last4) last2 = normalizeLast2(parsed.last4);
-        if (last2) {
-          localStorage.setItem(k, JSON.stringify({ last2: last2 }));
+        var last4 = "";
+        if (parsed && parsed.last4) last4 = normalizeLast4(parsed.last4);
+        else if (parsed && parsed.last2) last4 = normalizeLast4("00" + String(parsed.last2).replace(/\D/g, ""));
+        if (last4 && last4 !== "0000") {
+          localStorage.setItem(k, JSON.stringify({ last4: last4 }));
           localStorage.removeItem(LEGACY_CARD_KEY);
           raw = localStorage.getItem(k);
         }
@@ -51,19 +56,31 @@ export function getLinkedCard() {
     }
     if (!raw) return null;
     var o = JSON.parse(raw);
-    if (!o || o.last2 == null) return null;
-    var last2 = normalizeLast2(o.last2);
-    return { last2: last2 };
+    var last4 = "";
+    if (o && o.last4 != null) {
+      last4 = normalizeLast4(o.last4);
+    } else if (o && o.last2 != null) {
+      last4 = normalizeLast4("00" + String(o.last2).replace(/\D/g, ""));
+    } else {
+      return null;
+    }
+    if (last4 === "0000") return null;
+    if (o && o.last2 != null && o.last4 == null) {
+      try {
+        localStorage.setItem(k, JSON.stringify({ last4: last4 }));
+      } catch (e2) {}
+    }
+    return { last4: last4 };
   } catch (e) {
     return null;
   }
 }
 
-export function saveLinkedCardLast2(last2) {
+function saveLinkedCardLast4FromDigits(cardDigits) {
   var k = cardStorageKey();
   if (!k) return false;
   try {
-    localStorage.setItem(k, JSON.stringify({ last2: normalizeLast2(last2) }));
+    localStorage.setItem(k, JSON.stringify({ last4: normalizeLast4(cardDigits) }));
     return true;
   } catch (e) {
     return false;
@@ -74,7 +91,7 @@ export function linkCardFromInputs(cardNumberRaw, expRaw, cvvRaw) {
   var err = validateCardFields(cardNumberRaw, expRaw, cvvRaw);
   if (err) return err;
   var digits = parseCardNumberDigits(cardNumberRaw);
-  saveLinkedCardLast2(digits.slice(-2));
+  saveLinkedCardLast4FromDigits(digits);
   return "";
 }
 
@@ -86,4 +103,8 @@ export function removeLinkedCardForEmail(emailNorm) {
   try {
     localStorage.removeItem(CARD_PREFIX + e);
   } catch (err) {}
+}
+
+export function unlinkLinkedCard() {
+  removeLinkedCardForEmail(getSessionEmailNorm());
 }
