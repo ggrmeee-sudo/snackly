@@ -29,8 +29,16 @@
   }
 })();
 
+var fs = require("fs");
+var path = require("path");
+
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const adminRaw = process.env.TELEGRAM_ADMIN_CHAT_ID || "";
+
+/** Логотип — аватар бота (setMyProfilePhoto); иллюстрация — к /start (sendPhoto) */
+var ASSET_DIR = path.join(__dirname, "..", "assets", "telegram-bot");
+var BOT_AVATAR_PNG = path.join(ASSET_DIR, "bot-profile-logo.png");
+var START_WELCOME_PNG = path.join(ASSET_DIR, "start-welcome.png");
 
 var INTRO =
   "Напишите сюда:\n" +
@@ -93,6 +101,39 @@ function sendUser(chatId, text) {
     chat_id: chatId,
     text: text,
     disable_web_page_preview: true,
+  });
+}
+
+/** Отправка локального PNG в чат (подпись до 1024 символов) */
+function sendPhotoFile(chatId, filePath, caption) {
+  var buf = fs.readFileSync(filePath);
+  var blob = new Blob([buf], { type: "image/png" });
+  var fd = new FormData();
+  fd.append("chat_id", String(chatId));
+  fd.append("photo", blob, path.basename(filePath));
+  if (caption) {
+    var cap = caption.length > 1024 ? caption.slice(0, 1021) + "…" : caption;
+    fd.append("caption", cap);
+  }
+  return fetch("https://api.telegram.org/bot" + token + "/sendPhoto", {
+    method: "POST",
+    body: fd,
+  }).then(function (r) {
+    return r.json();
+  });
+}
+
+/** Аватар бота в Telegram (нужен Bot API с методом setMyProfilePhoto) */
+function setBotProfilePhotoFromFile(filePath) {
+  var buf = fs.readFileSync(filePath);
+  var blob = new Blob([buf], { type: "image/png" });
+  var fd = new FormData();
+  fd.append("photo", blob, path.basename(filePath));
+  return fetch("https://api.telegram.org/bot" + token + "/setMyProfilePhoto", {
+    method: "POST",
+    body: fd,
+  }).then(function (r) {
+    return r.json();
   });
 }
 
@@ -166,6 +207,26 @@ function main() {
 
           var cmd = commandFromMessage(msg);
           if (cmd) {
+            if (cmd === "start") {
+              if (fs.existsSync(START_WELCOME_PNG)) {
+                sendPhotoFile(chatId, START_WELCOME_PNG, REPLIES.start)
+                  .then(function (res) {
+                    if (!res.ok) {
+                      console.error("[telegram-bot] sendPhoto:", res.description || res);
+                      return sendUser(chatId, REPLIES.start);
+                    }
+                  })
+                  .catch(function (e) {
+                    console.error(e);
+                    return sendUser(chatId, REPLIES.start);
+                  });
+              } else {
+                sendUser(chatId, REPLIES.start).catch(function (e) {
+                  console.error(e);
+                });
+              }
+              return;
+            }
             var reply = REPLIES[cmd];
             if (reply) {
               sendUser(chatId, reply).catch(function (e) {
@@ -246,7 +307,30 @@ function main() {
       });
   }
 
-  loop();
+  fetch("https://api.telegram.org/bot" + token + "/deleteWebhook")
+    .then(function () {
+      if (fs.existsSync(BOT_AVATAR_PNG)) {
+        return setBotProfilePhotoFromFile(BOT_AVATAR_PNG).then(function (j) {
+          if (j && j.ok) {
+            console.log("[telegram-bot] Аватар бота обновлён из bot-profile-logo.png");
+          } else if (j) {
+            console.warn(
+              "[telegram-bot] setMyProfilePhoto: " +
+                (j.description || JSON.stringify(j)) +
+                " — при необходимости задайте фото в @BotFather: /setuserpic"
+            );
+          }
+        });
+      }
+      console.warn("[telegram-bot] Нет файла " + BOT_AVATAR_PNG + " — аватар не менялся.");
+      return Promise.resolve();
+    })
+    .catch(function (e) {
+      console.error("[telegram-bot] deleteWebhook / аватар:", e);
+    })
+    .finally(function () {
+      loop();
+    });
 }
 
 main();
