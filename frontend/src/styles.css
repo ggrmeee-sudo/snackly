@@ -620,37 +620,45 @@ main#top {
   min-height: calc(100svh - var(--header-band-height));
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
-  grid-template-rows: minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(16px, 2.8vw, 40px);
+  grid-template-rows: auto auto;
+  align-items: start;
+  /* между заголовком и блоком с абзацем слева; между колонками */
+  gap: clamp(8px, 1.1vw, 14px) clamp(16px, 2.8vw, 40px);
   padding-block: clamp(32px, 5vh, 56px) clamp(36px, 5.5vh, 64px);
 }
 
-.home-hero__content {
+.home-hero__lead {
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  gap: clamp(36px, 4.8vh, 52px);
-  padding-block: 0;
-  padding-right: clamp(8px, 2vw, 20px);
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-}
-
-.home-hero__intro {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: clamp(8px, 1.1vw, 14px);
   flex-shrink: 0;
   min-width: 0;
+  max-width: 100%;
+  padding-right: clamp(8px, 2vw, 20px);
+  align-self: end;
+}
+
+.home-hero__tail {
+  box-sizing: border-box;
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(36px, 4.8vh, 52px);
+  min-width: 0;
+  max-width: 100%;
+  padding-right: clamp(8px, 2vw, 20px);
+  align-self: start;
 }
 
 /* У потомков column-flex иначе min-width:auto — блок не сжимается, iOS режет текст справа */
-.home-hero__intro > * {
+.home-hero__lead > *,
+.home-hero__tail > * {
   min-width: 0;
 }
 
@@ -803,12 +811,15 @@ main#top {
 .home-hero__visual {
   position: relative;
   box-sizing: border-box;
+  grid-column: 2;
+  grid-row: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding-top: 0;
   padding-right: 0;
   min-height: 0;
+  align-self: center;
 }
 
 .home-hero__visual-frame {
@@ -858,10 +869,11 @@ main#top {
   mask-size: 100% 100%;
 }
 
-/* Телефоны и узкие планшеты: одна колонка — сначала иллюстрация, под ней текст */
+/* Телефоны: заголовок + подзаголовок → фото → абзац, кнопка, преимущества */
 @media (max-width: 900px) {
   .home-hero__inner {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
     align-content: start;
     align-items: stretch;
     gap: clamp(18px, 3.5vh, 28px);
@@ -871,17 +883,26 @@ main#top {
     min-height: calc(100svh - var(--header-band-height));
   }
 
-  .home-hero__content {
-    order: 2;
-    min-width: 0;
-    max-width: 100%;
+  .home-hero__lead {
+    grid-column: 1;
+    grid-row: auto;
     padding-right: 0;
-    gap: clamp(22px, 4vh, 36px);
+    align-self: stretch;
+    gap: 12px;
   }
 
-  .home-hero__intro {
-    gap: 12px;
-    min-width: 0;
+  .home-hero__visual {
+    grid-column: 1;
+    grid-row: auto;
+    align-self: stretch;
+  }
+
+  .home-hero__tail {
+    grid-column: 1;
+    grid-row: auto;
+    padding-right: 0;
+    gap: clamp(20px, 3.5vh, 28px);
+    align-self: stretch;
   }
 
   .home-hero__title {
