@@ -2,6 +2,7 @@ import { closeLoginModal } from "./auth.js";
 import { PRODUCTS } from "./data/products.js";
 import {
   addToCart,
+  finalizeOrderFromCart,
   loadCart,
   renderCartDrawer,
   setCartProductQty,
@@ -61,8 +62,12 @@ function closeCartDrawer() {
   if (!cartDrawerEl) return;
   cartDrawerEl.classList.remove("is-open");
   cartDrawerEl.setAttribute("aria-hidden", "true");
+  var prof = document.getElementById("profile-drawer");
+  var profileOpen = prof && prof.classList.contains("is-open");
   if (!productModal || productModal.hidden) {
-    if (!loginModal || loginModal.hidden) document.body.style.overflow = "";
+    if (!loginModal || loginModal.hidden) {
+      if (!profileOpen) document.body.style.overflow = "";
+    }
   }
 }
 
@@ -70,6 +75,11 @@ function openCartDrawer() {
   if (!cartDrawerEl) return;
   closeProductModal();
   if (loginModal && !loginModal.hidden) closeLoginModal();
+  var pd = document.getElementById("profile-drawer");
+  if (pd && pd.classList.contains("is-open")) {
+    pd.classList.remove("is-open");
+    pd.setAttribute("aria-hidden", "true");
+  }
   cartDrawerEl.classList.add("is-open");
   cartDrawerEl.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
@@ -93,8 +103,12 @@ function openProductModal(card) {
 function closeProductModal() {
   if (!productModal) return;
   productModal.hidden = true;
+  var prof = document.getElementById("profile-drawer");
+  var profileOpen = prof && prof.classList.contains("is-open");
   if (!cartDrawerEl || !cartDrawerEl.classList.contains("is-open")) {
-    if (!loginModal || loginModal.hidden) document.body.style.overflow = "";
+    if (!loginModal || loginModal.hidden) {
+      if (!profileOpen) document.body.style.overflow = "";
+    }
   }
   if (lastProductCard) lastProductCard.focus();
 }
@@ -174,6 +188,7 @@ if (cartDrawerEl) {
   if (cartContinue) {
     cartContinue.addEventListener("click", function () {
       if (cartContinue.disabled) return;
+      finalizeOrderFromCart();
       closeCartDrawer();
     });
   }

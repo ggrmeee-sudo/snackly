@@ -1,3 +1,5 @@
+import { syncCartChrome } from "./cart.js";
+
 export function closeLoginModal() {
   var loginModal = document.getElementById("login");
   if (!loginModal) return;
@@ -6,7 +8,9 @@ export function closeLoginModal() {
   var cartOpen = cd && cd.classList.contains("is-open");
   var pm = document.getElementById("product-modal");
   var productOpen = pm && !pm.hidden;
-  if (!cartOpen && !productOpen) document.body.style.overflow = "";
+  var prof = document.getElementById("profile-drawer");
+  var profileOpen = prof && prof.classList.contains("is-open");
+  if (!cartOpen && !productOpen && !profileOpen) document.body.style.overflow = "";
 }
 
 export function initAuth() {
@@ -63,33 +67,22 @@ export function initAuth() {
   function updateAuthNav() {
     var sess = getSession();
     var openLink = document.getElementById("nav-auth-open");
-    var logged = document.getElementById("nav-auth-logged");
-    var emailEl = document.getElementById("nav-auth-email");
-    if (!openLink || !logged) return;
+    var profileBtn = document.getElementById("nav-profile-btn");
     var mobileLogin = document.getElementById("mobile-nav-login-link");
-    var mobileAccount = document.getElementById("mobile-nav-account");
+    var mobileProfile = document.getElementById("mobile-nav-profile-btn");
+    if (!openLink) return;
     if (sess && sess.email) {
       openLink.hidden = true;
-      logged.hidden = false;
+      if (profileBtn) profileBtn.hidden = false;
       if (mobileLogin) mobileLogin.hidden = true;
-      if (mobileAccount) {
-        mobileAccount.hidden = false;
-        mobileAccount.textContent = sess.email;
-      }
-      if (emailEl) {
-        var display = sess.name ? String(sess.name).trim() || sess.email : sess.email;
-        emailEl.textContent = display.length > 22 ? display.slice(0, 20) + "…" : display;
-        emailEl.title = sess.email;
-      }
+      if (mobileProfile) mobileProfile.hidden = false;
     } else {
       openLink.hidden = false;
-      logged.hidden = true;
+      if (profileBtn) profileBtn.hidden = true;
       if (mobileLogin) mobileLogin.hidden = false;
-      if (mobileAccount) {
-        mobileAccount.hidden = true;
-        mobileAccount.textContent = "";
-      }
+      if (mobileProfile) mobileProfile.hidden = true;
     }
+    syncCartChrome();
   }
 
   var loginModal = document.getElementById("login");
@@ -136,6 +129,11 @@ export function initAuth() {
 
   function openLogin() {
     if (!loginModal) return;
+    var pd = document.getElementById("profile-drawer");
+    if (pd && pd.classList.contains("is-open")) {
+      pd.classList.remove("is-open");
+      pd.setAttribute("aria-hidden", "true");
+    }
     var cd = document.getElementById("cart-drawer");
     if (cd && cd.classList.contains("is-open")) {
       cd.classList.remove("is-open");
@@ -201,6 +199,7 @@ export function initAuth() {
       setSession({
         email: user.email,
         name: user.name || "",
+        phone: user.phone || "",
       });
       updateAuthNav();
       formLogin.reset();
@@ -214,6 +213,9 @@ export function initAuth() {
       setAuthError(errRegister, "");
       if (okRegister) okRegister.hidden = true;
       var name = document.getElementById("register-name").value.trim();
+      var phone = document.getElementById("register-phone")
+        ? document.getElementById("register-phone").value.trim()
+        : "";
       var email = normalizeEmail(document.getElementById("register-email").value);
       var p1 = document.getElementById("register-password").value;
       var p2 = document.getElementById("register-password2").value;
@@ -238,6 +240,7 @@ export function initAuth() {
         email: email,
         password: p1,
         name: name,
+        phone: phone,
       });
       saveUsers(users);
       if (okRegister) {
@@ -261,6 +264,10 @@ export function initAuth() {
       if (e.key === "Escape") closeLoginModal();
     });
   }
+
+  document.addEventListener("snackly-auth-updated", function () {
+    updateAuthNav();
+  });
 
   updateAuthNav();
 }

@@ -12,18 +12,6 @@
 <body>
   <header class="header">
     <div class="container header__inner">
-      <button
-        type="button"
-        class="header__menu-toggle"
-        id="nav-menu-toggle"
-        aria-expanded="false"
-        aria-controls="mobile-nav"
-        aria-label="Открыть меню"
-      >
-        <span class="header__menu-toggle-bar" aria-hidden="true"></span>
-        <span class="header__menu-toggle-bar" aria-hidden="true"></span>
-        <span class="header__menu-toggle-bar" aria-hidden="true"></span>
-      </button>
       <a class="header__brand" href="#home">
         <img
           class="header__logo"
@@ -32,14 +20,46 @@
           decoding="async"
         />
       </a>
+      <div class="header__search" role="search">
+        <label class="visually-hidden" for="header-search">Поиск по каталогу</label>
+        <input
+          type="search"
+          id="header-search"
+          class="header__search-input"
+          placeholder="Поиск"
+          autocomplete="off"
+          enterkeyhint="search"
+        />
+      </div>
       <nav class="nav nav--main" aria-label="Разделы сайта">
         <a class="nav__link nav__link--section" href="#home" data-section="home">Главная</a>
         <a class="nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
         <a class="nav__link nav__link--section" href="#about" data-section="about">О нас</a>
         <a class="nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
       </nav>
-      <div class="header__actions">
+      <div class="header__trailing">
         <nav class="nav nav--actions" aria-label="Аккаунт и корзина">
+          <button
+            type="button"
+            class="nav__link nav__link--icon-tile"
+            id="nav-profile-btn"
+            hidden
+            aria-label="Профиль"
+          >
+            <span class="nav__icon-tile__graphic" aria-hidden="true">
+              <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="12" cy="7" r="3.25" stroke="currentColor" stroke-width="1.2" />
+              </svg>
+            </span>
+            <span class="nav__icon-tile__label">Профиль</span>
+          </button>
           <a class="nav__link nav__link--icon-tile" href="#login" id="nav-auth-open">
             <span class="nav__icon-tile__graphic" aria-hidden="true">
               <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,22 +75,7 @@
             </span>
             <span class="nav__icon-tile__label">Войти</span>
           </a>
-          <span class="nav-auth-logged nav-auth-logged--tile" id="nav-auth-logged" hidden>
-            <span class="nav__icon-tile__graphic" aria-hidden="true">
-              <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                  stroke="currentColor"
-                  stroke-width="1.2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <circle cx="12" cy="7" r="3.25" stroke="currentColor" stroke-width="1.2" />
-              </svg>
-            </span>
-            <span class="nav-auth-logged__email" id="nav-auth-email" title=""></span>
-          </span>
-          <a class="nav__link nav__link--icon-tile" href="#cart" id="cart-link" data-open-cart>
+          <a class="nav__link nav__link--icon-tile" href="#cart" id="cart-link" data-open-cart hidden>
             <span class="nav__icon-tile__graphic nav__icon-tile__graphic--cart" aria-hidden="true">
               <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -89,6 +94,18 @@
             <span class="nav__icon-tile__label">Корзина</span>
           </a>
         </nav>
+        <button
+          type="button"
+          class="header__menu-toggle"
+          id="nav-menu-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Открыть меню"
+        >
+          <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+          <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+          <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
     <div id="mobile-nav" class="mobile-nav" aria-hidden="true">
@@ -105,9 +122,13 @@
           <a class="mobile-nav__link nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
         </div>
         <div class="mobile-nav__actions">
-          <p class="mobile-nav__account" id="mobile-nav-account" hidden></p>
           <a class="mobile-nav__link" href="#login" id="mobile-nav-login-link">Войти</a>
-          <a class="mobile-nav__link" href="#cart" data-open-cart>Корзина (<span id="cart-count-mobile">0</span>)</a>
+          <button type="button" class="mobile-nav__link mobile-nav__link--btn" id="mobile-nav-profile-btn" hidden>
+            Профиль
+          </button>
+          <a class="mobile-nav__link" href="#cart" id="mobile-nav-cart-link" data-open-cart hidden>
+            Корзина (<span id="cart-count-mobile">0</span>)
+          </a>
         </div>
       </nav>
     </div>
@@ -725,12 +746,150 @@
     <p class="footer__copy">© 2026 Полезные снеки</p>
   </footer>
 
-  <a class="fab-support" href="https://t.me/" target="_blank" rel="noopener noreferrer">
-    <svg class="fab-support__icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-    </svg>
-    Поддержка
-  </a>
+  <button type="button" class="cart-summary-pill" id="cart-summary-pill" data-open-cart hidden>
+    <span class="cart-summary-pill__price" id="cart-summary-pill-total">0 ₽</span>
+    <span class="cart-summary-pill__delivery">Доставка · от 15 мин</span>
+  </button>
+
+  <div id="profile-drawer" class="profile-drawer" aria-hidden="true">
+    <div class="profile-drawer__backdrop" data-close-profile tabindex="-1"></div>
+    <aside
+      class="profile-drawer__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="profile-drawer-heading"
+    >
+      <div class="profile-drawer__top">
+        <button type="button" class="profile-drawer__back" data-close-profile aria-label="Назад">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <h2 id="profile-drawer-heading" class="visually-hidden">Профиль</h2>
+      </div>
+      <div class="profile-drawer__scroll">
+        <div class="profile-head">
+          <div class="profile-head__avatar" id="profile-avatar" aria-hidden="true">?</div>
+          <p class="profile-head__name" id="profile-name">—</p>
+          <p class="profile-head__phone" id="profile-phone">—</p>
+        </div>
+
+        <section class="profile-section profile-section--orders" aria-labelledby="profile-orders-title">
+          <div class="profile-section__head">
+            <h3 id="profile-orders-title" class="profile-section__title">История заказов</h3>
+            <svg class="profile-section__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="profile-orders__empty" id="profile-orders-empty">
+            Вы ещё ничего не заказывали — загляните в каталог.
+          </div>
+          <div class="profile-orders__rail" id="profile-orders-rail" hidden></div>
+        </section>
+
+        <nav class="profile-menu" aria-label="Профиль">
+          <button type="button" class="profile-menu__row" id="profile-open-payment">Оплата</button>
+          <button type="button" class="profile-menu__row" id="profile-open-settings">Настройки</button>
+          <button type="button" class="profile-menu__row" id="profile-open-contact">Связаться с нами</button>
+        </nav>
+
+        <button type="button" class="profile-logout" id="profile-logout-btn">Выйти</button>
+      </div>
+    </aside>
+  </div>
+
+  <div id="profile-payment-modal" class="modal modal--profile-nested" hidden>
+    <div class="modal__backdrop" data-close-payment></div>
+    <div class="modal__box modal__box--payment-card" role="dialog" aria-modal="true" aria-labelledby="payment-card-title">
+      <button type="button" class="payment-card__close" data-close-payment aria-label="Закрыть">×</button>
+      <h2 id="payment-card-title" class="payment-card__title">Новая карта</h2>
+      <div class="payment-card__form-wrap">
+        <div class="payment-card__field">
+          <label class="payment-card__label" for="payment-card-number">Номер карты</label>
+          <input
+            class="payment-card__input"
+            id="payment-card-number"
+            type="text"
+            inputmode="numeric"
+            autocomplete="cc-number"
+            placeholder="1234 5678 1234 5678"
+            maxlength="23"
+          />
+        </div>
+        <div class="payment-card__row2">
+          <div class="payment-card__field">
+            <label class="payment-card__label" for="payment-card-exp">Месяц/Год</label>
+            <input
+              class="payment-card__input"
+              id="payment-card-exp"
+              type="text"
+              inputmode="numeric"
+              autocomplete="cc-exp"
+              placeholder="ММ/ГГ"
+              maxlength="5"
+            />
+          </div>
+          <div class="payment-card__field">
+            <label class="payment-card__label" for="payment-card-cvv">CVC / CVV</label>
+            <div class="payment-card__cvv-wrap">
+              <input
+                class="payment-card__input"
+                id="payment-card-cvv"
+                type="password"
+                inputmode="numeric"
+                autocomplete="cc-csc"
+                placeholder="123"
+                maxlength="4"
+              />
+              <span class="payment-card__hint-icon" title="Три цифры на обороте карты" aria-hidden="true">?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="payment-card__disclaimer">
+        При привязке карты деньги не спишутся. Данные будут храниться на стороне банка (демо).
+      </p>
+      <button type="button" class="payment-card__submit" id="payment-card-submit">Привязать карту</button>
+      <div class="payment-card__footer">
+        <p class="payment-card__logos" aria-hidden="true">VISA · Mastercard · Maestro · МИР</p>
+        <p class="payment-card__legal">
+          Оплата защищена шифрованием. В демо-режиме данные карты никуда не отправляются.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="profile-settings-modal" class="modal modal--profile-nested" hidden>
+    <div class="modal__backdrop" data-close-settings></div>
+    <div class="modal__box modal__box--profile-settings" role="dialog" aria-modal="true" aria-labelledby="profile-settings-title">
+      <button type="button" class="payment-card__close" data-close-settings aria-label="Закрыть">×</button>
+      <h2 id="profile-settings-title" class="profile-settings__title">Уведомления</h2>
+      <div class="profile-settings__row">
+        <span class="profile-settings__label">Письма на почту</span>
+        <button type="button" class="profile-toggle" id="settings-toggle-email" role="switch" aria-checked="true">
+          <span class="profile-toggle__knob" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="profile-settings__row">
+        <span class="profile-settings__label">Смс</span>
+        <button type="button" class="profile-toggle" id="settings-toggle-sms" role="switch" aria-checked="true">
+          <span class="profile-toggle__knob" aria-hidden="true"></span>
+        </button>
+      </div>
+      <button type="button" class="profile-delete-account" id="profile-delete-account">Удалить аккаунт</button>
+    </div>
+  </div>
+
+  <div id="profile-contact-sheet" class="contact-sheet" aria-hidden="true">
+    <div class="contact-sheet__backdrop" data-close-contact tabindex="-1"></div>
+    <div class="contact-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="contact-sheet-title">
+      <div class="contact-sheet__handle" aria-hidden="true"></div>
+      <h2 id="contact-sheet-title" class="contact-sheet__title">Связаться с нами</h2>
+      <a class="contact-sheet__link" href="https://t.me/snackly_bot" target="_blank" rel="noopener noreferrer">Бот в Telegram</a>
+      <a class="contact-sheet__link" href="mailto:support@snackly.demo">support@snackly.demo</a>
+      <button type="button" class="contact-sheet__close" data-close-contact>Закрыть</button>
+    </div>
+  </div>
 
   <div id="cart-drawer" class="cart-drawer" aria-hidden="true">
     <div class="cart-drawer__backdrop" data-close-cart tabindex="-1"></div>
@@ -887,6 +1046,17 @@
               type="text"
               autocomplete="given-name"
               placeholder="Как к вам обращаться"
+            />
+          </div>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="register-phone">Телефон</label>
+            <input
+              class="auth-form__input"
+              id="register-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="+7 900 000-00-00"
             />
           </div>
           <div class="auth-form__field">

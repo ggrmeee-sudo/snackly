@@ -1,6 +1,19 @@
 import { PRODUCTS } from "./data/products.js";
 
 var CART_STORAGE_KEY = "snackly-cart";
+var SESSION_KEY = "snackly-session";
+var ORDERS_KEY = "snackly-orders";
+
+function isLoggedIn() {
+  try {
+    var raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return false;
+    var s = JSON.parse(raw);
+    return !!(s && s.email);
+  } catch (e) {
+    return false;
+  }
+}
 
 function loadCart() {
   try {
@@ -25,6 +38,18 @@ function cartTotalQty(cart) {
     n += Number(cart[k]) || 0;
   });
   return n;
+}
+
+function cartTotalRub(cart) {
+  var totalRub = 0;
+  Object.keys(cart).forEach(function (id) {
+    var qty = Number(cart[id]) || 0;
+    if (qty <= 0) return;
+    var p = PRODUCTS[id];
+    if (!p) return;
+    totalRub += parsePriceRub(p.price) * qty;
+  });
+  return totalRub;
 }
 
 function parsePriceRub(str) {
@@ -144,13 +169,67 @@ function updateCartBadge() {
   if (elM) elM.textContent = n;
   var badge = document.getElementById("cart-badge");
   if (badge) badge.hidden = n === "0";
+  syncCartChrome();
+}
+
+function syncCartChrome() {
+  var cart = loadCart();
+  var qty = cartTotalQty(cart);
+  var show = isLoggedIn() && qty > 0;
+  var cartLink = document.getElementById("cart-link");
+  if (cartLink) cartLink.hidden = !show;
+  var mobileCart = document.getElementById("mobile-nav-cart-link");
+  if (mobileCart) mobileCart.hidden = !show;
+  var pill = document.getElementById("cart-summary-pill");
+  var pillTotal = document.getElementById("cart-summary-pill-total");
+  if (pill) pill.hidden = !show;
+  if (pillTotal) pillTotal.textContent = formatPriceRub(cartTotalRub(cart));
+}
+
+function finalizeOrderFromCart() {
+  if (!isLoggedIn()) return false;
+  var cart = loadCart();
+  var entries = [];
+  var totalRub = 0;
+  Object.keys(cart).forEach(function (id) {
+    var qty = Number(cart[id]) || 0;
+    if (qty <= 0) return;
+    var p = PRODUCTS[id];
+    if (!p) return;
+    var unit = parsePriceRub(p.price);
+    totalRub += unit * qty;
+    entries.push({ id: id, qty: qty, title: p.title, image: p.image });
+  });
+  if (!entries.length) return false;
+  try {
+    var raw = localStorage.getItem(ORDERS_KEY);
+    var orders = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(orders)) orders = [];
+    orders.unshift({
+      id: "o-" + Date.now(),
+      createdAt: new Date().toISOString(),
+      totalRub: totalRub,
+      items: entries,
+    });
+    localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+  } catch (e) {}
+  saveCart({});
+  updateCartBadge();
+  renderCartDrawerIfOpen();
+  document.dispatchEvent(new CustomEvent("snackly-orders-updated"));
+  return true;
 }
 
 export {
   loadCart,
   addToCart,
   updateCartBadge,
+  syncCartChrome,
   renderCartDrawer,
   renderCartDrawerIfOpen,
   setCartProductQty,
+  finalizeOrderFromCart,
+  isLoggedIn,
+  formatPriceRub,
+  cartTotalRub,
 };

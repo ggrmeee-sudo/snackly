@@ -74,8 +74,18 @@ function closeMobileNav(mobileNav, toggle) {
   var loginOpen = login && !login.hidden;
   var pm = document.getElementById("product-modal");
   var productOpen = pm && !pm.hidden;
-  if (!open && !loginOpen && !productOpen) {
+  var prof = document.getElementById("profile-drawer");
+  var profileOpen = prof && prof.classList.contains("is-open");
+  if (!open && !loginOpen && !productOpen && !profileOpen) {
     document.body.style.overflow = "";
+  }
+}
+
+export function closeMobileNavIfOpen() {
+  var mobileNav = document.getElementById("mobile-nav");
+  var toggle = document.getElementById("nav-menu-toggle");
+  if (mobileNav && mobileNav.classList.contains("is-open")) {
+    closeMobileNav(mobileNav, toggle);
   }
 }
 
@@ -117,6 +127,35 @@ export function initMobileNav() {
   });
 }
 
+function applyCatalogSearch(query) {
+  var grid = document.querySelector(".catalog-grid");
+  if (!grid) return;
+  var q = String(query || "")
+    .trim()
+    .toLowerCase();
+  var cards = grid.querySelectorAll(".catalog-card[data-product-id]");
+  cards.forEach(function (card) {
+    var nameEl = card.querySelector(".catalog-card__name");
+    var text = nameEl ? nameEl.textContent.toLowerCase() : "";
+    var hideBySearch = q.length > 0 && text.indexOf(q) === -1;
+    if (hideBySearch) card.setAttribute("data-search-hidden", "1");
+    else card.removeAttribute("data-search-hidden");
+  });
+  document.dispatchEvent(new CustomEvent("snackly-catalog-search"));
+}
+
+export function initHeaderSearch() {
+  var input = document.getElementById("header-search");
+  if (!input) return;
+  input.addEventListener(
+    "input",
+    function () {
+      applyCatalogSearch(input.value);
+    },
+    false
+  );
+}
+
 export function initCatalogFilter() {
   var grid = document.querySelector(".catalog-grid");
   var chips = document.querySelectorAll("[data-catalog-filter]");
@@ -124,18 +163,22 @@ export function initCatalogFilter() {
   if (!grid || !chips.length) return;
 
   var cards = grid.querySelectorAll("[data-product-category]");
+  var currentFilter = "all";
 
   function apply(filter) {
+    currentFilter = filter || "all";
     var shown = 0;
     cards.forEach(function (card) {
       var cat = card.getAttribute("data-product-category") || "";
-      var match = filter === "all" || cat === filter;
+      var matchCat = currentFilter === "all" || cat === currentFilter;
+      var searchHidden = card.getAttribute("data-search-hidden") === "1";
+      var match = matchCat && !searchHidden;
       card.hidden = !match;
       if (match) shown += 1;
     });
     chips.forEach(function (chip) {
       var f = chip.getAttribute("data-catalog-filter");
-      var on = f === filter;
+      var on = f === currentFilter;
       chip.classList.toggle("catalog-filter__chip--active", on);
       chip.setAttribute("aria-pressed", on ? "true" : "false");
     });
@@ -153,11 +196,16 @@ export function initCatalogFilter() {
     });
   });
 
+  document.addEventListener("snackly-catalog-search", function () {
+    apply(currentFilter);
+  });
+
   apply("all");
 }
 
 export function initLanding() {
   initScrollSpy();
   initMobileNav();
+  initHeaderSearch();
   initCatalogFilter();
 }
