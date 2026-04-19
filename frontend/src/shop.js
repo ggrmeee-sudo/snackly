@@ -9,6 +9,89 @@ import {
 } from "./cart.js";
 import { showCartToast } from "./toast.js";
 
+var DELIVERY_ADDR_KEY = "snackly-delivery-address";
+
+function defaultDeliveryAddr() {
+  return {
+    street: "",
+    apt: "",
+    intercom: "",
+    entrance: "",
+    floor: "",
+    comment: "",
+  };
+}
+
+function loadDeliveryAddr() {
+  try {
+    var raw = localStorage.getItem(DELIVERY_ADDR_KEY);
+    if (!raw) return defaultDeliveryAddr();
+    var o = JSON.parse(raw);
+    if (!o || typeof o !== "object") return defaultDeliveryAddr();
+    var d = defaultDeliveryAddr();
+    d.street = String(o.street || "");
+    d.apt = String(o.apt || "");
+    d.intercom = String(o.intercom || "");
+    d.entrance = String(o.entrance || "");
+    d.floor = String(o.floor || "");
+    d.comment = String(o.comment || "");
+    return d;
+  } catch (e) {
+    return defaultDeliveryAddr();
+  }
+}
+
+function saveDeliveryAddr(d) {
+  try {
+    localStorage.setItem(DELIVERY_ADDR_KEY, JSON.stringify(d));
+  } catch (e) {}
+}
+
+function fillDeliveryFieldsFromStorage() {
+  var d = loadDeliveryAddr();
+  var pairs = [
+    ["cart-addr-street", d.street],
+    ["cart-addr-apt", d.apt],
+    ["cart-addr-intercom", d.intercom],
+    ["cart-addr-entrance", d.entrance],
+    ["cart-addr-floor", d.floor],
+    ["cart-addr-comment", d.comment],
+  ];
+  pairs.forEach(function (pair) {
+    var el = document.getElementById(pair[0]);
+    if (el) el.value = pair[1];
+  });
+}
+
+function readDeliveryFieldsFromInputs() {
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? String(el.value || "").trim() : "";
+  }
+  return {
+    street: val("cart-addr-street"),
+    apt: val("cart-addr-apt"),
+    intercom: val("cart-addr-intercom"),
+    entrance: val("cart-addr-entrance"),
+    floor: val("cart-addr-floor"),
+    comment: val("cart-addr-comment"),
+  };
+}
+
+function updateCartAddressSummaryLine() {
+  var el = document.getElementById("cart-address-value");
+  if (!el) return;
+  var d = loadDeliveryAddr();
+  var line = String(d.street || "").trim();
+  if (!line) {
+    el.textContent = "Добавьте адрес доставки";
+    el.classList.add("cart-drawer__address-value--placeholder");
+  } else {
+    el.textContent = line.length > 40 ? line.slice(0, 38) + "…" : line;
+    el.classList.remove("cart-drawer__address-value--placeholder");
+  }
+}
+
 export function initShop() {
   var loginModal = document.getElementById("login");
 
@@ -84,6 +167,8 @@ function openCartDrawer() {
   cartDrawerEl.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
   renderCartDrawer();
+  fillDeliveryFieldsFromStorage();
+  updateCartAddressSummaryLine();
 }
 
 function openProductModal(card) {
@@ -193,12 +278,25 @@ if (cartDrawerEl) {
     });
   }
   var addrBtn = document.getElementById("cart-address-btn");
-  if (addrBtn) {
+  var addrDetails = document.getElementById("cart-address-details");
+  if (addrBtn && addrDetails) {
     addrBtn.addEventListener("click", function () {
-      addrBtn.classList.toggle("cart-drawer__address-btn--open");
+      var nowOpen = addrBtn.classList.toggle("cart-drawer__address-btn--open");
+      addrBtn.setAttribute("aria-expanded", nowOpen ? "true" : "false");
+      addrDetails.hidden = !nowOpen;
+    });
+  }
+  var saveAddrBtn = document.getElementById("cart-addr-save");
+  if (saveAddrBtn) {
+    saveAddrBtn.addEventListener("click", function () {
+      saveDeliveryAddr(readDeliveryFieldsFromInputs());
+      updateCartAddressSummaryLine();
     });
   }
 }
+
+fillDeliveryFieldsFromStorage();
+updateCartAddressSummaryLine();
 
 document.addEventListener("keydown", function (e) {
   if (e.key !== "Escape") return;

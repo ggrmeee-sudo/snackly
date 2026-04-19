@@ -872,6 +872,82 @@
             aria-label="Навигация по отзывам"
           ></div>
         </div>
+
+        <div class="review-compose" aria-labelledby="review-compose-heading">
+          <h2 id="review-compose-heading" class="review-compose__title">Оставить отзыв</h2>
+          <form id="review-compose-form" class="review-compose__form" novalidate>
+            <div id="review-compose-fields" class="review-compose__fields">
+              <label class="review-compose__label">
+                <span class="review-compose__label-text">Ваше имя</span>
+                <input
+                  type="text"
+                  id="review-compose-name"
+                  name="name"
+                  class="review-compose__input"
+                  placeholder="Как к вам обращаться"
+                  required
+                  autocomplete="name"
+                />
+              </label>
+              <div class="review-compose__rating-block">
+                <span id="review-compose-rating-label" class="review-compose__label-text">Оценка</span>
+                <div
+                  class="review-compose__stars"
+                  data-review-stars
+                  role="radiogroup"
+                  aria-labelledby="review-compose-rating-label"
+                >
+                  <button type="button" class="review-compose__star is-active" data-star="1" aria-label="1 из 5" aria-pressed="true">★</button>
+                  <button type="button" class="review-compose__star is-active" data-star="2" aria-label="2 из 5" aria-pressed="true">★</button>
+                  <button type="button" class="review-compose__star is-active" data-star="3" aria-label="3 из 5" aria-pressed="true">★</button>
+                  <button type="button" class="review-compose__star is-active" data-star="4" aria-label="4 из 5" aria-pressed="true">★</button>
+                  <button type="button" class="review-compose__star is-active" data-star="5" aria-label="5 из 5" aria-pressed="true">★</button>
+                </div>
+                <input type="hidden" id="review-compose-rating" name="rating" value="5" />
+              </div>
+              <label class="review-compose__label">
+                <span class="review-compose__label-text">Товар</span>
+                <input
+                  type="text"
+                  id="review-compose-product"
+                  name="product"
+                  class="review-compose__input"
+                  placeholder="Например, смузи лесные ягоды All Day"
+                />
+              </label>
+              <label class="review-compose__label">
+                <span class="review-compose__label-text">Объём или вес</span>
+                <input
+                  type="text"
+                  id="review-compose-mass"
+                  name="mass"
+                  class="review-compose__input"
+                  placeholder="300 мл, 40 г и т.п."
+                />
+              </label>
+              <label class="review-compose__label">
+                <span class="review-compose__label-text">Текст отзыва</span>
+                <textarea
+                  id="review-compose-text"
+                  name="text"
+                  class="review-compose__textarea"
+                  rows="4"
+                  placeholder="Поделитесь впечатлением о товаре и доставке"
+                  required
+                ></textarea>
+              </label>
+              <button type="submit" class="review-compose__submit">Опубликовать</button>
+            </div>
+            <div id="review-compose-success" class="review-compose__success" hidden>
+              <p class="review-compose__success-text">
+                Спасибо! Ваш отзыв отправлен на модерацию. После проверки он появится на сайте.
+              </p>
+              <button type="button" class="review-compose__again" id="review-compose-again">
+                Написать ещё
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
     </div>
   </main>
@@ -1032,15 +1108,61 @@
       </div>
       <div class="cart-drawer__scroll">
         <div class="cart-drawer__address">
-          <button type="button" class="cart-drawer__address-btn" id="cart-address-btn">
+          <button
+            type="button"
+            class="cart-drawer__address-btn cart-drawer__address-btn--open"
+            id="cart-address-btn"
+            aria-expanded="true"
+            aria-controls="cart-address-details"
+          >
             <span class="cart-drawer__address-label">Ваш адрес</span>
             <span class="cart-drawer__address-row">
-              <span class="cart-drawer__address-value" id="cart-address-value">Укажите адрес при оформлении</span>
+              <span class="cart-drawer__address-value" id="cart-address-value"></span>
               <svg class="cart-drawer__chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
                 <path fill="currentColor" d="M6 8.5L1 3.5h10L6 8.5z" />
               </svg>
             </span>
           </button>
+          <div class="cart-drawer__address-details" id="cart-address-details">
+            <div class="cart-drawer__addr-street-row">
+              <input
+                type="text"
+                id="cart-addr-street"
+                class="cart-drawer__addr-street-input"
+                placeholder="Улица, дом"
+                autocomplete="street-address"
+              />
+              <span class="cart-drawer__addr-street-arrow" aria-hidden="true">›</span>
+            </div>
+            <div class="cart-drawer__addr-grid" role="group" aria-label="Детали адреса">
+              <label class="cart-drawer__addr-field">
+                <span class="cart-drawer__addr-field-label">Квартира</span>
+                <input type="text" id="cart-addr-apt" inputmode="numeric" placeholder="Номер квартиры" />
+              </label>
+              <label class="cart-drawer__addr-field">
+                <span class="cart-drawer__addr-field-label">Домофон</span>
+                <input type="text" id="cart-addr-intercom" inputmode="numeric" placeholder="Код домофона" />
+              </label>
+              <label class="cart-drawer__addr-field">
+                <span class="cart-drawer__addr-field-label">Подъезд</span>
+                <input type="text" id="cart-addr-entrance" inputmode="numeric" placeholder="Номер подъезда" />
+              </label>
+              <label class="cart-drawer__addr-field">
+                <span class="cart-drawer__addr-field-label">Этаж</span>
+                <input type="text" id="cart-addr-floor" inputmode="numeric" placeholder="Этаж" />
+              </label>
+            </div>
+            <label class="cart-drawer__addr-comment-label">
+              <span class="cart-drawer__addr-field-label">Комментарий курьеру</span>
+              <textarea
+                id="cart-addr-comment"
+                class="cart-drawer__addr-comment"
+                rows="2"
+                placeholder="Например: оставить у двери, позвонить за 5 минут"
+              ></textarea>
+            </label>
+            <button type="button" class="cart-drawer__addr-save" id="cart-addr-save">Сохранить</button>
+          </div>
           <p class="cart-drawer__delivery">Доставка 15 минут</p>
         </div>
         <div class="cart-drawer__list" id="cart-drawer-list"></div>

@@ -389,9 +389,61 @@ function initReviewsSlider() {
   buildDots();
 }
 
+function initReviewComposeForm() {
+  var form = document.getElementById("review-compose-form");
+  if (!form) return;
+  var fieldsBlock = document.getElementById("review-compose-fields");
+  var successBlock = document.getElementById("review-compose-success");
+  var againBtn = document.getElementById("review-compose-again");
+  var ratingInput = document.getElementById("review-compose-rating");
+  var starWrap = form.querySelector("[data-review-stars]");
+  if (!fieldsBlock || !successBlock || !ratingInput || !starWrap) return;
+
+  var starBtns = starWrap.querySelectorAll("[data-star]");
+
+  function setRating(n) {
+    var v = Math.max(1, Math.min(5, Number(n) || 5));
+    ratingInput.value = String(v);
+    starBtns.forEach(function (btn) {
+      var k = Number(btn.getAttribute("data-star"));
+      var on = k <= v;
+      btn.classList.toggle("is-active", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+
+  starBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      setRating(btn.getAttribute("data-star"));
+    });
+  });
+
+  setRating(Number(ratingInput.value) || 5);
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    fieldsBlock.hidden = true;
+    successBlock.hidden = false;
+  });
+
+  if (againBtn) {
+    againBtn.addEventListener("click", function () {
+      successBlock.hidden = true;
+      fieldsBlock.hidden = false;
+      form.reset();
+      setRating(5);
+    });
+  }
+}
+
 export function initLanding() {
   initScrollSpy();
   initMobileNav();
   initCatalogFilter();
   initReviewsSlider();
+  initReviewComposeForm();
 }
