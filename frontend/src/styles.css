@@ -2658,15 +2658,12 @@ button.catalog-card__price-row:focus-visible {
   cursor: pointer;
 }
 
-/* Контакты — секция страницы (как каталог, «О нас», отзывы) */
+/* Контакты — секция страницы */
 .contacts-section {
   scroll-margin-top: var(--header-band-height);
-  margin-top: 20px;
+  margin-top: 16px;
+  margin-bottom: 0;
   padding: 0;
-  min-height: calc(100svh - var(--header-band-height));
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   box-sizing: border-box;
 }
 
@@ -2717,7 +2714,7 @@ button.catalog-card__price-row:focus-visible {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0;
-  align-items: start;
+  align-items: stretch;
 }
 
 .contact-modal__col {
@@ -2726,11 +2723,16 @@ button.catalog-card__price-row:focus-visible {
 
 .contact-modal__col--info {
   padding: 0 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .contact-modal__col--form {
   padding: 0 0 0 18px;
   border-left: 1px solid rgba(200, 190, 175, 0.72);
+  display: flex;
+  flex-direction: column;
 }
 
 .contact-modal__title--info {
@@ -2752,7 +2754,8 @@ button.catalog-card__price-row:focus-visible {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  flex: 0 0 auto;
 }
 
 .contact-modal__item {
@@ -2814,6 +2817,10 @@ button.catalog-card__price-row:focus-visible {
   line-height: 1.45;
 }
 
+.contacts-section .contact-modal__textarea {
+  min-height: 88px;
+}
+
 .contacts-section .auth-form__input::placeholder,
 .contacts-section .contact-modal__textarea::placeholder {
   color: rgba(55, 50, 46, 0.72);
@@ -2854,6 +2861,7 @@ button.catalog-card__price-row:focus-visible {
 
   .contact-modal__col--info {
     padding: 0;
+    display: block;
   }
 
   .contact-modal__col--form {
@@ -2861,6 +2869,7 @@ button.catalog-card__price-row:focus-visible {
     padding: 16px 0 0;
     margin-top: 14px;
     border-top: 1px solid rgba(200, 190, 175, 0.72);
+    display: block;
   }
 }
 
