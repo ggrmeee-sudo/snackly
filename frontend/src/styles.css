@@ -627,19 +627,26 @@ main#top {
   padding-block: clamp(32px, 5vh, 56px) clamp(36px, 5.5vh, 64px);
 }
 
-.home-hero__lead {
+.home-hero__headline {
   box-sizing: border-box;
   grid-column: 1;
   grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: clamp(8px, 1.1vw, 14px);
   flex-shrink: 0;
   min-width: 0;
   max-width: 100%;
   padding-right: clamp(8px, 2vw, 20px);
   align-self: end;
+}
+
+.home-hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(8px, 1.1vw, 14px);
+  min-width: 0;
 }
 
 .home-hero__tail {
@@ -657,7 +664,8 @@ main#top {
 }
 
 /* У потомков column-flex иначе min-width:auto — блок не сжимается, iOS режет текст справа */
-.home-hero__lead > *,
+.home-hero__headline > *,
+.home-hero__copy > *,
 .home-hero__tail > * {
   min-width: 0;
 }
@@ -869,7 +877,7 @@ main#top {
   mask-size: 100% 100%;
 }
 
-/* Телефоны: заголовок + подзаголовок → фото → абзац, кнопка, преимущества */
+/* Телефоны: только заголовок → фото → подзаголовок, абзац, кнопка, преимущества */
 @media (max-width: 900px) {
   .home-hero__inner {
     grid-template-columns: minmax(0, 1fr);
@@ -883,11 +891,14 @@ main#top {
     min-height: calc(100svh - var(--header-band-height));
   }
 
-  .home-hero__lead {
+  .home-hero__headline {
     grid-column: 1;
     grid-row: auto;
     padding-right: 0;
     align-self: stretch;
+  }
+
+  .home-hero__copy {
     gap: 12px;
   }
 
