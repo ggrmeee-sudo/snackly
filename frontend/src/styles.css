@@ -858,7 +858,7 @@ main#top {
   mask-size: 100% 100%;
 }
 
-/* Телефоны и узкие планшеты: одна колонка — текст сверху, иллюстрация снизу */
+/* Телефоны и узкие планшеты: одна колонка — сначала иллюстрация, под ней текст */
 @media (max-width: 900px) {
   .home-hero__inner {
     grid-template-columns: minmax(0, 1fr);
@@ -872,7 +872,7 @@ main#top {
   }
 
   .home-hero__content {
-    order: 1;
+    order: 2;
     min-width: 0;
     max-width: 100%;
     padding-right: 0;
@@ -950,7 +950,7 @@ main#top {
   }
 
   .home-hero__visual {
-    order: 2;
+    order: 1;
     justify-content: center;
     align-items: center;
     min-width: 0;
