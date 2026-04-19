@@ -297,10 +297,6 @@ function main() {
             return;
           }
 
-          if (admins.indexOf(chatId) !== -1) {
-            return;
-          }
-
           if (!admins.length) {
             sendUser(
               chatId,
