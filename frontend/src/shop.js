@@ -64,9 +64,11 @@ function closeCartDrawer() {
   cartDrawerEl.setAttribute("aria-hidden", "true");
   var prof = document.getElementById("profile-drawer");
   var profileOpen = prof && prof.classList.contains("is-open");
+  var contactModal = document.getElementById("contact-modal");
+  var contactOpen = contactModal && !contactModal.hidden;
   if (!productModal || productModal.hidden) {
     if (!loginModal || loginModal.hidden) {
-      if (!profileOpen) document.body.style.overflow = "";
+      if (!profileOpen && !contactOpen) document.body.style.overflow = "";
     }
   }
 }
@@ -75,6 +77,8 @@ function openCartDrawer() {
   if (!cartDrawerEl) return;
   closeProductModal();
   if (loginModal && !loginModal.hidden) closeLoginModal();
+  var cm = document.getElementById("contact-modal");
+  if (cm) cm.hidden = true;
   var pd = document.getElementById("profile-drawer");
   if (pd && pd.classList.contains("is-open")) {
     pd.classList.remove("is-open");
@@ -105,9 +109,11 @@ function closeProductModal() {
   productModal.hidden = true;
   var prof = document.getElementById("profile-drawer");
   var profileOpen = prof && prof.classList.contains("is-open");
+  var contactModal = document.getElementById("contact-modal");
+  var contactOpen = contactModal && !contactModal.hidden;
   if (!cartDrawerEl || !cartDrawerEl.classList.contains("is-open")) {
     if (!loginModal || loginModal.hidden) {
-      if (!profileOpen) document.body.style.overflow = "";
+      if (!profileOpen && !contactOpen) document.body.style.overflow = "";
     }
   }
   if (lastProductCard) lastProductCard.focus();

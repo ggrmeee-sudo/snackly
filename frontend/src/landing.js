@@ -76,7 +76,9 @@ function closeMobileNav(mobileNav, toggle) {
   var productOpen = pm && !pm.hidden;
   var prof = document.getElementById("profile-drawer");
   var profileOpen = prof && prof.classList.contains("is-open");
-  if (!open && !loginOpen && !productOpen && !profileOpen) {
+  var contactModal = document.getElementById("contact-modal");
+  var contactOpen = contactModal && !contactModal.hidden;
+  if (!open && !loginOpen && !productOpen && !profileOpen && !contactOpen) {
     document.body.style.overflow = "";
   }
 }
@@ -127,18 +129,20 @@ export function initMobileNav() {
   });
 }
 
-function applyCatalogSearch(query) {
+function applyCombinedCatalogSearch() {
   var grid = document.querySelector(".catalog-grid");
   if (!grid) return;
-  var q = String(query || "")
-    .trim()
-    .toLowerCase();
+  var headerInput = document.getElementById("header-search");
+  var catalogInput = document.getElementById("catalog-search");
+  var h = headerInput ? String(headerInput.value || "").trim().toLowerCase() : "";
+  var c = catalogInput ? String(catalogInput.value || "").trim().toLowerCase() : "";
   var cards = grid.querySelectorAll(".catalog-card[data-product-id]");
   cards.forEach(function (card) {
     var nameEl = card.querySelector(".catalog-card__name");
     var text = nameEl ? nameEl.textContent.toLowerCase() : "";
-    var hideBySearch = q.length > 0 && text.indexOf(q) === -1;
-    if (hideBySearch) card.setAttribute("data-search-hidden", "1");
+    var badH = h.length > 0 && text.indexOf(h) === -1;
+    var badC = c.length > 0 && text.indexOf(c) === -1;
+    if (badH || badC) card.setAttribute("data-search-hidden", "1");
     else card.removeAttribute("data-search-hidden");
   });
   document.dispatchEvent(new CustomEvent("snackly-catalog-search"));
@@ -147,23 +151,73 @@ function applyCatalogSearch(query) {
 export function initHeaderSearch() {
   var input = document.getElementById("header-search");
   if (!input) return;
-  input.addEventListener(
-    "input",
-    function () {
-      applyCatalogSearch(input.value);
-    },
-    false
-  );
+  input.addEventListener("input", function () {
+    applyCombinedCatalogSearch();
+  });
+}
+
+function initCatalogToolbarSearch() {
+  var input = document.getElementById("catalog-search");
+  if (!input) return;
+  input.addEventListener("input", function () {
+    applyCombinedCatalogSearch();
+  });
+}
+
+function parsePriceFromCard(card) {
+  var el = card.querySelector(".catalog-card__price");
+  if (!el) return 0;
+  var digits = String(el.textContent || "").replace(/\D/g, "");
+  return digits ? parseInt(digits, 10) : 0;
+}
+
+function applyCatalogSort(mode) {
+  var grid = document.querySelector(".catalog-grid");
+  if (!grid) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".catalog-card--product"));
+  if (!cards.length) return;
+  if (mode === "price-asc") {
+    cards.sort(function (a, b) {
+      return parsePriceFromCard(a) - parsePriceFromCard(b);
+    });
+  } else if (mode === "price-desc") {
+    cards.sort(function (a, b) {
+      return parsePriceFromCard(b) - parsePriceFromCard(a);
+    });
+  } else if (mode === "name-asc") {
+    cards.sort(function (a, b) {
+      var na = (a.querySelector(".catalog-card__name") || {}).textContent || "";
+      var nb = (b.querySelector(".catalog-card__name") || {}).textContent || "";
+      return na.localeCompare(nb, "ru", { sensitivity: "base" });
+    });
+  } else {
+    cards.sort(function (a, b) {
+      return (
+        Number(a.getAttribute("data-sort-default") || 0) -
+        Number(b.getAttribute("data-sort-default") || 0)
+      );
+    });
+  }
+  cards.forEach(function (c) {
+    grid.appendChild(c);
+  });
 }
 
 export function initCatalogFilter() {
   var grid = document.querySelector(".catalog-grid");
   var chips = document.querySelectorAll("[data-catalog-filter]");
   var status = document.getElementById("catalog-filter-status");
+  var sortSelect = document.getElementById("catalog-sort");
   if (!grid || !chips.length) return;
 
   var cards = grid.querySelectorAll("[data-product-category]");
   var currentFilter = "all";
+
+  grid.querySelectorAll(".catalog-card--product").forEach(function (c, i) {
+    if (!c.getAttribute("data-sort-default")) {
+      c.setAttribute("data-sort-default", String(i));
+    }
+  });
 
   function apply(filter) {
     currentFilter = filter || "all";
@@ -200,6 +254,13 @@ export function initCatalogFilter() {
     apply(currentFilter);
   });
 
+  if (sortSelect) {
+    sortSelect.addEventListener("change", function () {
+      applyCatalogSort(sortSelect.value || "default");
+    });
+  }
+
+  initCatalogToolbarSearch();
   apply("all");
 }
 

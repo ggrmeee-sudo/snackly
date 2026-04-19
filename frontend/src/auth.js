@@ -10,7 +10,9 @@ export function closeLoginModal() {
   var productOpen = pm && !pm.hidden;
   var prof = document.getElementById("profile-drawer");
   var profileOpen = prof && prof.classList.contains("is-open");
-  if (!cartOpen && !productOpen && !profileOpen) document.body.style.overflow = "";
+  var contactModal = document.getElementById("contact-modal");
+  var contactOpen = contactModal && !contactModal.hidden;
+  if (!cartOpen && !productOpen && !profileOpen && !contactOpen) document.body.style.overflow = "";
 }
 
 export function initAuth() {
@@ -129,6 +131,8 @@ export function initAuth() {
 
   function openLogin() {
     if (!loginModal) return;
+    var cm = document.getElementById("contact-modal");
+    if (cm) cm.hidden = true;
     var pd = document.getElementById("profile-drawer");
     if (pd && pd.classList.contains("is-open")) {
       pd.classList.remove("is-open");

@@ -21,12 +21,18 @@
         />
       </a>
       <div class="header__search" role="search">
-        <label class="visually-hidden" for="header-search">Поиск по каталогу</label>
+        <label class="visually-hidden" for="header-search">Искать в Snackly</label>
+        <span class="header__search-icon" aria-hidden="true">
+          <svg class="header__search-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6" />
+            <path d="M16 16l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </span>
         <input
           type="search"
           id="header-search"
           class="header__search-input"
-          placeholder="Поиск"
+          placeholder="Искать в Snackly"
           autocomplete="off"
           enterkeyhint="search"
         />
@@ -75,7 +81,14 @@
             </span>
             <span class="nav__icon-tile__label">Войти</span>
           </a>
-          <a class="nav__link nav__link--icon-tile" href="#cart" id="cart-link" data-open-cart hidden>
+          <button
+            type="button"
+            class="nav__link nav__link--icon-tile nav__link--cart-oval"
+            id="cart-link"
+            data-open-cart
+            hidden
+            aria-label="Открыть корзину"
+          >
             <span class="nav__icon-tile__graphic nav__icon-tile__graphic--cart" aria-hidden="true">
               <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -92,7 +105,7 @@
               <span class="nav__cart-badge" id="cart-badge" hidden><span id="cart-count">0</span></span>
             </span>
             <span class="nav__icon-tile__label">Корзина</span>
-          </a>
+          </button>
         </nav>
         <button
           type="button"
@@ -126,9 +139,15 @@
           <button type="button" class="mobile-nav__link mobile-nav__link--btn" id="mobile-nav-profile-btn" hidden>
             Профиль
           </button>
-          <a class="mobile-nav__link" href="#cart" id="mobile-nav-cart-link" data-open-cart hidden>
+          <button
+            type="button"
+            class="mobile-nav__cart-oval"
+            id="mobile-nav-cart-link"
+            data-open-cart
+            hidden
+          >
             Корзина (<span id="cart-count-mobile">0</span>)
-          </a>
+          </button>
         </div>
       </nav>
     </div>
@@ -222,21 +241,50 @@
     <section id="catalog" class="catalog-block" aria-labelledby="catalog-heading">
       <div class="container">
         <h2 id="catalog-heading" class="catalog-block__title">Выберите свой перекус</h2>
-        <div class="catalog-toolbar">
-          <p id="catalog-filter-label" class="visually-hidden">Фильтр по категории товаров</p>
-          <div class="catalog-filter" role="group" aria-labelledby="catalog-filter-label">
-            <button type="button" class="catalog-filter__chip" data-catalog-filter="all" aria-pressed="true">
-              Все
-            </button>
-            <button type="button" class="catalog-filter__chip" data-catalog-filter="drink" aria-pressed="false">
-              Напитки
-            </button>
-            <button type="button" class="catalog-filter__chip" data-catalog-filter="bar" aria-pressed="false">
-              Батончики
-            </button>
-            <button type="button" class="catalog-filter__chip" data-catalog-filter="nuts" aria-pressed="false">
-              Орехи и сухофрукты
-            </button>
+        <div class="catalog-toolbar catalog-toolbar--grid">
+          <div class="catalog-toolbar__search">
+            <div class="catalog-mini-search" role="search">
+              <label class="visually-hidden" for="catalog-search">Поиск по названию</label>
+              <span class="catalog-mini-search__icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M16 16l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+              </span>
+              <input
+                type="search"
+                id="catalog-search"
+                class="catalog-mini-search__input"
+                placeholder="Поиск по названию"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="catalog-toolbar__sort">
+            <label class="catalog-sort__label" for="catalog-sort">Сортировать:</label>
+            <select id="catalog-sort" class="catalog-sort__select" aria-label="Сортировка каталога">
+              <option value="default" selected>По умолчанию</option>
+              <option value="price-asc">Цена по возрастанию</option>
+              <option value="price-desc">Цена по убыванию</option>
+              <option value="name-asc">Название: А-Я</option>
+            </select>
+          </div>
+          <div class="catalog-toolbar__chips">
+            <p id="catalog-filter-label" class="visually-hidden">Фильтр по категории товаров</p>
+            <div class="catalog-filter" role="group" aria-labelledby="catalog-filter-label">
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="all" aria-pressed="true">
+                Все
+              </button>
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="drink" aria-pressed="false">
+                Напитки
+              </button>
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="bar" aria-pressed="false">
+                Батончики
+              </button>
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="nuts" aria-pressed="false">
+                Орехи и сухофрукты
+              </button>
+            </div>
           </div>
           <p class="catalog-filter__status" id="catalog-filter-status" aria-live="polite"></p>
         </div>
@@ -880,14 +928,84 @@
     </div>
   </div>
 
-  <div id="profile-contact-sheet" class="contact-sheet" aria-hidden="true">
-    <div class="contact-sheet__backdrop" data-close-contact tabindex="-1"></div>
-    <div class="contact-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="contact-sheet-title">
-      <div class="contact-sheet__handle" aria-hidden="true"></div>
-      <h2 id="contact-sheet-title" class="contact-sheet__title">Связаться с нами</h2>
-      <a class="contact-sheet__link" href="https://t.me/snackly_bot" target="_blank" rel="noopener noreferrer">Бот в Telegram</a>
-      <a class="contact-sheet__link" href="mailto:support@snackly.demo">support@snackly.demo</a>
-      <button type="button" class="contact-sheet__close" data-close-contact>Закрыть</button>
+  <div id="contact-modal" class="modal modal--auth modal--contact" hidden>
+    <div class="modal__backdrop" data-close-contact tabindex="-1"></div>
+    <div
+      class="modal__box modal__box--auth modal__box--contact"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="contact-modal-title"
+    >
+      <button type="button" class="auth-modal__close" data-close-contact aria-label="Закрыть">×</button>
+      <h2 id="contact-modal-title" class="auth-modal__title">Наши контакты</h2>
+      <ul class="contact-modal__list">
+        <li class="contact-modal__item">
+          <span class="contact-modal__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+            </svg>
+          </span>
+          <a class="contact-modal__link" href="https://t.me/snackly_bot" target="_blank" rel="noopener noreferrer">Бот в Telegram</a>
+        </li>
+        <li class="contact-modal__item">
+          <span class="contact-modal__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6h16v12H4V6z" stroke="currentColor" stroke-width="1.4" />
+              <path d="M4 8l8 5 8-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <a class="contact-modal__link" href="mailto:support@snackly.demo">support@snackly.demo</a>
+        </li>
+        <li class="contact-modal__item">
+          <span class="contact-modal__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.4" />
+              <path d="M12 7v6l4 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="contact-modal__text">Пн-Вс: 9:00-21:00</span>
+        </li>
+      </ul>
+      <div id="contact-form-block">
+        <h3 class="contact-modal__subtitle">Остались вопросы?</h3>
+        <p class="contact-modal__lead">
+          Заполните форму, и мы свяжемся с вами в ближайшее время.
+        </p>
+        <form id="contact-feedback-form" class="auth-form contact-modal__form" novalidate>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="contact-name">Имя</label>
+            <input class="auth-form__input" id="contact-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="contact-phone">Номер телефона</label>
+            <input class="auth-form__input" id="contact-phone" name="phone" type="tel" autocomplete="tel" required />
+          </div>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="contact-message">Описание</label>
+            <textarea
+              class="auth-form__input contact-modal__textarea"
+              id="contact-message"
+              name="message"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn--view auth-form__submit" id="contact-submit-btn">Отправить</button>
+        </form>
+      </div>
+      <div id="contact-success-block" class="contact-modal__success" hidden>
+        <div class="contact-modal__success-icon" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="#2d6a4f" stroke-width="1.4" />
+            <path d="M8 12l3 3 5-6" stroke="#2d6a4f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <p class="contact-modal__success-title">Успешно отправлено!</p>
+        <p class="contact-modal__success-text">
+          Спасибо за обращение. Мы получили ваше сообщение и ответим вам в рабочее время.
+        </p>
+        <button type="button" class="btn btn--view auth-form__submit" data-close-contact>Закрыть</button>
+      </div>
     </div>
   </div>
 

@@ -110,13 +110,14 @@ export function initProfile() {
   var ordersRail = document.getElementById("profile-orders-rail");
   var paymentModal = document.getElementById("profile-payment-modal");
   var settingsModal = document.getElementById("profile-settings-modal");
-  var contactSheet = document.getElementById("profile-contact-sheet");
+  var contactModal = document.getElementById("contact-modal");
   var toggleEmail = document.getElementById("settings-toggle-email");
   var toggleSms = document.getElementById("settings-toggle-sms");
 
   function openProfileDrawer() {
     var sess = getSession();
     if (!sess || !sess.email) return;
+    if (contactModal) contactModal.hidden = true;
     closeMobileNavIfOpen();
     var cd = document.getElementById("cart-drawer");
     if (cd && cd.classList.contains("is-open")) {
@@ -133,9 +134,7 @@ export function initProfile() {
     document.body.style.overflow = "hidden";
   }
 
-  function closeProfileDrawer() {
-    drawer.classList.remove("is-open");
-    drawer.setAttribute("aria-hidden", "true");
+  function bodyOverflowFromDrawers() {
     var cartOpen =
       document.getElementById("cart-drawer") &&
       document.getElementById("cart-drawer").classList.contains("is-open");
@@ -143,7 +142,17 @@ export function initProfile() {
     var productOpen = pm && !pm.hidden;
     var lm = document.getElementById("login");
     var loginOpen = lm && !lm.hidden;
-    if (!cartOpen && !productOpen && !loginOpen) document.body.style.overflow = "";
+    var profileOpen = drawer.classList.contains("is-open");
+    var contactOpen = contactModal && !contactModal.hidden;
+    if (!cartOpen && !productOpen && !loginOpen && !profileOpen && !contactOpen) {
+      document.body.style.overflow = "";
+    }
+  }
+
+  function closeProfileDrawer() {
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    bodyOverflowFromDrawers();
   }
 
   function populateProfile() {
@@ -222,16 +231,26 @@ export function initProfile() {
     settingsModal.hidden = true;
   }
 
-  function openContactSheet() {
-    if (!contactSheet) return;
-    contactSheet.classList.add("is-open");
-    contactSheet.setAttribute("aria-hidden", "false");
+  function resetContactForm() {
+    var formBlock = document.getElementById("contact-form-block");
+    var successBlock = document.getElementById("contact-success-block");
+    var form = document.getElementById("contact-feedback-form");
+    if (successBlock) successBlock.hidden = true;
+    if (formBlock) formBlock.hidden = false;
+    if (form) form.reset();
   }
 
-  function closeContactSheet() {
-    if (!contactSheet) return;
-    contactSheet.classList.remove("is-open");
-    contactSheet.setAttribute("aria-hidden", "true");
+  function openContactModal() {
+    if (!contactModal) return;
+    resetContactForm();
+    contactModal.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeContactModal() {
+    if (!contactModal) return;
+    contactModal.hidden = true;
+    bodyOverflowFromDrawers();
   }
 
   function toggleFromButton(btn) {
@@ -252,7 +271,7 @@ export function initProfile() {
     closeProfileDrawer();
     closePaymentModal();
     closeSettingsModal();
-    closeContactSheet();
+    closeContactModal();
   }
 
   function deleteAccount() {
@@ -275,6 +294,7 @@ export function initProfile() {
     document.dispatchEvent(new CustomEvent("snackly-orders-updated"));
     closeProfileDrawer();
     closeSettingsModal();
+    closeContactModal();
   }
 
   if (profileBtn) {
@@ -297,7 +317,7 @@ export function initProfile() {
   var setBtn = document.getElementById("profile-open-settings");
   if (setBtn) setBtn.addEventListener("click", openSettingsModal);
   var conBtn = document.getElementById("profile-open-contact");
-  if (conBtn) conBtn.addEventListener("click", openContactSheet);
+  if (conBtn) conBtn.addEventListener("click", openContactModal);
 
   var logoutBtn = document.getElementById("profile-logout-btn");
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
@@ -352,9 +372,27 @@ export function initProfile() {
     });
   }
 
-  if (contactSheet) {
-    contactSheet.querySelectorAll("[data-close-contact]").forEach(function (el) {
-      el.addEventListener("click", closeContactSheet);
+  if (contactModal) {
+    contactModal.querySelectorAll("[data-close-contact]").forEach(function (el) {
+      el.addEventListener("click", closeContactModal);
+    });
+    contactModal.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeContactModal();
+    });
+  }
+
+  var contactForm = document.getElementById("contact-feedback-form");
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!contactForm.checkValidity()) {
+        contactForm.reportValidity();
+        return;
+      }
+      var formBlock = document.getElementById("contact-form-block");
+      var successBlock = document.getElementById("contact-success-block");
+      if (formBlock) formBlock.hidden = true;
+      if (successBlock) successBlock.hidden = false;
     });
   }
 
@@ -364,8 +402,8 @@ export function initProfile() {
 
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
-    if (contactSheet && contactSheet.classList.contains("is-open")) {
-      closeContactSheet();
+    if (contactModal && !contactModal.hidden) {
+      closeContactModal();
       return;
     }
     if (settingsModal && !settingsModal.hidden) {
