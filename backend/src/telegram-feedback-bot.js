@@ -104,37 +104,76 @@ function sendUser(chatId, text) {
   });
 }
 
-/** Отправка локального PNG в чат (подпись до 1024 символов) */
-function sendPhotoFile(chatId, filePath, caption) {
-  var buf = fs.readFileSync(filePath);
-  var blob = new Blob([buf], { type: "image/png" });
-  var fd = new FormData();
-  fd.append("chat_id", String(chatId));
-  fd.append("photo", blob, path.basename(filePath));
-  if (caption) {
-    var cap = caption.length > 1024 ? caption.slice(0, 1021) + "…" : caption;
-    fd.append("caption", cap);
-  }
-  return fetch("https://api.telegram.org/bot" + token + "/sendPhoto", {
+/**
+ * multipart/form-data вручную — в Node fetch+FormData+Blob Telegram часто не видит файл
+ * («photo isn't specified»).
+ */
+function multipartPost(url, fieldParts) {
+  var boundary = "----SnacklyForm" + String(Math.random()).replace(/\D/g, "").slice(0, 12);
+  var chunks = [];
+  fieldParts.forEach(function (p) {
+    chunks.push(Buffer.from("--" + boundary + "\r\n", "utf8"));
+    if (p.buffer) {
+      var fn = String(p.filename || "file.png").replace(/["\r\n]/g, "");
+      var ct = p.contentType || "application/octet-stream";
+      chunks.push(
+        Buffer.from(
+          'Content-Disposition: form-data; name="' +
+            p.name +
+            '"; filename="' +
+            fn +
+            '"\r\nContent-Type: ' +
+            ct +
+            "\r\n\r\n",
+          "utf8"
+        )
+      );
+      chunks.push(p.buffer);
+      chunks.push(Buffer.from("\r\n", "utf8"));
+    } else {
+      chunks.push(
+        Buffer.from(
+          'Content-Disposition: form-data; name="' + p.name + '"\r\n\r\n',
+          "utf8"
+        )
+      );
+      chunks.push(Buffer.from(String(p.value), "utf8"));
+      chunks.push(Buffer.from("\r\n", "utf8"));
+    }
+  });
+  chunks.push(Buffer.from("--" + boundary + "--\r\n", "utf8"));
+  var body = Buffer.concat(chunks);
+  return fetch(url, {
     method: "POST",
-    body: fd,
+    headers: { "Content-Type": "multipart/form-data; boundary=" + boundary },
+    body: body,
   }).then(function (r) {
     return r.json();
   });
 }
 
-/** Аватар бота в Telegram (нужен Bot API с методом setMyProfilePhoto) */
+/** Отправка локального PNG в чат (подпись до 1024 символов) */
+function sendPhotoFile(chatId, filePath, caption) {
+  var buf = fs.readFileSync(filePath);
+  var fn = path.basename(filePath);
+  var parts = [
+    { name: "chat_id", value: String(chatId) },
+    { name: "photo", buffer: buf, filename: fn, contentType: "image/png" },
+  ];
+  if (caption) {
+    var cap = caption.length > 1024 ? caption.slice(0, 1021) + "…" : caption;
+    parts.push({ name: "caption", value: cap });
+  }
+  return multipartPost("https://api.telegram.org/bot" + token + "/sendPhoto", parts);
+}
+
+/** Аватар бота в Telegram */
 function setBotProfilePhotoFromFile(filePath) {
   var buf = fs.readFileSync(filePath);
-  var blob = new Blob([buf], { type: "image/png" });
-  var fd = new FormData();
-  fd.append("photo", blob, path.basename(filePath));
-  return fetch("https://api.telegram.org/bot" + token + "/setMyProfilePhoto", {
-    method: "POST",
-    body: fd,
-  }).then(function (r) {
-    return r.json();
-  });
+  var fn = path.basename(filePath);
+  return multipartPost("https://api.telegram.org/bot" + token + "/setMyProfilePhoto", [
+    { name: "photo", buffer: buf, filename: fn, contentType: "image/png" },
+  ]);
 }
 
 function commandFromMessage(msg) {
