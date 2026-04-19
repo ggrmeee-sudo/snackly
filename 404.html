@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f9f7f2" />
+  <title>Полезные снеки</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet" />
+  <script type="module" crossorigin src="/snackly/assets/index-D3g9uoU7.js"></script>
+  <link rel="stylesheet" crossorigin href="/snackly/assets/index-CMeMtWPS.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="header__brand" href="#home">
+        <img
+          class="header__logo"
+          src="/snackly/assets/logo.png"
+          alt="Snackly"
+          decoding="async"
+        />
+      </a>
+      <nav class="nav nav--main" aria-label="Разделы сайта">
+        <a class="nav__link nav__link--section" href="#home" data-section="home">Главная</a>
+        <a class="nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
+        <a class="nav__link nav__link--section" href="#about" data-section="about">О нас</a>
+        <a class="nav__link nav__link--section" href="#contacts" data-section="contacts">Контакты</a>
+        <a class="nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
+        <a
+          class="nav__link"
+          href="https://t.me/SnacklySvetaBot"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Telegram</a>
+      </nav>
+      <div class="header__trailing">
+        <nav class="nav nav--actions" aria-label="Аккаунт">
+          <button
+            type="button"
+            class="nav__link nav__link--icon-tile"
+            id="nav-profile-btn"
+            hidden
+            aria-label="Профиль"
+          >
+            <span class="nav__icon-tile__graphic" aria-hidden="true">
+              <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="12" cy="7" r="3.25" stroke="currentColor" stroke-width="1.2" />
+              </svg>
+            </span>
+            <span class="nav__icon-tile__label">Профиль</span>
+          </button>
+          <a class="nav__link nav__link--icon-tile" href="#login" id="nav-auth-open">
+            <span class="nav__icon-tile__graphic" aria-hidden="true">
+              <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="12" cy="7" r="3.25" stroke="currentColor" stroke-width="1.2" />
+              </svg>
+            </span>
+            <span class="nav__icon-tile__label">Войти</span>
+          </a>
+        </nav>
+        <button
+          type="button"
+          class="header__menu-toggle"
+          id="nav-menu-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Открыть меню"
+        >
+          <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+          <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+          <span class="header__menu-toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-nav" class="mobile-nav" aria-hidden="true">
+      <div class="mobile-nav__backdrop" data-close-mobile-nav tabindex="-1"></div>
+      <nav class="mobile-nav__panel" aria-label="Мобильная навигация">
+        <div class="mobile-nav__head">
+          <span class="mobile-nav__title">Меню</span>
+          <button type="button" class="mobile-nav__close" data-close-mobile-nav aria-label="Закрыть меню">×</button>
+        </div>
+        <div class="mobile-nav__links">
+          <a class="mobile-nav__link nav__link nav__link--section" href="#home" data-section="home">Главная</a>
+          <a class="mobile-nav__link nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
+          <a class="mobile-nav__link nav__link nav__link--section" href="#about" data-section="about">О нас</a>
+          <a class="mobile-nav__link nav__link nav__link--section" href="#contacts" data-section="contacts">Контакты</a>
+          <a class="mobile-nav__link nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
+          <a
+            class="mobile-nav__link"
+            href="https://t.me/SnacklySvetaBot"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-close-mobile-nav
+          >Бот в Telegram</a>
+        </div>
+        <div class="mobile-nav__actions">
+          <a class="mobile-nav__link" href="#login" id="mobile-nav-login-link">Войти</a>
+          <button type="button" class="mobile-nav__link mobile-nav__link--btn" id="mobile-nav-profile-btn" hidden>
+            Профиль
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="home-hero" id="home" aria-labelledby="home-hero-heading">
+      <div class="home-hero__inner">
+        <div class="home-hero__headline">
+          <h1 id="home-hero-heading" class="home-hero__title">
+            <span class="home-hero__title-line">Полезные перекусы</span>
+            <span class="home-hero__title-line">на каждый день</span>
+          </h1>
+        </div>
+        <div class="home-hero__visual">
+          <div class="home-hero__visual-frame">
+            <img
+              class="home-hero__illu"
+              src="/snackly/assets/hero-snacks.png?v=illu2"
+              alt="Иллюстрация: смузи, орехи, батончик и сухофрукты"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+        </div>
+        <div class="home-hero__tail">
+          <div class="home-hero__copy">
+            <p class="home-hero__subtitle">Вкусно • Натурально • С пользой</p>
+            <p class="home-hero__note">
+              Заряжайся энергией, будь в балансе и выбирай лучшее для своего организма.
+            </p>
+          </div>
+          <div class="home-hero__bottom">
+            <a href="#catalog" class="home-hero__cta">
+              Выбрать перекус
+              <span class="home-hero__cta-arrow" aria-hidden="true">→</span>
+            </a>
+            <ul class="home-hero__features" aria-label="Преимущества продукции">
+              <li class="home-hero__feature">
+                <span class="home-hero__feature-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12 21C7 17 3 12 3 8a6 6 0 0111-3 6 6 0 0111 3c0 4-4 9-9 13"
+                      stroke="currentColor"
+                      stroke-width="1.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path d="M12 21V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                  </svg>
+                </span>
+                <span class="home-hero__feature-text">100% натурально</span>
+              </li>
+              <li class="home-hero__feature">
+                <span class="home-hero__feature-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect
+                      x="5"
+                      y="7"
+                      width="14"
+                      height="12"
+                      rx="2"
+                      stroke="currentColor"
+                      stroke-width="1.4"
+                    />
+                    <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.4" />
+                    <path d="M9 12h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  </svg>
+                </span>
+                <span class="home-hero__feature-text">Без добавленного сахара</span>
+              </li>
+              <li class="home-hero__feature">
+                <span class="home-hero__feature-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8L12 21l8.8-8.8a5.5 5.5 0 000-7.8z"
+                      stroke="currentColor"
+                      stroke-width="1.35"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span class="home-hero__feature-text">Больше пользы, меньше вины</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="catalog" class="catalog-block" aria-labelledby="catalog-heading">
+      <div class="container">
+        <h2 id="catalog-heading" class="catalog-block__title">Выберите свой перекус</h2>
+        <div class="catalog-toolbar catalog-toolbar--one-line">
+          <div class="catalog-toolbar__search">
+            <div class="catalog-mini-search" role="search">
+              <label class="visually-hidden" for="catalog-search">Поиск по названию</label>
+              <span class="catalog-mini-search__icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M16 16l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+              </span>
+              <input
+                type="search"
+                id="catalog-search"
+                class="catalog-mini-search__input"
+                placeholder="Поиск по названию"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="catalog-toolbar__chips">
+            <p id="catalog-filter-label" class="visually-hidden">Фильтр по категории товаров</p>
+            <div class="catalog-filter" role="group" aria-labelledby="catalog-filter-label">
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="all" aria-pressed="true">
+                Все
+              </button>
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="drink" aria-pressed="false">
+                Напитки
+              </button>
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="bar" aria-pressed="false">
+                Батончики
+              </button>
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="nuts" aria-pressed="false">
+                Орехи
+              </button>
+              <button type="button" class="catalog-filter__chip" data-catalog-filter="dried" aria-pressed="false">
+                Сухофрукты
+              </button>
+            </div>
+          </div>
+          <div class="catalog-toolbar__sort">
+            <label class="catalog-sort__label" for="catalog-sort">Сортировать:</label>
+            <select id="catalog-sort" class="catalog-sort__select" aria-label="Сортировка каталога">
+              <option value="default" selected>По умолчанию</option>
+              <option value="price-asc">Цена по возрастанию</option>
+              <option value="price-desc">Цена по убыванию</option>
+              <option value="name-asc">Название: А-Я</option>
+            </select>
+          </div>
+          <p class="catalog-filter__status" id="catalog-filter-status" aria-live="polite"></p>
+        </div>
+        <div class="catalog-grid" role="list">
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="smoothie-all-day"
+            data-product-category="drink"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-smoothie-all-day.png"
+                alt="Смузи лесные ягоды All Day в бутылке"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Смузи лесные ягоды All Day
+            </h3>
+            <p class="catalog-card__weight">300 мл</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">329 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="all-day-smoothie-orange-banana-strawberry"
+            data-product-category="drink"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-all-day-smoothie-orange-banana-strawberry.png"
+                alt="Смузи с апельсином, бананом и клубникой All Day"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Смузи с апельсином бананом и клубникой All Day
+            </h3>
+            <p class="catalog-card__weight">300 мл</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">329 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="all-day-smoothie-blueberry-banana-almond"
+            data-product-category="drink"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-all-day-smoothie-blueberry-banana-almond.png"
+                alt="Смузи черника, банан, миндаль All Day"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Смузи черника, банан, миндаль All Day
+            </h3>
+            <p class="catalog-card__weight">300 мл</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">230 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="all-day-lemonade-puer-cola"
+            data-product-category="drink"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-all-day-lemonade-puer-cola.png"
+                alt="Лимонад Пуэр кола газированный All Day"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Лимонад Пуэр кола газированный All Day
+            </h3>
+            <p class="catalog-card__weight">300 мл</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">223 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="fitnessshock-hi-protein"
+            data-product-category="bar"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-fitnessshock-hi-protein.png"
+                alt="Батончик FitnesShock Hi Protein, черничный десерт"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Батончик FitnesShock Hi Protein, 30% протеина, без сахара, черничный десерт, в глазури
+            </h3>
+            <p class="catalog-card__weight">40 г</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">165 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="fitnessshock-lemon-chia"
+            data-product-category="bar"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-fitnessshock-lemon-chia.png"
+                alt="Батончик FitnesShock Hi Protein, лимон и чиа"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Батончик FitnesShock Hi Protein, 30% протеина, без сахара, лимон и чиа, в глазури
+            </h3>
+            <p class="catalog-card__weight">40 г</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">179 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="fitnessshock-pecan-tart"
+            data-product-category="bar"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-fitnessshock-pecan-tart.png"
+                alt="Батончик FitnesShock, пекан-тарт"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Батончик FitnesShock, 30% протеина, без сахара, глазированный, пекан-тарт
+            </h3>
+            <p class="catalog-card__weight">40 г</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">159 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="fitnessshock-strawberry-mojito"
+            data-product-category="bar"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-fitnessshock-strawberry-mojito.png"
+                alt="Глазированый батончик FitnesShock, клубника и мята"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Глазированый батончик FitnesShock, 30% протеина, клубника и мята
+            </h3>
+            <p class="catalog-card__weight">40 г</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">109 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="semushka-apricot"
+            data-product-category="dried"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-semushka-apricot.png"
+                alt="Курага Семушка"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Курага «Семушка»
+            </h3>
+            <p class="catalog-card__weight">150 г</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">223 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="semushka-walnut"
+            data-product-category="nuts"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-semushka-walnut.png"
+                alt="Грецкий орех Семушка"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Грецкий орех «Семушка»
+            </h3>
+            <p class="catalog-card__weight">200 г</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">496 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="semushka-almond"
+            data-product-category="nuts"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-semushka-almond.png"
+                alt="Миндаль сушёный Семушка"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Миндаль сушёный «Семушка»
+            </h3>
+            <p class="catalog-card__weight">120 г</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">258 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+          <article
+            class="catalog-card catalog-card--product"
+            role="listitem"
+            tabindex="0"
+            data-open-product
+            data-product-id="semushka-cashew"
+            data-product-category="nuts"
+          >
+            <div class="catalog-card__img-wrap">
+              <img
+                class="catalog-card__img"
+                src="/snackly/assets/product-semushka-cashew.png"
+                alt="Кешью жареный Семушка"
+              />
+            </div>
+            <div class="catalog-card__info">
+            <h3 class="catalog-card__name">
+              Кешью жареный «Семушка»
+            </h3>
+            <p class="catalog-card__weight">50 г</p>
+            </div>
+            <button type="button" class="catalog-card__price-row" aria-label="Добавить в корзину">
+              <span class="catalog-card__price">101 ₽</span>
+              <span class="catalog-card__plus" aria-hidden="true">+</span>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about-section" aria-labelledby="about-heading">
+      <div class="container">
+        <h2 id="about-heading" class="about-section__heading">О нас</h2>
+        <div class="about-section__content">
+          <p>
+            Мы — команда, которая однажды задалась вопросом: почему полезные перекусы часто либо безвкусные, либо
+            содержат скрытый сахар и химию? Мы перепробовали десятки брендов, изучили составы и решили собрать только
+            лучшее — то, что мы сами едим на завтрак, берем в дорогу и даём своим детям.
+          </p>
+
+          <h3 class="about-section__subheading">Что в ассортименте?</h3>
+
+          <p>Смузи All Day — готовый перекус без сахара и консервантов. Открыл и сыт.</p>
+
+          <p>
+            FitnesShock Hi Protein — 30% белка, 0 сахара, 4 вкуса. Сытость на 3–4 часа без скачков сахара.
+          </p>
+
+          <p>Курага «Семушка» — без диоксида серы и сиропов. Просто абрикосы. Для сердца, пищеварения и настроения.</p>
+
+          <h3 class="about-section__subheading">Почему мы?</h3>
+
+          <ol class="about-section__numbered" aria-label="Почему мы">
+            <li>
+              <strong>Честные составы.</strong> Без сахара — значит без сахара.
+            </li>
+            <li>
+              <strong>Быстрая доставка.</strong> От 15 минут до 60 минут (час).
+            </li>
+            <li>
+              <strong>Поддержка.</strong> Поможем подобрать перекус под ваш ритм.
+            </li>
+            <li>
+              <strong>Удобство.</strong> Смузи, батончики, сухофрукты — всё в одном месте.
+            </li>
+          </ol>
+
+          <p>Мы даём энергию, сытость и удовольствие без чувства вины.</p>
+
+          <p class="about-section__tagline">Попробуйте один раз — и поймёте!</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <section id="contacts" class="contacts-section" aria-labelledby="contacts-heading">
+        <h2 id="contacts-heading" class="visually-hidden">Контакты</h2>
+        <div class="contacts-section__panel">
+          <div class="contact-modal__grid contacts-section__grid">
+            <div class="contact-modal__col contact-modal__col--info">
+              <h3 class="contact-modal__title--info">Наши контакты</h3>
+              <ul class="contact-modal__list">
+                <li class="contact-modal__item">
+                  <span class="contact-modal__icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                    </svg>
+                  </span>
+                  <a class="contact-modal__link" href="https://t.me/SnacklySvetaBot" target="_blank" rel="noopener noreferrer">Бот в Telegram</a>
+                </li>
+                <li class="contact-modal__item">
+                  <span class="contact-modal__icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 6h16v12H4V6z" stroke="currentColor" stroke-width="1.4" />
+                      <path d="M4 8l8 5 8-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <a class="contact-modal__link" href="mailto:support@snackly.demo">support@snackly.demo</a>
+                </li>
+                <li class="contact-modal__item">
+                  <span class="contact-modal__icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.4" />
+                      <path d="M12 7v6l4 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                    </svg>
+                  </span>
+                  <span class="contact-modal__text">Пн-Вс: 9:00-21:00</span>
+                </li>
+              </ul>
+            </div>
+            <div class="contact-modal__col contact-modal__col--form">
+              <div id="contact-form-block">
+                <h3 class="contact-modal__subtitle">Остались вопросы?</h3>
+                <p class="contact-modal__lead">
+                  Заполните форму, и мы свяжемся с вами в ближайшее время. Или напишите в
+                  <a
+                    class="contact-modal__inline-link"
+                    href="https://t.me/SnacklySvetaBot"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >бот в Telegram</a>
+                  — @SnacklySvetaBot, ответим в рабочее время (удобно с телефона).
+                </p>
+                <form id="contact-feedback-form" class="auth-form contact-modal__form" novalidate>
+                  <div class="auth-form__field">
+                    <label class="auth-form__label" for="contact-name">Имя</label>
+                    <input
+                      class="auth-form__input"
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      autocomplete="name"
+                      placeholder="Как к вам обращаться"
+                      required
+                    />
+                  </div>
+                  <div class="auth-form__field">
+                    <label class="auth-form__label" for="contact-phone">Номер телефона</label>
+                    <input
+                      class="auth-form__input"
+                      id="contact-phone"
+                      name="phone"
+                      type="tel"
+                      autocomplete="tel"
+                      placeholder="+7 900 000-00-00"
+                      required
+                    />
+                  </div>
+                  <div class="auth-form__field">
+                    <label class="auth-form__label" for="contact-message">Описание</label>
+                    <textarea
+                      class="auth-form__input contact-modal__textarea"
+                      id="contact-message"
+                      name="message"
+                      rows="4"
+                      placeholder="Кратко опишите вопрос или заказ"
+                      required
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="btn btn--view auth-form__submit" id="contact-submit-btn">Отправить</button>
+                </form>
+              </div>
+              <div id="contact-success-block" class="contact-modal__success" hidden>
+                <div class="contact-modal__success-icon" aria-hidden="true">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#2d6a4f" stroke-width="1.4" />
+                    <path d="M8 12l3 3 5-6" stroke="#2d6a4f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <p class="contact-modal__success-title">Успешно отправлено!</p>
+                <p class="contact-modal__success-text">
+                  Спасибо за обращение. Мы получили ваше сообщение и ответим вам в рабочее время.
+                </p>
+                <button type="button" class="btn btn--view auth-form__submit" id="contact-success-dismiss">
+                  Написать ещё раз
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews-section" id="reviews" aria-labelledby="reviews-heading">
+        <h1 id="reviews-heading" class="reviews-section__heading">Отзывы наших клиентов</h1>
+        <div class="reviews-slider" data-reviews-slider>
+          <div class="reviews-slider__controls">
+            <button
+              type="button"
+              class="reviews-slider__arrow reviews-slider__arrow--prev"
+              data-reviews-prev
+              aria-label="Предыдущие отзывы"
+            >
+              <span aria-hidden="true">‹</span>
+            </button>
+            <div
+              class="reviews-slider__viewport"
+              data-reviews-viewport
+              tabindex="0"
+              role="region"
+              aria-roledescription="carousel"
+              aria-label="Отзывы, прокрутка"
+            >
+              <div class="reviews-slider__track" data-reviews-track>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">А</span>
+              <div>
+                <p class="review-card__name">Анна Петрова</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">«Очень довольна покупкой! Грецкий орех «Семушка» — насыщенный вкус, свежий и хрустящий. Заказываю регулярно!»</p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">15.12.2024 • Грецкий орех «Семушка»</span>
+              <span class="review-card__meta-mass">200 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">М</span>
+              <div>
+                <p class="review-card__name">Максим Иванов</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">«Батончики FitnesShock Hi Protein стали моим спасением после тренировок. Вкусно и полезно, но хотелось бы ещё больше вкусов в каталоге.»</p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">10.12.2024 • Батончик FitnesShock Hi Protein</span>
+              <span class="review-card__meta-mass">40 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">Е</span>
+              <div>
+                <p class="review-card__name">Елена Смирнова</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">«Смузи All Day — идеальный перекус для работы: освежает и без лишнего сахара, только ягодный вкус. Детям тоже заходит!»</p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">08.12.2024 • Смузи лесные ягоды All Day</span>
+              <span class="review-card__meta-mass">300 мл</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">Д</span>
+              <div>
+                <p class="review-card__name">Дмитрий Козлов</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">«Смузи с апельсином, бананом и клубникой — отлично заходит на завтрак с йогуртом, бодрит и сытно. Рекомендую!»</p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">05.12.2024 • Смузи с апельсином бананом и клубникой All Day</span>
+              <span class="review-card__meta-mass">300 мл</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">О</span>
+              <div>
+                <p class="review-card__name">Ольга Новикова</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">«Миндаль сушёный «Семушка» очень понравился: ровные ядра, насыщенный вкус. Удобно перекусить без сахара и лишней соли.»</p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">02.12.2024 • Миндаль сушёный «Семушка»</span>
+              <span class="review-card__meta-mass">120 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">И</span>
+              <div>
+                <p class="review-card__name">Иван Сидоров</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">«Брал кешью жареный «Семушка» в поход — компактная пачка, сытно и очень вкусно. Удобно носить в рюкзаке.»</p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">28.11.2024 • Кешью жареный «Семушка»</span>
+              <span class="review-card__meta-mass">50 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">С</span>
+              <div>
+                <p class="review-card__name">Светлана Волкова</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">
+              «Курага «Семушка» без серы — мягкая, сладкая, как конфета, но без сахара. Добавляю в овсянку и йогурт, дети просят добавки.»
+            </p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">25.11.2024 • Курага «Семушка»</span>
+              <span class="review-card__meta-mass">150 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">Н</span>
+              <div>
+                <p class="review-card__name">Никита Романов</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">
+              «Батончик FitnesShock с кокосом — не приторный, сытный, после него до обеда не тянет на сладкое. Заказал пробную пачку и сразу взял ещё.»
+            </p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">22.11.2024 • Батончик FitnesShock Hi Protein</span>
+              <span class="review-card__meta-mass">40 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">К</span>
+              <div>
+                <p class="review-card__name">Кристина Лебедева</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">
+              «Смузи манго и маракуйя All Day — яркий вкус, как летом. Пью вместо сладкой газировки, бутылка удобно закрывается — можно допить позже.»
+            </p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">20.11.2024 • Смузи манго и маракуйя All Day</span>
+              <span class="review-card__meta-mass">300 мл</span>
+            </p>
+          </article>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="reviews-slider__arrow reviews-slider__arrow--next"
+              data-reviews-next
+              aria-label="Следующие отзывы"
+            >
+              <span aria-hidden="true">›</span>
+            </button>
+          </div>
+          <div
+            class="reviews-slider__dots"
+            data-reviews-dots
+            role="tablist"
+            aria-label="Навигация по отзывам"
+          ></div>
+        </div>
+
+        <div class="review-compose" aria-labelledby="review-compose-heading">
+          <h2 id="review-compose-heading" class="review-compose__title">Оставить отзыв</h2>
+          <div id="review-compose-locked" class="review-compose__locked">
+            <p class="review-compose__locked-msg" id="review-compose-locked-text"></p>
+            <div class="review-compose__locked-actions">
+              <button type="button" class="review-compose__link-btn" id="review-compose-open-login">
+                Войти
+              </button>
+              <a href="#catalog" class="review-compose__catalog-link">В каталог</a>
+            </div>
+          </div>
+          <form id="review-compose-form" class="review-compose__form" novalidate hidden>
+            <div id="review-compose-fields" class="review-compose__fields">
+              <label class="review-compose__label">
+                <span class="review-compose__label-text">Ваше имя</span>
+                <input
+                  type="text"
+                  id="review-compose-name"
+                  name="name"
+                  class="review-compose__input"
+                  placeholder="Как к вам обращаться"
+                  required
+                  autocomplete="name"
+                />
+              </label>
+              <div class="review-compose__rating-block">
+                <span id="review-compose-rating-label" class="review-compose__label-text">Оценка</span>
+                <div
+                  class="review-compose__stars"
+                  data-review-stars
+                  role="radiogroup"
+                  aria-labelledby="review-compose-rating-label"
+                >
+                  <button type="button" class="review-compose__star is-active" data-star="1" aria-label="1 из 5" aria-pressed="true">★</button>
+                  <button type="button" class="review-compose__star is-active" data-star="2" aria-label="2 из 5" aria-pressed="true">★</button>
+                  <button type="button" class="review-compose__star is-active" data-star="3" aria-label="3 из 5" aria-pressed="true">★</button>
+                  <button type="button" class="review-compose__star is-active" data-star="4" aria-label="4 из 5" aria-pressed="true">★</button>
+                  <button type="button" class="review-compose__star is-active" data-star="5" aria-label="5 из 5" aria-pressed="true">★</button>
+                </div>
+                <input type="hidden" id="review-compose-rating" name="rating" value="5" />
+              </div>
+              <label class="review-compose__label">
+                <span class="review-compose__label-text">Товар</span>
+                <input
+                  type="text"
+                  id="review-compose-product"
+                  name="product"
+                  class="review-compose__input"
+                  placeholder="Например, смузи лесные ягоды All Day"
+                />
+              </label>
+              <label class="review-compose__label">
+                <span class="review-compose__label-text">Объём или вес</span>
+                <input
+                  type="text"
+                  id="review-compose-mass"
+                  name="mass"
+                  class="review-compose__input"
+                  placeholder="300 мл, 40 г и т.п."
+                />
+              </label>
+              <label class="review-compose__label">
+                <span class="review-compose__label-text">Текст отзыва</span>
+                <textarea
+                  id="review-compose-text"
+                  name="text"
+                  class="review-compose__textarea"
+                  rows="4"
+                  placeholder="Поделитесь впечатлением о товаре и доставке"
+                  required
+                ></textarea>
+              </label>
+              <button type="submit" class="review-compose__submit">Опубликовать</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__copy">© 2026 Полезные снеки</p>
+      <a
+        class="footer__telegram"
+        href="https://t.me/SnacklySvetaBot"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Бот в Telegram — вопросы и обратная связь</a>
+    </div>
+  </footer>
+
+  <button type="button" class="cart-summary-pill" id="cart-summary-pill" data-open-cart hidden>
+    <span class="cart-summary-pill__price" id="cart-summary-pill-total">0 ₽</span>
+    <span class="cart-summary-pill__delivery">Доставка · от 15 мин</span>
+  </button>
+
+  <div id="profile-drawer" class="profile-drawer" aria-hidden="true">
+    <div class="profile-drawer__backdrop" data-close-profile tabindex="-1"></div>
+    <aside
+      class="profile-drawer__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="profile-drawer-heading"
+    >
+      <div class="profile-drawer__top">
+        <button type="button" class="profile-drawer__back" data-close-profile aria-label="Назад">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <h2 id="profile-drawer-heading" class="visually-hidden">Профиль</h2>
+      </div>
+      <div class="profile-drawer__scroll">
+        <div class="profile-head">
+          <div class="profile-head__avatar" id="profile-avatar" aria-hidden="true">?</div>
+          <p class="profile-head__name" id="profile-name">—</p>
+          <p class="profile-head__phone" id="profile-phone">—</p>
+        </div>
+
+        <section class="profile-section profile-section--orders" aria-labelledby="profile-orders-title">
+          <div class="profile-section__head">
+            <h3 id="profile-orders-title" class="profile-section__title">История заказов</h3>
+            <svg class="profile-section__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="profile-orders__empty" id="profile-orders-empty">
+            Вы ещё ничего не заказывали — загляните в каталог.
+          </div>
+          <div class="profile-orders__rail" id="profile-orders-rail" hidden></div>
+        </section>
+
+        <nav class="profile-menu" aria-label="Профиль">
+          <button type="button" class="profile-menu__row" id="profile-open-payment">Оплата</button>
+          <button type="button" class="profile-menu__row" id="profile-open-settings">Настройки</button>
+          <button type="button" class="profile-menu__row" id="profile-open-contact">
+            Связаться с нами
+          </button>
+        </nav>
+
+        <button type="button" class="profile-logout" id="profile-logout-btn">Выйти</button>
+      </div>
+    </aside>
+  </div>
+
+  <div id="profile-payment-modal" class="modal modal--profile-nested" hidden>
+    <div class="modal__backdrop" data-close-payment></div>
+    <div class="modal__box modal__box--payment-card" role="dialog" aria-modal="true" aria-labelledby="payment-card-title">
+      <button type="button" class="payment-card__close" data-close-payment aria-label="Закрыть">×</button>
+      <h2 id="payment-card-title" class="payment-card__title">Новая карта</h2>
+      <div id="payment-card-linked-view" class="payment-card__linked-view" hidden>
+        <div class="payment-card__linked-row" role="group" aria-label="Привязанная карта">
+          <span class="payment-card__linked-icon" aria-hidden="true">
+            <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0.5" y="0.5" width="27" height="21" rx="4" stroke="currentColor" stroke-opacity="0.35" />
+              <rect x="0" y="6" width="28" height="5" fill="currentColor" fill-opacity="0.12" />
+              <circle cx="9" cy="15" r="1.5" fill="currentColor" fill-opacity="0.35" />
+              <circle cx="13" cy="15" r="1.5" fill="currentColor" fill-opacity="0.35" />
+            </svg>
+          </span>
+          <span class="payment-card__linked-mask" id="payment-linked-mask">*0000</span>
+        </div>
+        <button type="button" class="payment-card__unlink" id="payment-card-unlink">
+          Отвязать карту
+        </button>
+        <button type="button" class="payment-card__change-card" id="payment-card-change">
+          Привязать другую карту
+        </button>
+      </div>
+      <div id="payment-card-form-block">
+        <div class="payment-card__form-wrap">
+          <div class="payment-card__field">
+            <label class="payment-card__label" for="payment-card-number">Номер карты</label>
+            <input
+              class="payment-card__input"
+              id="payment-card-number"
+              type="text"
+              inputmode="numeric"
+              autocomplete="cc-number"
+              placeholder="1234 5678 1234 5678"
+              maxlength="23"
+            />
+          </div>
+          <div class="payment-card__row2">
+            <div class="payment-card__field">
+              <label class="payment-card__label" for="payment-card-exp">Месяц/Год</label>
+              <input
+                class="payment-card__input"
+                id="payment-card-exp"
+                type="text"
+                inputmode="numeric"
+                autocomplete="cc-exp"
+                placeholder="ММ/ГГ"
+                maxlength="5"
+              />
+            </div>
+            <div class="payment-card__field">
+              <label class="payment-card__label" for="payment-card-cvv">CVC / CVV</label>
+              <input
+                class="payment-card__input"
+                id="payment-card-cvv"
+                type="password"
+                inputmode="numeric"
+                autocomplete="cc-csc"
+                placeholder="123"
+                maxlength="4"
+              />
+            </div>
+          </div>
+        </div>
+        <button type="button" class="payment-card__submit" id="payment-card-submit">Привязать карту</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="checkout-modal" class="modal checkout-modal" hidden>
+    <div class="modal__backdrop" data-close-checkout tabindex="-1"></div>
+    <div
+      class="modal__box modal__box--checkout"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="checkout-modal-title"
+    >
+      <button type="button" class="payment-card__close" data-close-checkout aria-label="Закрыть">×</button>
+      <h2 id="checkout-modal-title" class="payment-card__title">Оплата заказа</h2>
+      <p class="checkout-modal__total">
+        К оплате: <strong id="checkout-total">0 ₽</strong>
+      </p>
+
+      <div id="checkout-with-card" class="checkout-modal__section" hidden>
+        <p class="checkout-modal__hint">Способ оплаты</p>
+        <div class="checkout-card-picker" role="listbox" aria-label="Карта">
+          <span class="payment-card__linked-icon checkout-card-picker__icon" aria-hidden="true">
+            <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0.5" y="0.5" width="27" height="21" rx="4" stroke="currentColor" stroke-opacity="0.35" />
+              <rect x="0" y="6" width="28" height="5" fill="currentColor" fill-opacity="0.12" />
+              <circle cx="9" cy="15" r="1.5" fill="currentColor" fill-opacity="0.35" />
+              <circle cx="13" cy="15" r="1.5" fill="currentColor" fill-opacity="0.35" />
+            </svg>
+          </span>
+          <span class="checkout-card-picker__mask" id="checkout-card-mask">*0000</span>
+        </div>
+      </div>
+
+      <div id="checkout-without-card" class="checkout-modal__section" hidden>
+        <p class="checkout-modal__hint">Данные карты</p>
+        <div class="payment-card__form-wrap">
+          <div class="payment-card__field">
+            <label class="payment-card__label" for="checkout-card-number">Номер карты</label>
+            <input
+              class="payment-card__input"
+              id="checkout-card-number"
+              type="text"
+              inputmode="numeric"
+              autocomplete="cc-number"
+              placeholder="1234 5678 1234 5678"
+              maxlength="23"
+            />
+          </div>
+          <div class="payment-card__row2">
+            <div class="payment-card__field">
+              <label class="payment-card__label" for="checkout-card-exp">Месяц/Год</label>
+              <input
+                class="payment-card__input"
+                id="checkout-card-exp"
+                type="text"
+                inputmode="numeric"
+                autocomplete="cc-exp"
+                placeholder="ММ/ГГ"
+                maxlength="5"
+              />
+            </div>
+            <div class="payment-card__field">
+              <label class="payment-card__label" for="checkout-card-cvv">CVC / CVV</label>
+              <input
+                class="payment-card__input"
+                id="checkout-card-cvv"
+                type="password"
+                inputmode="numeric"
+                autocomplete="cc-csc"
+                placeholder="123"
+                maxlength="4"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="payment-card__submit" id="checkout-pay-btn">Оплатить</button>
+    </div>
+  </div>
+
+  <div id="profile-settings-modal" class="modal modal--profile-nested" hidden>
+    <div class="modal__backdrop" data-close-settings></div>
+    <div class="modal__box modal__box--profile-settings" role="dialog" aria-modal="true" aria-labelledby="profile-settings-title">
+      <button type="button" class="payment-card__close" data-close-settings aria-label="Закрыть">×</button>
+      <h2 id="profile-settings-title" class="profile-settings__title">Уведомления</h2>
+      <div class="profile-settings__row">
+        <span class="profile-settings__label">Письма на почту</span>
+        <button type="button" class="profile-toggle" id="settings-toggle-email" role="switch" aria-checked="true">
+          <span class="profile-toggle__knob" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="profile-settings__row">
+        <span class="profile-settings__label">Смс</span>
+        <button type="button" class="profile-toggle" id="settings-toggle-sms" role="switch" aria-checked="true">
+          <span class="profile-toggle__knob" aria-hidden="true"></span>
+        </button>
+      </div>
+      <button type="button" class="profile-delete-account" id="profile-delete-account">Удалить аккаунт</button>
+    </div>
+  </div>
+
+  <div id="cart-drawer" class="cart-drawer" aria-hidden="true">
+    <div class="cart-drawer__backdrop" data-close-cart tabindex="-1"></div>
+    <aside
+      class="cart-drawer__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-drawer-heading"
+    >
+      <div class="cart-drawer__top">
+        <h2 id="cart-drawer-heading" class="cart-drawer__title">Корзина</h2>
+        <button type="button" class="cart-drawer__close" data-close-cart aria-label="Закрыть корзину">
+          ×
+        </button>
+      </div>
+      <div class="cart-drawer__scroll">
+        <div class="cart-drawer__address">
+          <button
+            type="button"
+            class="cart-drawer__address-btn cart-drawer__address-btn--open"
+            id="cart-address-btn"
+            aria-expanded="true"
+            aria-controls="cart-address-details"
+          >
+            <span class="cart-drawer__address-label">Ваш адрес</span>
+            <span class="cart-drawer__address-row">
+              <span class="cart-drawer__address-value" id="cart-address-value"></span>
+              <svg class="cart-drawer__chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                <path fill="currentColor" d="M6 8.5L1 3.5h10L6 8.5z" />
+              </svg>
+            </span>
+          </button>
+          <div class="cart-drawer__address-details" id="cart-address-details">
+            <div class="cart-drawer__addr-street-row">
+              <input
+                type="text"
+                id="cart-addr-street"
+                class="cart-drawer__addr-street-input"
+                placeholder="Улица, дом"
+                autocomplete="street-address"
+              />
+              <span class="cart-drawer__addr-street-arrow" aria-hidden="true">›</span>
+            </div>
+            <div class="cart-drawer__addr-grid" role="group" aria-label="Детали адреса">
+              <label class="cart-drawer__addr-field">
+                <span class="cart-drawer__addr-field-label">Квартира</span>
+                <input type="text" id="cart-addr-apt" inputmode="numeric" placeholder="Номер квартиры" />
+              </label>
+              <label class="cart-drawer__addr-field">
+                <span class="cart-drawer__addr-field-label">Домофон</span>
+                <input type="text" id="cart-addr-intercom" inputmode="numeric" placeholder="Код домофона" />
+              </label>
+              <label class="cart-drawer__addr-field">
+                <span class="cart-drawer__addr-field-label">Подъезд</span>
+                <input type="text" id="cart-addr-entrance" inputmode="numeric" placeholder="Номер подъезда" />
+              </label>
+              <label class="cart-drawer__addr-field">
+                <span class="cart-drawer__addr-field-label">Этаж</span>
+                <input type="text" id="cart-addr-floor" inputmode="numeric" placeholder="Этаж" />
+              </label>
+            </div>
+            <label class="cart-drawer__addr-comment-label">
+              <span class="cart-drawer__addr-field-label">Комментарий курьеру</span>
+              <textarea
+                id="cart-addr-comment"
+                class="cart-drawer__addr-comment"
+                rows="2"
+                placeholder="Например: оставить у двери, позвонить за 5 минут"
+              ></textarea>
+            </label>
+            <button type="button" class="cart-drawer__addr-save" id="cart-addr-save">Сохранить</button>
+          </div>
+          <p class="cart-drawer__delivery">Доставка 15 минут</p>
+        </div>
+        <div class="cart-drawer__list" id="cart-drawer-list"></div>
+        <p class="cart-drawer__empty" id="cart-drawer-empty" hidden>
+          В корзине пока пусто — загляните в каталог.
+        </p>
+      </div>
+      <div class="cart-drawer__footer">
+        <p class="cart-drawer__total-label">Итого</p>
+        <p class="cart-drawer__total-value" id="cart-drawer-total">0 ₽</p>
+        <button type="button" class="cart-drawer__continue" id="cart-drawer-continue" disabled>
+          Перейти к оплате
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <div id="product-modal" class="modal modal--product" hidden>
+    <div class="modal__backdrop" data-close-product></div>
+    <div
+      class="modal__box modal__box--product"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="product-modal-title"
+    >
+      <button type="button" class="product-modal__close" data-close-product aria-label="Закрыть">
+        ×
+      </button>
+      <div class="product-modal__body">
+        <div class="product-modal__media">
+          <img
+            id="product-modal-img"
+            src="/snackly/assets/product-smoothie-all-day.png"
+            alt=""
+            width="400"
+            height="400"
+          />
+        </div>
+        <div class="product-modal__content">
+          <h2 id="product-modal-title" class="product-modal__title">
+            Смузи лесные ягоды All Day
+          </h2>
+          <ul id="product-modal-bullets" class="product-modal__bullets" hidden></ul>
+          <p id="product-modal-desc" class="product-modal__desc">
+            Этот ягодный чай готовят из клубники, малины, чёрной смородины и клюквы, которая добавляет вкусу деликатную горечь. Напиток одновременно напоминает газированный лимонад и смузи.
+          </p>
+          <button
+            type="button"
+            id="product-modal-add"
+            class="product-modal__add-btn"
+            data-product-id="smoothie-all-day"
+            aria-label="Добавить в корзину за 329 ₽"
+          >
+            <span id="product-modal-price" class="product-modal__add-price">329 ₽</span>
+            <span class="product-modal__add-plus" aria-hidden="true">+</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="login" class="modal modal--auth" hidden>
+    <div class="modal__backdrop" data-close-auth></div>
+    <div
+      class="modal__box modal__box--auth"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="auth-login-title"
+    >
+      <button type="button" class="auth-modal__close" data-close-auth aria-label="Закрыть">×</button>
+
+      <div id="auth-view-login" class="auth-view">
+        <p class="auth-modal__brand">Snackly</p>
+        <h2 id="auth-login-title" class="auth-modal__title">Добро пожаловать!</h2>
+        <p class="auth-modal__lead">
+          Войдите, чтобы сохранять избранное и быстрее оформлять заказы полезных перекусов.
+        </p>
+        <p id="auth-login-error" class="auth-modal__error" role="alert" hidden></p>
+        <form id="form-login" class="auth-form" novalidate>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="login-email">Эл. почта</label>
+            <input
+              class="auth-form__input"
+              id="login-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="login-password">Пароль</label>
+            <input
+              class="auth-form__input"
+              id="login-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="••••••••"
+              required
+              minlength="6"
+            />
+          </div>
+          <button type="submit" class="btn btn--view auth-form__submit">Войти</button>
+        </form>
+        <p class="auth-modal__switch">
+          Нет аккаунта?
+          <button type="button" class="auth-modal__link" id="auth-show-register">Зарегистрируйтесь</button>
+        </p>
+      </div>
+
+      <div id="auth-view-register" class="auth-view" hidden>
+        <p class="auth-modal__brand">Snackly</p>
+        <h2 id="auth-register-title" class="auth-modal__title">Регистрация</h2>
+        <p class="auth-modal__lead">
+          Создайте аккаунт — будем помнить ваши данные и ускорим повторные заказы.
+        </p>
+        <p id="auth-register-error" class="auth-modal__error" role="alert" hidden></p>
+        <p id="auth-register-success" class="auth-modal__success" role="status" hidden></p>
+        <form id="form-register" class="auth-form" novalidate>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="register-name">Имя</label>
+            <input
+              class="auth-form__input"
+              id="register-name"
+              name="name"
+              type="text"
+              autocomplete="given-name"
+              placeholder="Как к вам обращаться"
+            />
+          </div>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="register-phone">Телефон</label>
+            <input
+              class="auth-form__input"
+              id="register-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="+7 900 000-00-00"
+            />
+          </div>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="register-email">Эл. почта</label>
+            <input
+              class="auth-form__input"
+              id="register-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="register-password">Пароль</label>
+            <input
+              class="auth-form__input"
+              id="register-password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Не менее 6 символов"
+              required
+              minlength="6"
+            />
+          </div>
+          <div class="auth-form__field">
+            <label class="auth-form__label" for="register-password2">Повторите пароль</label>
+            <input
+              class="auth-form__input"
+              id="register-password2"
+              name="password2"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Ещё раз"
+              required
+              minlength="6"
+            />
+          </div>
+          <button type="submit" class="btn btn--view auth-form__submit">Зарегистрироваться</button>
+        </form>
+        <p class="auth-modal__switch">
+          Уже есть аккаунт?
+          <button type="button" class="auth-modal__link" id="auth-show-login">Войти</button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="cart-toast" class="cart-toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <span class="cart-toast__icon" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M20 6L9 17l-5-5"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+    <span class="cart-toast__text">Товар добавлен в корзину</span>
+  </div>
+
+</body>
+</html>

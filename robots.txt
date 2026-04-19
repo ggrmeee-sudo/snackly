@@ -1,0 +1,6 @@
+# Snackly — правила для поисковых роботов
+User-agent: *
+Allow: /
+
+# Основной хост проекта (GitHub Pages)
+Sitemap: https://ggrmeee-sudo.github.io/snackly/sitemap.xml

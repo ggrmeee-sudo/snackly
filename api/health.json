@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "service": "snackly",
+  "channel": "static",
+  "note": "Статическая выкладка (например GitHub Pages). Живой JSON-эндпоинт /api/health доступен при запуске Express."
+}
