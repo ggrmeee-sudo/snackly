@@ -2,8 +2,12 @@ import { closeLoginModal } from "./auth.js";
 import { PRODUCTS } from "./data/products.js";
 import {
   addToCart,
+  cartTotalRub,
   collectDeliveryFromDom,
   finalizeOrderFromCart,
+  formatPriceRub,
+  isDeliveryAddressComplete,
+  isLoggedIn,
   loadCart,
   loadDeliveryAddr,
   renderCartDrawer,
@@ -11,7 +15,8 @@ import {
   saveDeliveryAddr,
   setCartProductQty,
 } from "./cart.js";
-import { showCartToast } from "./toast.js";
+import { getLinkedCard, linkCardFromInputs } from "./payment.js";
+import { showCartToast, showSnacklyToast } from "./toast.js";
 
 function fillDeliveryFieldsFromStorage() {
   var d = loadDeliveryAddr();
@@ -98,15 +103,58 @@ function closeCartDrawer() {
   cartDrawerEl.setAttribute("aria-hidden", "true");
   var prof = document.getElementById("profile-drawer");
   var profileOpen = prof && prof.classList.contains("is-open");
+  var cm = document.getElementById("checkout-modal");
+  var checkoutOpen = cm && !cm.hidden;
   if (!productModal || productModal.hidden) {
     if (!loginModal || loginModal.hidden) {
-      if (!profileOpen) document.body.style.overflow = "";
+      if (!profileOpen && !checkoutOpen) document.body.style.overflow = "";
     }
   }
 }
 
+function closeCheckoutModal() {
+  var m = document.getElementById("checkout-modal");
+  if (!m || m.hidden) return;
+  m.hidden = true;
+  var cartOpen = cartDrawerEl && cartDrawerEl.classList.contains("is-open");
+  var prof = document.getElementById("profile-drawer");
+  var profileOpen = prof && prof.classList.contains("is-open");
+  var lm = document.getElementById("login");
+  var loginOpen = lm && !lm.hidden;
+  var pm = document.getElementById("product-modal");
+  var productOpen = pm && !pm.hidden;
+  if (!cartOpen && !profileOpen && !loginOpen && !productOpen) {
+    document.body.style.overflow = "";
+  }
+}
+
+function openCheckoutModal() {
+  var m = document.getElementById("checkout-modal");
+  if (!m) return;
+  if (!isLoggedIn() || !isDeliveryAddressComplete() || cartTotalRub(loadCart()) <= 0) return;
+  var totalEl = document.getElementById("checkout-total");
+  if (totalEl) totalEl.textContent = formatPriceRub(cartTotalRub(loadCart()));
+  var withCard = document.getElementById("checkout-with-card");
+  var without = document.getElementById("checkout-without-card");
+  var mask = document.getElementById("checkout-card-mask");
+  var linked = getLinkedCard();
+  if (linked) {
+    if (withCard) withCard.hidden = false;
+    if (without) without.hidden = true;
+    if (mask) mask.textContent = "•• " + linked.last2;
+  } else {
+    if (withCard) withCard.hidden = true;
+    if (without) without.hidden = false;
+    if (mask) mask.textContent = "•• 00";
+  }
+  m.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
 function openCartDrawer() {
   if (!cartDrawerEl) return;
+  var cm = document.getElementById("checkout-modal");
+  if (cm && !cm.hidden) cm.hidden = true;
   closeProductModal();
   if (loginModal && !loginModal.hidden) closeLoginModal();
   var pd = document.getElementById("profile-drawer");
@@ -224,8 +272,8 @@ if (cartDrawerEl) {
   if (cartContinue) {
     cartContinue.addEventListener("click", function () {
       if (cartContinue.disabled) return;
-      finalizeOrderFromCart();
       closeCartDrawer();
+      openCheckoutModal();
     });
   }
   var addrBtn = document.getElementById("cart-address-btn");
@@ -257,7 +305,43 @@ if (cartDrawerEl) {
   });
 }
 
+var checkoutModalEl = document.getElementById("checkout-modal");
+var checkoutPayBtn = document.getElementById("checkout-pay-btn");
+if (checkoutModalEl) {
+  checkoutModalEl.querySelectorAll("[data-close-checkout]").forEach(function (el) {
+    el.addEventListener("click", closeCheckoutModal);
+  });
+  checkoutModalEl.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeCheckoutModal();
+  });
+}
+if (checkoutPayBtn) {
+  checkoutPayBtn.addEventListener("click", function () {
+    var without = document.getElementById("checkout-without-card");
+    if (without && !without.hidden) {
+      var n = document.getElementById("checkout-card-number");
+      var ex = document.getElementById("checkout-card-exp");
+      var c = document.getElementById("checkout-card-cvv");
+      var err = linkCardFromInputs(n ? n.value : "", ex ? ex.value : "", c ? c.value : "");
+      if (err) {
+        window.alert(err);
+        return;
+      }
+      if (n) n.value = "";
+      if (ex) ex.value = "";
+      if (c) c.value = "";
+    }
+    if (!finalizeOrderFromCart()) {
+      showSnacklyToast("Не удалось оплатить заказ. Проверьте корзину и адрес доставки.");
+      return;
+    }
+    closeCheckoutModal();
+    showSnacklyToast("Заказ успешно оплачен. Ожидайте доставку.");
+  });
+}
+
 document.addEventListener("snackly-auth-updated", function () {
+  closeCheckoutModal();
   fillDeliveryFieldsFromStorage();
   updateCartAddressSummaryLine();
   renderCartDrawerIfOpen();
@@ -268,6 +352,11 @@ updateCartAddressSummaryLine();
 
 document.addEventListener("keydown", function (e) {
   if (e.key !== "Escape") return;
+  var cm = document.getElementById("checkout-modal");
+  if (cm && !cm.hidden) {
+    closeCheckoutModal();
+    return;
+  }
   if (!cartDrawerEl || !cartDrawerEl.classList.contains("is-open")) return;
   closeCartDrawer();
 });

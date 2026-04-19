@@ -336,6 +336,8 @@ function finalizeOrderFromCart() {
       userEmail: getSessionEmailNorm(),
       totalRub: totalRub,
       items: entries,
+      paid: true,
+      paidAt: new Date().toISOString(),
     });
     localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
   } catch (e) {}

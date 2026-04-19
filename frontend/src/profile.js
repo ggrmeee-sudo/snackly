@@ -1,5 +1,7 @@
 import { formatPriceRub } from "./cart.js";
 import { closeMobileNavIfOpen } from "./landing.js";
+import { getLinkedCard, linkCardFromInputs, removeLinkedCardForEmail } from "./payment.js";
+import { showSnacklyToast } from "./toast.js";
 
 var SESSION_KEY = "snackly-session";
 var USERS_KEY = "snackly-users";
@@ -281,8 +283,28 @@ export function initProfile() {
     });
   }
 
+  function syncPaymentModalView() {
+    var linked = getLinkedCard();
+    var linkedView = document.getElementById("payment-card-linked-view");
+    var formBlock = document.getElementById("payment-card-form-block");
+    var title = document.getElementById("payment-card-title");
+    var mask = document.getElementById("payment-linked-mask");
+    if (!linkedView || !formBlock || !title) return;
+    if (linked) {
+      linkedView.hidden = false;
+      formBlock.hidden = true;
+      title.textContent = "Моя карта";
+      if (mask) mask.textContent = "•• " + linked.last2;
+    } else {
+      linkedView.hidden = true;
+      formBlock.hidden = false;
+      title.textContent = "Новая карта";
+    }
+  }
+
   function openPaymentModal() {
     if (!paymentModal) return;
+    syncPaymentModalView();
     paymentModal.hidden = false;
   }
 
@@ -372,6 +394,7 @@ export function initProfile() {
         return !o || String(o.userEmail || "").toLowerCase() !== e;
       });
       localStorage.setItem(ORDERS_KEY, JSON.stringify(keepOrders));
+      removeLinkedCardForEmail(e);
       localStorage.removeItem(SESSION_KEY);
     } catch (err) {}
     document.dispatchEvent(new CustomEvent("snackly-auth-updated"));
@@ -423,21 +446,39 @@ export function initProfile() {
     });
   }
 
+  var changeCardBtn = document.getElementById("payment-card-change");
+  if (changeCardBtn) {
+    changeCardBtn.addEventListener("click", function () {
+      var linkedView = document.getElementById("payment-card-linked-view");
+      var formBlock = document.getElementById("payment-card-form-block");
+      var title = document.getElementById("payment-card-title");
+      if (linkedView) linkedView.hidden = true;
+      if (formBlock) formBlock.hidden = false;
+      if (title) title.textContent = "Новая карта";
+    });
+  }
+
   var submitCard = document.getElementById("payment-card-submit");
   if (submitCard) {
     submitCard.addEventListener("click", function () {
       var numEl = document.getElementById("payment-card-number");
-      var raw = numEl ? String(numEl.value || "").replace(/\D/g, "") : "";
-      try {
-        if (raw.length >= 4) {
-          localStorage.setItem(
-            "snackly-saved-card",
-            JSON.stringify({ last4: raw.slice(-4) })
-          );
-        }
-      } catch (e) {}
+      var expEl = document.getElementById("payment-card-exp");
+      var cvvEl = document.getElementById("payment-card-cvv");
+      var err = linkCardFromInputs(
+        numEl ? numEl.value : "",
+        expEl ? expEl.value : "",
+        cvvEl ? cvvEl.value : ""
+      );
+      if (err) {
+        window.alert(err);
+        return;
+      }
+      if (numEl) numEl.value = "";
+      if (expEl) expEl.value = "";
+      if (cvvEl) cvvEl.value = "";
+      showSnacklyToast("Карта успешно привязана.");
+      syncPaymentModalView();
       closePaymentModal();
-      window.alert("Карта привязана (демо). Данные не отправлялись.");
     });
   }
 
