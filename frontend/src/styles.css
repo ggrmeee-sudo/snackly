@@ -92,6 +92,9 @@ main#top {
 .header {
   /* Единый размер подписей: центр меню, «Войти», email, «Корзина» */
   --header-nav-font-size: 15px;
+  --header-nav-line-height: 1.2;
+  --header-nav-weight: 500;
+  --header-nav-row-height: 40px;
   background: var(--banner-bg);
   border-bottom: 1px solid rgba(200, 190, 175, 0.45);
   box-shadow: var(--shadow-soft);
@@ -213,21 +216,24 @@ button.nav__link {
 .header .nav__link:not(.nav__link--icon-tile),
 .header .nav__link--icon-tile {
   font-size: var(--header-nav-font-size);
+  font-weight: var(--header-nav-weight);
+  line-height: var(--header-nav-line-height);
+  font-family: inherit;
 }
 
-/* «Войти» / «Корзина»: в один ряд с центральным меню — та же высота строки и базовая линия подписи */
+/* «Войти» / «Профиль»: та же высота ряда и шрифт, что у текстового меню */
 .nav__link--icon-tile {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 8px 16px;
+  min-height: var(--header-nav-row-height);
+  padding: 0 16px;
+  box-sizing: border-box;
   border-radius: 999px;
-  font-weight: 500;
   color: var(--brown-light);
   background: transparent;
-  line-height: 1.25;
   min-width: 0;
   text-align: left;
 }
@@ -318,7 +324,7 @@ button.nav__link {
   }
 
   .nav__link--icon-tile {
-    padding: 6px 10px;
+    padding: 0 10px;
     gap: 5px;
   }
 
@@ -362,7 +368,7 @@ button.nav__link {
   }
 
   .nav__link--icon-tile {
-    padding: 6px 8px;
+    padding: 0 8px;
     gap: 4px;
   }
 
@@ -380,11 +386,20 @@ button.nav__link {
 
 .nav__link:not(.nav__link--icon-tile) {
   color: var(--brown-light);
-  padding: 8px 18px;
   border-radius: 999px;
-  line-height: 1.25;
+  line-height: var(--header-nav-line-height, 1.25);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+}
+
+/* Только центральное меню в шапке (не моб. оверлей): общая высота ряда и шрифт */
+.header .nav--main .nav__link:not(.nav__link--icon-tile) {
+  min-height: var(--header-nav-row-height);
+  padding: 0 18px;
+  box-sizing: border-box;
+  font-weight: var(--header-nav-weight);
+  line-height: var(--header-nav-line-height);
 }
 
 .nav__link:not(.nav__link--icon-tile):hover {
@@ -408,6 +423,7 @@ button.nav__link {
 .nav__link.nav__link--active:not(.nav__link--icon-tile) {
   background: var(--accent);
   color: #fff;
+  font-weight: var(--header-nav-weight, 500);
 }
 
 .nav__link.nav__link--active:not(.nav__link--icon-tile):hover {
