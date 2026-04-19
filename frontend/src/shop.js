@@ -1,4 +1,4 @@
-﻿import { closeLoginModal } from "./auth.js";
+import { closeLoginModal } from "./auth.js";
 import { PRODUCTS } from "./data/products.js";
 import {
   addToCart,
@@ -145,13 +145,12 @@ if (modalAddBtn) {
   });
 }
 
-var cartLink = document.getElementById("cart-link");
-if (cartLink) {
+document.querySelectorAll("[data-open-cart]").forEach(function (cartLink) {
   cartLink.addEventListener("click", function (e) {
     e.preventDefault();
     openCartDrawer();
   });
-}
+});
 
 if (cartDrawerEl) {
   cartDrawerEl.querySelectorAll("[data-close-cart]").forEach(function (el) {

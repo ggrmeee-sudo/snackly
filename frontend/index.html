@@ -24,7 +24,7 @@
         <span class="header__menu-toggle-bar" aria-hidden="true"></span>
         <span class="header__menu-toggle-bar" aria-hidden="true"></span>
       </button>
-      <a class="header__brand" href="#top">
+      <a class="header__brand" href="#home">
         <img
           class="header__logo"
           src="/assets/logo.png"
@@ -33,17 +33,61 @@
         />
       </a>
       <nav class="nav nav--main" aria-label="Разделы сайта">
+        <a class="nav__link nav__link--section" href="#home" data-section="home">Главная</a>
         <a class="nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
         <a class="nav__link nav__link--section" href="#about" data-section="about">О нас</a>
         <a class="nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
       </nav>
       <div class="header__actions">
         <nav class="nav nav--actions" aria-label="Аккаунт и корзина">
-          <a class="nav__link" href="#login" id="nav-auth-open">Войти</a>
-          <span class="nav-auth-logged" id="nav-auth-logged" hidden>
+          <a class="nav__link nav__link--icon-tile" href="#login" id="nav-auth-open">
+            <span class="nav__icon-tile__graphic" aria-hidden="true">
+              <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="12" cy="7" r="3.25" stroke="currentColor" stroke-width="1.2" />
+              </svg>
+            </span>
+            <span class="nav__icon-tile__label">Войти</span>
+          </a>
+          <span class="nav-auth-logged nav-auth-logged--tile" id="nav-auth-logged" hidden>
+            <span class="nav__icon-tile__graphic" aria-hidden="true">
+              <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="12" cy="7" r="3.25" stroke="currentColor" stroke-width="1.2" />
+              </svg>
+            </span>
             <span class="nav-auth-logged__email" id="nav-auth-email" title=""></span>
           </span>
-          <a class="nav__link" href="#cart" id="cart-link" data-open-cart>Корзина (<span id="cart-count">0</span>)</a>
+          <a class="nav__link nav__link--icon-tile" href="#cart" id="cart-link" data-open-cart>
+            <span class="nav__icon-tile__graphic nav__icon-tile__graphic--cart" aria-hidden="true">
+              <svg class="nav__icon-svg" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M2 5h2l1.3 9.2a2 2 0 0 0 2 1.7h9.4a2 2 0 0 0 2-1.6L20 9H6"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path d="M6 5 7 3h0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                <circle cx="9" cy="19" r="1.35" stroke="currentColor" stroke-width="1.2" fill="none" />
+                <circle cx="18" cy="19" r="1.35" stroke="currentColor" stroke-width="1.2" fill="none" />
+              </svg>
+              <span class="nav__cart-badge" id="cart-badge" hidden><span id="cart-count">0</span></span>
+            </span>
+            <span class="nav__icon-tile__label">Корзина</span>
+          </a>
         </nav>
       </div>
     </div>
@@ -55,6 +99,7 @@
           <button type="button" class="mobile-nav__close" data-close-mobile-nav aria-label="Закрыть меню">×</button>
         </div>
         <div class="mobile-nav__links">
+          <a class="mobile-nav__link nav__link nav__link--section" href="#home" data-section="home">Главная</a>
           <a class="mobile-nav__link nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
           <a class="mobile-nav__link nav__link nav__link--section" href="#about" data-section="about">О нас</a>
           <a class="mobile-nav__link nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
@@ -69,20 +114,85 @@
   </header>
 
   <main id="top">
-    <section class="home-hero" aria-labelledby="home-hero-heading">
-      <div class="home-hero__frame">
-        <picture class="home-hero__picture">
-          <source media="(max-width: 720px)" srcset="/assets/home-hero-banner-mobile.png" />
-          <img
-            class="home-hero__banner"
-            src="/assets/home-hero-banner.png"
-            alt="Иллюстрация: перекусы — батончик, напиток, орехи"
-            decoding="async"
-            fetchpriority="high"
-          />
-        </picture>
-        <h1 id="home-hero-heading" class="home-hero__title">Полезные снеки и здоровые перекусы</h1>
-        <a href="#catalog" class="home-hero__cta">Выбрать перекус</a>
+    <section class="home-hero" id="home" aria-labelledby="home-hero-heading">
+      <div class="home-hero__inner">
+        <div class="home-hero__content">
+          <div class="home-hero__intro">
+            <h1 id="home-hero-heading" class="home-hero__title">
+              <span class="home-hero__title-line">Полезные перекусы</span>
+              <span class="home-hero__title-line">на каждый день</span>
+            </h1>
+            <p class="home-hero__subtitle">Вкусно • Натурально • С пользой</p>
+            <p class="home-hero__note">
+              Заряжайся энергией, будь в балансе и выбирай лучшее для своего организма.
+            </p>
+          </div>
+          <div class="home-hero__bottom">
+            <a href="#catalog" class="home-hero__cta">
+              Выбрать перекус
+              <span class="home-hero__cta-arrow" aria-hidden="true">→</span>
+            </a>
+            <ul class="home-hero__features" aria-label="Преимущества продукции">
+              <li class="home-hero__feature">
+                <span class="home-hero__feature-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12 21C7 17 3 12 3 8a6 6 0 0111-3 6 6 0 0111 3c0 4-4 9-9 13"
+                      stroke="currentColor"
+                      stroke-width="1.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path d="M12 21V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                  </svg>
+                </span>
+                <span class="home-hero__feature-text">100% натурально</span>
+              </li>
+              <li class="home-hero__feature">
+                <span class="home-hero__feature-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect
+                      x="5"
+                      y="7"
+                      width="14"
+                      height="12"
+                      rx="2"
+                      stroke="currentColor"
+                      stroke-width="1.4"
+                    />
+                    <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.4" />
+                    <path d="M9 12h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  </svg>
+                </span>
+                <span class="home-hero__feature-text">Без добавленного сахара</span>
+              </li>
+              <li class="home-hero__feature">
+                <span class="home-hero__feature-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8L12 21l8.8-8.8a5.5 5.5 0 000-7.8z"
+                      stroke="currentColor"
+                      stroke-width="1.35"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span class="home-hero__feature-text">Больше пользы, меньше вины</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="home-hero__visual">
+          <div class="home-hero__visual-frame">
+            <img
+              class="home-hero__illu"
+              src="/assets/hero-snacks.png?v=illu2"
+              alt="Иллюстрация: смузи, орехи, батончик и сухофрукты"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+        </div>
       </div>
     </section>
 
@@ -554,6 +664,54 @@
             <p class="review-card__meta">
               <span class="review-card__meta-main">28.11.2024 • Кешью жареный «Семушка»</span>
               <span class="review-card__meta-mass">50 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">С</span>
+              <div>
+                <p class="review-card__name">Светлана Волкова</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">
+              «Курага «Семушка» без серы — мягкая, сладкая, как конфета, но без сахара. Добавляю в овсянку и йогурт, дети просят добавки.»
+            </p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">25.11.2024 • Курага «Семушка»</span>
+              <span class="review-card__meta-mass">150 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">Н</span>
+              <div>
+                <p class="review-card__name">Никита Романов</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">
+              «Батончик FitnesShock с кокосом — не приторный, сытный, после него до обеда не тянет на сладкое. Заказал пробную пачку и сразу взял ещё.»
+            </p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">22.11.2024 • Батончик FitnesShock Hi Protein</span>
+              <span class="review-card__meta-mass">40 г</span>
+            </p>
+          </article>
+          <article class="review-card">
+            <div class="review-card__head">
+              <span class="review-card__avatar" aria-hidden="true">К</span>
+              <div>
+                <p class="review-card__name">Кристина Лебедева</p>
+                <div class="stars" aria-label="5 из 5">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-card__text">
+              «Смузи манго и маракуйя All Day — яркий вкус, как летом. Пью вместо сладкой газировки, бутылка удобно закрывается — можно допить позже.»
+            </p>
+            <p class="review-card__meta">
+              <span class="review-card__meta-main">20.11.2024 • Смузи манго и маракуйя All Day</span>
+              <span class="review-card__meta-mass">300 мл</span>
             </p>
           </article>
         </div>

@@ -1,4 +1,4 @@
-﻿export function closeLoginModal() {
+export function closeLoginModal() {
   var loginModal = document.getElementById("login");
   if (!loginModal) return;
   loginModal.hidden = true;
@@ -66,9 +66,16 @@ export function initAuth() {
     var logged = document.getElementById("nav-auth-logged");
     var emailEl = document.getElementById("nav-auth-email");
     if (!openLink || !logged) return;
+    var mobileLogin = document.getElementById("mobile-nav-login-link");
+    var mobileAccount = document.getElementById("mobile-nav-account");
     if (sess && sess.email) {
       openLink.hidden = true;
       logged.hidden = false;
+      if (mobileLogin) mobileLogin.hidden = true;
+      if (mobileAccount) {
+        mobileAccount.hidden = false;
+        mobileAccount.textContent = sess.email;
+      }
       if (emailEl) {
         var display = sess.name ? String(sess.name).trim() || sess.email : sess.email;
         emailEl.textContent = display.length > 22 ? display.slice(0, 20) + "…" : display;
@@ -77,6 +84,11 @@ export function initAuth() {
     } else {
       openLink.hidden = false;
       logged.hidden = true;
+      if (mobileLogin) mobileLogin.hidden = false;
+      if (mobileAccount) {
+        mobileAccount.hidden = true;
+        mobileAccount.textContent = "";
+      }
     }
   }
 

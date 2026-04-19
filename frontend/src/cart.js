@@ -1,4 +1,4 @@
-﻿import { PRODUCTS } from "./data/products.js";
+import { PRODUCTS } from "./data/products.js";
 
 var CART_STORAGE_KEY = "snackly-cart";
 
@@ -137,9 +137,13 @@ function addToCart(productId) {
 }
 
 function updateCartBadge() {
+  var n = String(cartTotalQty(loadCart()));
   var el = document.getElementById("cart-count");
-  if (!el) return;
-  el.textContent = String(cartTotalQty(loadCart()));
+  if (el) el.textContent = n;
+  var elM = document.getElementById("cart-count-mobile");
+  if (elM) elM.textContent = n;
+  var badge = document.getElementById("cart-badge");
+  if (badge) badge.hidden = n === "0";
 }
 
 export {
