@@ -1937,6 +1937,56 @@ button.catalog-card__price-row:focus-visible {
   border-color: rgba(157, 113, 77, 0.5);
 }
 
+.review-compose__locked {
+  text-align: center;
+  padding: 8px 4px 4px;
+}
+
+.review-compose__locked-msg {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--brown-light);
+}
+
+.review-compose__locked-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.review-compose__link-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--white);
+  box-shadow: var(--shadow-soft);
+  transition: background 0.2s;
+}
+
+.review-compose__link-btn:hover {
+  background: var(--accent-hover);
+}
+
+.review-compose__catalog-link {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--brown);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.review-compose__catalog-link:hover {
+  color: var(--brown-deep);
+}
+
 /* Footer */
 .footer {
   padding: 24px 20px max(100px, calc(88px + env(safe-area-inset-bottom, 0px)));
@@ -3245,7 +3295,7 @@ button.catalog-card__price-row:focus-visible {
 
 .cart-drawer__address-value--placeholder {
   font-weight: 600;
-  color: var(--text-muted);
+  color: #111;
 }
 
 .cart-drawer__address-details {

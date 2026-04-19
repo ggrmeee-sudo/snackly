@@ -1,4 +1,4 @@
-import { syncCartChrome } from "./cart.js";
+import { migrateLegacyOrdersUserEmail, syncCartChrome } from "./cart.js";
 
 export function closeLoginModal() {
   var loginModal = document.getElementById("login");
@@ -201,7 +201,7 @@ export function initAuth() {
         name: user.name || "",
         phone: user.phone || "",
       });
-      updateAuthNav();
+      document.dispatchEvent(new CustomEvent("snackly-auth-updated"));
       formLogin.reset();
       closeLoginModal();
     });
@@ -267,8 +267,11 @@ export function initAuth() {
 
   document.addEventListener("snackly-auth-updated", function () {
     updateAuthNav();
+    syncCartChrome();
+    migrateLegacyOrdersUserEmail();
   });
 
   updateAuthNav();
+  migrateLegacyOrdersUserEmail();
 }
 

@@ -875,7 +875,16 @@
 
         <div class="review-compose" aria-labelledby="review-compose-heading">
           <h2 id="review-compose-heading" class="review-compose__title">Оставить отзыв</h2>
-          <form id="review-compose-form" class="review-compose__form" novalidate>
+          <div id="review-compose-locked" class="review-compose__locked">
+            <p class="review-compose__locked-msg" id="review-compose-locked-text"></p>
+            <div class="review-compose__locked-actions">
+              <button type="button" class="review-compose__link-btn" id="review-compose-open-login">
+                Войти
+              </button>
+              <a href="#catalog" class="review-compose__catalog-link">В каталог</a>
+            </div>
+          </div>
+          <form id="review-compose-form" class="review-compose__form" novalidate hidden>
             <div id="review-compose-fields" class="review-compose__fields">
               <label class="review-compose__label">
                 <span class="review-compose__label-text">Ваше имя</span>
@@ -1174,7 +1183,7 @@
         <p class="cart-drawer__total-label">Итого</p>
         <p class="cart-drawer__total-value" id="cart-drawer-total">0 ₽</p>
         <button type="button" class="cart-drawer__continue" id="cart-drawer-continue" disabled>
-          Продолжить
+          Перейти к оплате
         </button>
       </div>
     </aside>

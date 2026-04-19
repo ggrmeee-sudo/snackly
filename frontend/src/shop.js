@@ -2,50 +2,16 @@ import { closeLoginModal } from "./auth.js";
 import { PRODUCTS } from "./data/products.js";
 import {
   addToCart,
+  collectDeliveryFromDom,
   finalizeOrderFromCart,
   loadCart,
+  loadDeliveryAddr,
   renderCartDrawer,
+  renderCartDrawerIfOpen,
+  saveDeliveryAddr,
   setCartProductQty,
 } from "./cart.js";
 import { showCartToast } from "./toast.js";
-
-var DELIVERY_ADDR_KEY = "snackly-delivery-address";
-
-function defaultDeliveryAddr() {
-  return {
-    street: "",
-    apt: "",
-    intercom: "",
-    entrance: "",
-    floor: "",
-    comment: "",
-  };
-}
-
-function loadDeliveryAddr() {
-  try {
-    var raw = localStorage.getItem(DELIVERY_ADDR_KEY);
-    if (!raw) return defaultDeliveryAddr();
-    var o = JSON.parse(raw);
-    if (!o || typeof o !== "object") return defaultDeliveryAddr();
-    var d = defaultDeliveryAddr();
-    d.street = String(o.street || "");
-    d.apt = String(o.apt || "");
-    d.intercom = String(o.intercom || "");
-    d.entrance = String(o.entrance || "");
-    d.floor = String(o.floor || "");
-    d.comment = String(o.comment || "");
-    return d;
-  } catch (e) {
-    return defaultDeliveryAddr();
-  }
-}
-
-function saveDeliveryAddr(d) {
-  try {
-    localStorage.setItem(DELIVERY_ADDR_KEY, JSON.stringify(d));
-  } catch (e) {}
-}
 
 function fillDeliveryFieldsFromStorage() {
   var d = loadDeliveryAddr();
@@ -63,25 +29,10 @@ function fillDeliveryFieldsFromStorage() {
   });
 }
 
-function readDeliveryFieldsFromInputs() {
-  function val(id) {
-    var el = document.getElementById(id);
-    return el ? String(el.value || "").trim() : "";
-  }
-  return {
-    street: val("cart-addr-street"),
-    apt: val("cart-addr-apt"),
-    intercom: val("cart-addr-intercom"),
-    entrance: val("cart-addr-entrance"),
-    floor: val("cart-addr-floor"),
-    comment: val("cart-addr-comment"),
-  };
-}
-
 function updateCartAddressSummaryLine() {
   var el = document.getElementById("cart-address-value");
   if (!el) return;
-  var d = loadDeliveryAddr();
+  var d = collectDeliveryFromDom();
   var line = String(d.street || "").trim();
   if (!line) {
     el.textContent = "Добавьте адрес доставки";
@@ -166,8 +117,8 @@ function openCartDrawer() {
   cartDrawerEl.classList.add("is-open");
   cartDrawerEl.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
-  renderCartDrawer();
   fillDeliveryFieldsFromStorage();
+  renderCartDrawer();
   updateCartAddressSummaryLine();
 }
 
@@ -289,11 +240,28 @@ if (cartDrawerEl) {
   var saveAddrBtn = document.getElementById("cart-addr-save");
   if (saveAddrBtn) {
     saveAddrBtn.addEventListener("click", function () {
-      saveDeliveryAddr(readDeliveryFieldsFromInputs());
+      saveDeliveryAddr(collectDeliveryFromDom());
       updateCartAddressSummaryLine();
+      renderCartDrawer();
     });
   }
+  cartDrawerEl.addEventListener("input", function (e) {
+    if (!e.target || !e.target.closest || !e.target.closest("#cart-address-details")) return;
+    renderCartDrawerIfOpen();
+    updateCartAddressSummaryLine();
+  });
+  cartDrawerEl.addEventListener("change", function (e) {
+    if (!e.target || !e.target.closest || !e.target.closest("#cart-address-details")) return;
+    renderCartDrawerIfOpen();
+    updateCartAddressSummaryLine();
+  });
 }
+
+document.addEventListener("snackly-auth-updated", function () {
+  fillDeliveryFieldsFromStorage();
+  updateCartAddressSummaryLine();
+  renderCartDrawerIfOpen();
+});
 
 fillDeliveryFieldsFromStorage();
 updateCartAddressSummaryLine();

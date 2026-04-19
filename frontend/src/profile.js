@@ -5,16 +5,30 @@ var SESSION_KEY = "snackly-session";
 var USERS_KEY = "snackly-users";
 var ORDERS_KEY = "snackly-orders";
 var SETTINGS_KEY = "snackly-profile-settings";
-var CONTACT_DRAFT_KEY = "snackly-contact-draft";
+var LEGACY_CONTACT_DRAFT_KEY = "snackly-contact-draft";
+
+function contactDraftStorageKey() {
+  var sess = getSession();
+  var e = sess && sess.email ? String(sess.email).trim().toLowerCase() : "";
+  return e ? "snackly-contact-draft:" + e : null;
+}
 
 function clearContactDraft() {
+  var k = contactDraftStorageKey();
+  if (k) {
+    try {
+      localStorage.removeItem(k);
+    } catch (e) {}
+  }
   try {
-    localStorage.removeItem(CONTACT_DRAFT_KEY);
+    localStorage.removeItem(LEGACY_CONTACT_DRAFT_KEY);
   } catch (e) {}
 }
 
 function saveContactDraftFromForm(form) {
   if (!form) return;
+  var k = contactDraftStorageKey();
+  if (!k) return;
   try {
     var name = document.getElementById("contact-name");
     var phone = document.getElementById("contact-phone");
@@ -24,14 +38,29 @@ function saveContactDraftFromForm(form) {
       phone: phone ? String(phone.value || "") : "",
       message: msg ? String(msg.value || "") : "",
     };
-    localStorage.setItem(CONTACT_DRAFT_KEY, JSON.stringify(o));
+    localStorage.setItem(k, JSON.stringify(o));
   } catch (e) {}
 }
 
 function loadContactDraftToForm(form) {
   if (!form) return;
+  var k = contactDraftStorageKey();
+  if (!k) {
+    form.reset();
+    return;
+  }
   try {
-    var raw = localStorage.getItem(CONTACT_DRAFT_KEY);
+    var raw = localStorage.getItem(k);
+    if (!raw) {
+      var leg = localStorage.getItem(LEGACY_CONTACT_DRAFT_KEY);
+      if (leg) {
+        try {
+          localStorage.setItem(k, leg);
+          localStorage.removeItem(LEGACY_CONTACT_DRAFT_KEY);
+          raw = leg;
+        } catch (e) {}
+      }
+    }
     if (!raw) return;
     var o = JSON.parse(raw);
     if (!o || typeof o !== "object") return;
@@ -100,7 +129,7 @@ function formatPhoneLine(phone) {
   return phone && String(phone).trim() ? String(phone).trim() : "Телефон не указан";
 }
 
-function loadOrders() {
+function loadOrdersAll() {
   try {
     var raw = localStorage.getItem(ORDERS_KEY);
     var a = raw ? JSON.parse(raw) : [];
@@ -108,6 +137,15 @@ function loadOrders() {
   } catch (e) {
     return [];
   }
+}
+
+function ordersForCurrentUser() {
+  var sess = getSession();
+  var e = sess && sess.email ? String(sess.email).trim().toLowerCase() : "";
+  if (!e) return [];
+  return loadOrdersAll().filter(function (o) {
+    return o && String(o.userEmail || "").toLowerCase() === e;
+  });
 }
 
 function loadSettings() {
@@ -200,7 +238,7 @@ export function initProfile() {
   }
 
   function renderOrders() {
-    var orders = loadOrders();
+    var orders = ordersForCurrentUser();
     if (!ordersEmpty || !ordersRail) return;
     if (!orders.length) {
       ordersEmpty.hidden = false;
@@ -329,8 +367,12 @@ export function initProfile() {
         return String(u.email || "").toLowerCase() !== e;
       });
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      var allOrders = loadOrdersAll();
+      var keepOrders = allOrders.filter(function (o) {
+        return !o || String(o.userEmail || "").toLowerCase() !== e;
+      });
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(keepOrders));
       localStorage.removeItem(SESSION_KEY);
-      localStorage.removeItem(ORDERS_KEY);
     } catch (err) {}
     document.dispatchEvent(new CustomEvent("snackly-auth-updated"));
     document.dispatchEvent(new CustomEvent("snackly-orders-updated"));
@@ -455,6 +497,18 @@ export function initProfile() {
 
   document.addEventListener("snackly-orders-updated", function () {
     if (drawer && drawer.classList.contains("is-open")) renderOrders();
+  });
+
+  document.addEventListener("snackly-auth-updated", function () {
+    var cf = document.getElementById("contact-feedback-form");
+    if (cf) {
+      var successBlock = document.getElementById("contact-success-block");
+      var formBlock = document.getElementById("contact-form-block");
+      if (successBlock) successBlock.hidden = true;
+      if (formBlock) formBlock.hidden = false;
+      cf.reset();
+      loadContactDraftToForm(cf);
+    }
   });
 
   document.addEventListener("keydown", function (e) {

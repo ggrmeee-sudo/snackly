@@ -2,6 +2,7 @@
  * Интерактивность лендинга: мобильное меню, подсветка раздела в навигации, фильтр каталога.
  */
 import { PRODUCTS } from "./data/products.js";
+import { getSessionEmailNorm, userHasCompletedPurchase } from "./cart.js";
 
 var SECTION_IDS = ["home", "catalog", "about", "contacts", "reviews"];
 
@@ -389,15 +390,74 @@ function initReviewsSlider() {
   buildDots();
 }
 
+function reviewDraftStorageKey() {
+  var e = getSessionEmailNorm();
+  return e ? "snackly-review-compose-draft:" + e : null;
+}
+
+function clearReviewDraft() {
+  var k = reviewDraftStorageKey();
+  if (k) {
+    try {
+      localStorage.removeItem(k);
+    } catch (e) {}
+  }
+}
+
+function saveReviewDraftFromForm() {
+  if (!userHasCompletedPurchase()) return;
+  var k = reviewDraftStorageKey();
+  if (!k) return;
+  try {
+    var name = document.getElementById("review-compose-name");
+    var product = document.getElementById("review-compose-product");
+    var mass = document.getElementById("review-compose-mass");
+    var text = document.getElementById("review-compose-text");
+    var rating = document.getElementById("review-compose-rating");
+    var o = {
+      name: name ? String(name.value || "") : "",
+      product: product ? String(product.value || "") : "",
+      mass: mass ? String(mass.value || "") : "",
+      text: text ? String(text.value || "") : "",
+      rating: rating ? String(rating.value || "5") : "5",
+    };
+    localStorage.setItem(k, JSON.stringify(o));
+  } catch (e) {}
+}
+
+function loadReviewDraftToForm(setRatingFn) {
+  if (!userHasCompletedPurchase()) return;
+  var k = reviewDraftStorageKey();
+  if (!k) return;
+  try {
+    var raw = localStorage.getItem(k);
+    if (!raw) return;
+    var o = JSON.parse(raw);
+    if (!o || typeof o !== "object") return;
+    var name = document.getElementById("review-compose-name");
+    var product = document.getElementById("review-compose-product");
+    var mass = document.getElementById("review-compose-mass");
+    var text = document.getElementById("review-compose-text");
+    if (name && o.name != null) name.value = String(o.name);
+    if (product && o.product != null) product.value = String(o.product);
+    if (mass && o.mass != null) mass.value = String(o.mass);
+    if (text && o.text != null) text.value = String(o.text);
+    if (setRatingFn && o.rating != null) setRatingFn(o.rating);
+  } catch (e) {}
+}
+
 function initReviewComposeForm() {
   var form = document.getElementById("review-compose-form");
   if (!form) return;
+  var locked = document.getElementById("review-compose-locked");
+  var lockedText = document.getElementById("review-compose-locked-text");
+  var loginBtn = document.getElementById("review-compose-open-login");
   var fieldsBlock = document.getElementById("review-compose-fields");
   var successBlock = document.getElementById("review-compose-success");
   var againBtn = document.getElementById("review-compose-again");
   var ratingInput = document.getElementById("review-compose-rating");
   var starWrap = form.querySelector("[data-review-stars]");
-  if (!fieldsBlock || !successBlock || !ratingInput || !starWrap) return;
+  if (!locked || !fieldsBlock || !successBlock || !ratingInput || !starWrap) return;
 
   var starBtns = starWrap.querySelectorAll("[data-star]");
 
@@ -420,12 +480,55 @@ function initReviewComposeForm() {
 
   setRating(Number(ratingInput.value) || 5);
 
+  function syncReviewGate() {
+    var email = getSessionEmailNorm();
+    successBlock.hidden = true;
+    fieldsBlock.hidden = false;
+    if (!email) {
+      locked.hidden = false;
+      form.hidden = true;
+      if (lockedText) {
+        lockedText.textContent =
+          "Войдите в аккаунт — черновик отзыва сохраняется только для вашего профиля. После покупки вы сможете отправить отзыв на модерацию.";
+      }
+      if (loginBtn) loginBtn.hidden = false;
+      return;
+    }
+    if (!userHasCompletedPurchase()) {
+      locked.hidden = false;
+      form.hidden = true;
+      if (lockedText) {
+        lockedText.textContent =
+          "Оставить отзыв можно после покупки любого товара. Оформите заказ в корзине и вернитесь сюда.";
+      }
+      if (loginBtn) loginBtn.hidden = true;
+      return;
+    }
+    locked.hidden = true;
+    form.hidden = false;
+    if (loginBtn) loginBtn.hidden = true;
+    loadReviewDraftToForm(setRating);
+  }
+
+  syncReviewGate();
+
+  var draftTimer;
+  function queueReviewDraftSave() {
+    if (form.hidden) return;
+    window.clearTimeout(draftTimer);
+    draftTimer = window.setTimeout(saveReviewDraftFromForm, 320);
+  }
+  form.addEventListener("input", queueReviewDraftSave);
+  form.addEventListener("change", queueReviewDraftSave);
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    if (form.hidden || !userHasCompletedPurchase()) return;
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
+    clearReviewDraft();
     fieldsBlock.hidden = true;
     successBlock.hidden = false;
   });
@@ -436,8 +539,19 @@ function initReviewComposeForm() {
       fieldsBlock.hidden = false;
       form.reset();
       setRating(5);
+      loadReviewDraftToForm(setRating);
     });
   }
+
+  if (loginBtn) {
+    loginBtn.addEventListener("click", function () {
+      var nav = document.getElementById("nav-auth-open");
+      if (nav) nav.click();
+    });
+  }
+
+  document.addEventListener("snackly-auth-updated", syncReviewGate);
+  document.addEventListener("snackly-orders-updated", syncReviewGate);
 }
 
 export function initLanding() {
