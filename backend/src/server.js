@@ -39,7 +39,7 @@ if (hasBuiltClient) {
   app.use(express.static(frontendDist, { index: "index.html", extensions: ["html"] }));
 } else {
   console.warn(
-    "[snackly] Нет frontend/dist — запустите сборку: npm run build:client\n" +
+    "[snackly] Нет frontend/dist — из корня: npm run build\n" +
       "  В разработке UI: npm run dev:client (Vite, порт 5173)"
   );
 }

@@ -1,6 +1,6 @@
 /**
  * Snackly (@SnacklySvetaBot) — ответы на команды + пересылка текста админу (если задан TELEGRAM_ADMIN_CHAT_ID).
- * Токен и id админа — только в корневом .env (файл в .gitignore), см. telegram-bot.env.example
+ * Токен и id админа — в корневом .env (не в git), шаблон: backend/env.example
  */
 
 (function loadEnvFile() {
@@ -206,7 +206,7 @@ function formatUserLine(from) {
 function main() {
   if (!token || !token.includes(":")) {
     console.error(
-      "[telegram-bot] Создайте в корне проекта файл .env с TELEGRAM_BOT_TOKEN=... (см. telegram-bot.env.example)"
+      "[telegram-bot] Создайте в корне проекта файл .env с TELEGRAM_BOT_TOKEN=... (см. backend/env.example)"
     );
     process.exit(1);
   }
