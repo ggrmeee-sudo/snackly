@@ -858,25 +858,25 @@ main#top {
   mask-size: 100% 100%;
 }
 
-/* Телефоны и узкие планшеты: одна колонка, перенос заголовка, без обрезки текста */
+/* ≤900px: две колонки — контент слева, картинка справа; компактные отступы под телефон */
 @media (max-width: 900px) {
   .home-hero__inner {
-    grid-template-columns: minmax(0, 1fr);
-    align-content: start;
-    align-items: stretch;
-    gap: clamp(18px, 3.5vh, 28px);
-    padding-left: max(18px, env(safe-area-inset-left, 0px));
-    padding-right: max(18px, env(safe-area-inset-right, 0px));
-    padding-block: clamp(20px, 4vh, 40px) clamp(24px, 4.5vh, 44px);
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-content: center;
+    align-items: center;
+    gap: clamp(8px, 2.2vw, 18px);
+    padding-left: max(14px, env(safe-area-inset-left, 0px));
+    padding-right: max(14px, env(safe-area-inset-right, 0px));
+    padding-block: clamp(16px, 3.5vh, 36px) clamp(20px, 4vh, 40px);
     min-height: calc(100svh - var(--header-band-height));
   }
 
   .home-hero__content {
-    order: 1;
     min-width: 0;
     max-width: 100%;
-    padding-right: 0;
-    gap: clamp(22px, 4vh, 36px);
+    padding-right: clamp(4px, 1.5vw, 10px);
+    gap: clamp(16px, 3.2vh, 28px);
   }
 
   .home-hero__intro {
@@ -886,8 +886,8 @@ main#top {
 
   .home-hero__title {
     margin-top: 0;
-    font-size: clamp(1.45rem, 5.2vw + 0.32rem, 2.2rem);
-    letter-spacing: 0.04em;
+    font-size: clamp(1.2rem, 3.8vw + 0.45rem, 1.95rem);
+    letter-spacing: 0.035em;
     line-height: 1.12;
     flex-direction: column;
     align-items: flex-start;
@@ -950,25 +950,26 @@ main#top {
   }
 
   .home-hero__visual {
-    order: 2;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     min-width: 0;
   }
 
   .home-hero__visual-frame {
-    justify-content: center;
+    justify-content: flex-end;
     max-width: 100%;
   }
 
   .home-hero__illu {
-    width: 100%;
-    max-width: min(100%, 400px);
+    width: auto;
+    max-width: 100%;
     height: auto;
-    max-height: min(48vh, 360px);
-    margin: 0 auto;
-    object-position: center center;
-    transform: none;
+    max-height: min(56vh, 300px);
+    margin: 0;
+    margin-left: auto;
+    object-fit: contain;
+    object-position: 100% center;
+    transform: translateX(2%);
     -webkit-mask-image: radial-gradient(
       ellipse 118% 112% at 50% 50%,
       #000 18%,
