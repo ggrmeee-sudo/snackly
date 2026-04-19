@@ -1685,8 +1685,10 @@ button.catalog-card__price-row:focus-visible {
   color: var(--text-muted);
 }
 
-/* Плавающая сводка корзины — белая карточка с суммой и доставкой */
+/* Плавающая сводка корзины — капсула (как референс), светло-коричневый фон */
 .cart-summary-pill {
+  --cart-pill-bg: #e3d4c4;
+  --cart-pill-bg-hover: #d9c8b6;
   position: fixed;
   right: max(16px, env(safe-area-inset-right, 0px));
   bottom: max(24px, env(safe-area-inset-bottom, 0px));
@@ -1695,26 +1697,28 @@ button.catalog-card__price-row:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  min-width: min(200px, calc(100vw - 32px));
-  max-width: min(280px, calc(100vw - 32px));
+  gap: 4px;
+  min-width: min(168px, calc(100vw - 32px));
+  max-width: min(300px, calc(100vw - 32px));
   margin: 0;
-  padding: 16px 20px;
-  border: none;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  padding: 12px 26px;
+  border: 1px solid rgba(90, 72, 58, 0.12);
+  border-radius: 9999px;
+  background: var(--cart-pill-bg);
+  box-shadow: 0 3px 16px rgba(45, 38, 32, 0.12);
   font: inherit;
   cursor: pointer;
   text-align: center;
   transition:
     transform 0.15s,
-    box-shadow 0.15s;
+    box-shadow 0.15s,
+    background 0.15s;
 }
 
 .cart-summary-pill:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  background: var(--cart-pill-bg-hover);
+  box-shadow: 0 5px 20px rgba(45, 38, 32, 0.16);
 }
 
 .cart-summary-pill:focus-visible {
@@ -1727,16 +1731,18 @@ button.catalog-card__price-row:focus-visible {
 }
 
 .cart-summary-pill__price {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #333;
+  color: var(--brown);
   font-variant-numeric: tabular-nums;
+  line-height: 1.2;
 }
 
 .cart-summary-pill__delivery {
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: #888;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(90, 78, 68, 0.82);
+  line-height: 1.3;
 }
 
 /* Modal */
