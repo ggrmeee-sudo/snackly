@@ -8,7 +8,6 @@
 |--------|------------|
 | **`frontend/`** | Сайт: Vite, Vue 3 (точечно), ES-модули, `index.html`, `public/` (ассеты, `robots.txt`, `sitemap.xml`). |
 | **`backend/`** | Express: раздача `frontend/dist`, `GET /api/health`. Скрипт Telegram-бота и ассеты бота в `backend/assets/telegram-bot/`. |
-| **`.github/workflows/`** | Публикация клиента на GitHub Pages при push в `main`. |
 
 Корневой **`package.json`** — общие команды (`dev`, `build`, `bot:telegram`).
 
@@ -22,7 +21,9 @@ npm start             # только Express (нужен собранный fron
 npm run bot:telegram  # бот (токен в .env в корне, см. backend/env.example)
 ```
 
-**Сайт (после CI):** https://ggrmeee-sudo.github.io/snackly/
+**Публичный сайт (GitHub Pages):** https://ggrmeee-sudo.github.io/snackly/ — после изменений: `npm run build`, затем опубликуйте `frontend/dist` (ветка `gh-pages` или действие в настройках репозитория **Pages**).
+
+**`.cursor/`** — только локально для Cursor; в git не попадает (см. `.gitignore`). Каталог можно удалить у себя на диске, на проект это не влияет.
 
 ## Конфигурация бота
 
