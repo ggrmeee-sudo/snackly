@@ -3,7 +3,7 @@
  */
 import { PRODUCTS } from "./data/products.js";
 
-var SECTION_IDS = ["home", "catalog", "about", "reviews"];
+var SECTION_IDS = ["home", "catalog", "about", "contacts", "reviews"];
 
 function getNavLinks() {
   return document.querySelectorAll(".nav__link--section");
@@ -78,9 +78,7 @@ function closeMobileNav(mobileNav, toggle) {
   var productOpen = pm && !pm.hidden;
   var prof = document.getElementById("profile-drawer");
   var profileOpen = prof && prof.classList.contains("is-open");
-  var contactModal = document.getElementById("contact-modal");
-  var contactOpen = contactModal && !contactModal.hidden;
-  if (!open && !loginOpen && !productOpen && !profileOpen && !contactOpen) {
+  if (!open && !loginOpen && !productOpen && !profileOpen) {
     document.body.style.overflow = "";
   }
 }

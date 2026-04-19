@@ -108,7 +108,6 @@ export function initProfile() {
   var ordersRail = document.getElementById("profile-orders-rail");
   var paymentModal = document.getElementById("profile-payment-modal");
   var settingsModal = document.getElementById("profile-settings-modal");
-  var contactModal = document.getElementById("contact-modal");
   var toggleEmail = document.getElementById("settings-toggle-email");
   var toggleSms = document.getElementById("settings-toggle-sms");
 
@@ -116,7 +115,6 @@ export function initProfile() {
     var sess = getSession();
     if (!sess || !sess.email) return;
     if (!drawer) return;
-    if (contactModal) contactModal.hidden = true;
     closeMobileNavIfOpen();
     var cd = document.getElementById("cart-drawer");
     if (cd && cd.classList.contains("is-open")) {
@@ -142,8 +140,7 @@ export function initProfile() {
     var lm = document.getElementById("login");
     var loginOpen = lm && !lm.hidden;
     var profileOpen = drawer && drawer.classList.contains("is-open");
-    var contactOpen = contactModal && !contactModal.hidden;
-    if (!cartOpen && !productOpen && !loginOpen && !profileOpen && !contactOpen) {
+    if (!cartOpen && !productOpen && !loginOpen && !profileOpen) {
       document.body.style.overflow = "";
     }
   }
@@ -240,18 +237,16 @@ export function initProfile() {
     if (form) form.reset();
   }
 
-  function openContactModal() {
-    if (!contactModal) return;
+  function goToContactsSection() {
     closeMobileNavIfOpen();
+    closeProfileDrawer();
     resetContactForm();
-    contactModal.hidden = false;
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeContactModal() {
-    if (!contactModal) return;
-    contactModal.hidden = true;
-    bodyOverflowFromDrawers();
+    var el = document.getElementById("contacts");
+    if (!el) return;
+    window.location.hash = "contacts";
+    window.requestAnimationFrame(function () {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   }
 
   function toggleFromButton(btn) {
@@ -272,7 +267,6 @@ export function initProfile() {
     closeProfileDrawer();
     closePaymentModal();
     closeSettingsModal();
-    closeContactModal();
   }
 
   function deleteAccount() {
@@ -295,7 +289,6 @@ export function initProfile() {
     document.dispatchEvent(new CustomEvent("snackly-orders-updated"));
     closeProfileDrawer();
     closeSettingsModal();
-    closeContactModal();
   }
 
   if (profileBtn) {
@@ -319,12 +312,12 @@ export function initProfile() {
   if (payBtn) payBtn.addEventListener("click", openPaymentModal);
   var setBtn = document.getElementById("profile-open-settings");
   if (setBtn) setBtn.addEventListener("click", openSettingsModal);
-  document.querySelectorAll("[data-open-contact]").forEach(function (el) {
-    el.addEventListener("click", function (e) {
-      e.preventDefault();
-      openContactModal();
+  var profileContactBtn = document.getElementById("profile-open-contact");
+  if (profileContactBtn) {
+    profileContactBtn.addEventListener("click", function () {
+      goToContactsSection();
     });
-  });
+  }
 
   var logoutBtn = document.getElementById("profile-logout-btn");
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
@@ -379,12 +372,10 @@ export function initProfile() {
     });
   }
 
-  if (contactModal) {
-    contactModal.querySelectorAll("[data-close-contact]").forEach(function (el) {
-      el.addEventListener("click", closeContactModal);
-    });
-    contactModal.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeContactModal();
+  var contactSuccessDismiss = document.getElementById("contact-success-dismiss");
+  if (contactSuccessDismiss) {
+    contactSuccessDismiss.addEventListener("click", function () {
+      resetContactForm();
     });
   }
 
@@ -409,10 +400,6 @@ export function initProfile() {
 
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
-    if (contactModal && !contactModal.hidden) {
-      closeContactModal();
-      return;
-    }
     if (settingsModal && !settingsModal.hidden) {
       closeSettingsModal();
       return;
