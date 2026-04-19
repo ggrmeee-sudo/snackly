@@ -2746,7 +2746,7 @@ button.catalog-card__price-row:focus-visible {
 }
 
 .payment-card__title {
-  margin: 0 40px 18px 0;
+  margin: 0 48px 18px;
   text-align: center;
   font-size: 1.1rem;
   font-weight: 700;
@@ -2789,38 +2789,6 @@ button.catalog-card__price-row:focus-visible {
   gap: 12px;
 }
 
-.payment-card__cvv-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.payment-card__cvv-wrap .payment-card__input {
-  flex: 1 1 auto;
-}
-
-.payment-card__hint-icon {
-  flex-shrink: 0;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: #f0ebe3;
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.payment-card__disclaimer {
-  margin: 14px 0 16px;
-  text-align: center;
-  font-size: 0.75rem;
-  line-height: 1.45;
-  color: var(--text-muted);
-}
-
 .payment-card__submit {
   width: 100%;
   padding: 14px 20px;
@@ -2843,34 +2811,6 @@ button.catalog-card__price-row:focus-visible {
 
 .payment-card__submit:active {
   transform: scale(0.99);
-}
-
-.payment-card__footer {
-  padding: 14px 8px 0;
-  border-top: 1px solid rgba(235, 230, 222, 0.95);
-  background: linear-gradient(180deg, #f7f5f1 0%, #fff 100%);
-  margin: 0 -20px -20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 18px;
-  border-radius: 0 0 20px 20px;
-}
-
-.payment-card__logos {
-  margin: 0 0 10px;
-  text-align: center;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-}
-
-.payment-card__legal {
-  margin: 0;
-  font-size: 0.72rem;
-  line-height: 1.45;
-  color: var(--text-muted);
-  text-align: center;
 }
 
 .payment-card__linked-view {
@@ -2980,14 +2920,6 @@ button.catalog-card__price-row:focus-visible {
 
 .checkout-modal__section {
   margin-bottom: 16px;
-}
-
-.checkout-modal__mini-disclaimer {
-  margin-top: 12px;
-}
-
-.checkout-modal__footer {
-  margin-top: 8px;
 }
 
 .checkout-card-picker {

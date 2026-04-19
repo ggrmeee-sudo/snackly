@@ -108,3 +108,18 @@ export function removeLinkedCardForEmail(emailNorm) {
 export function unlinkLinkedCard() {
   removeLinkedCardForEmail(getSessionEmailNorm());
 }
+
+/** ММ/ГГ: слэш подставляется при вводе (поля payment-card-exp, checkout-card-exp). */
+export function initCardExpiryAutoSlash() {
+  function bind(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", function () {
+      var d = el.value.replace(/\D/g, "").slice(0, 4);
+      if (d.length >= 2) el.value = d.slice(0, 2) + "/" + d.slice(2);
+      else el.value = d;
+    });
+  }
+  bind("payment-card-exp");
+  bind("checkout-card-exp");
+}

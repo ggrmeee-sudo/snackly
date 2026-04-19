@@ -1072,31 +1072,19 @@
             </div>
             <div class="payment-card__field">
               <label class="payment-card__label" for="payment-card-cvv">CVC / CVV</label>
-              <div class="payment-card__cvv-wrap">
-                <input
-                  class="payment-card__input"
-                  id="payment-card-cvv"
-                  type="password"
-                  inputmode="numeric"
-                  autocomplete="cc-csc"
-                  placeholder="123"
-                  maxlength="4"
-                />
-                <span class="payment-card__hint-icon" title="Три цифры на обороте карты" aria-hidden="true">?</span>
-              </div>
+              <input
+                class="payment-card__input"
+                id="payment-card-cvv"
+                type="password"
+                inputmode="numeric"
+                autocomplete="cc-csc"
+                placeholder="123"
+                maxlength="4"
+              />
             </div>
           </div>
         </div>
-        <p class="payment-card__disclaimer">
-          При привязке карты деньги не спишутся. Данные будут храниться на стороне банка (демо).
-        </p>
         <button type="button" class="payment-card__submit" id="payment-card-submit">Привязать карту</button>
-      </div>
-      <div class="payment-card__footer">
-        <p class="payment-card__logos" aria-hidden="true">VISA · Mastercard · Maestro · МИР</p>
-        <p class="payment-card__legal">
-          Оплата защищена шифрованием. В демо-режиме данные карты никуда не отправляются.
-        </p>
       </div>
     </div>
   </div>
@@ -1160,33 +1148,21 @@
             </div>
             <div class="payment-card__field">
               <label class="payment-card__label" for="checkout-card-cvv">CVC / CVV</label>
-              <div class="payment-card__cvv-wrap">
-                <input
-                  class="payment-card__input"
-                  id="checkout-card-cvv"
-                  type="password"
-                  inputmode="numeric"
-                  autocomplete="cc-csc"
-                  placeholder="123"
-                  maxlength="4"
-                />
-                <span class="payment-card__hint-icon" title="Три цифры на обороте карты" aria-hidden="true">?</span>
-              </div>
+              <input
+                class="payment-card__input"
+                id="checkout-card-cvv"
+                type="password"
+                inputmode="numeric"
+                autocomplete="cc-csc"
+                placeholder="123"
+                maxlength="4"
+              />
             </div>
           </div>
         </div>
-        <p class="payment-card__disclaimer checkout-modal__mini-disclaimer">
-          При оплате деньги не спишутся сверх суммы заказа (демо). Полный номер карты не сохраняется — только четыре последние цифры.
-        </p>
       </div>
 
       <button type="button" class="payment-card__submit" id="checkout-pay-btn">Оплатить</button>
-      <div class="payment-card__footer checkout-modal__footer">
-        <p class="payment-card__logos" aria-hidden="true">VISA · Mastercard · Maestro · МИР</p>
-        <p class="payment-card__legal">
-          Оплата защищена шифрованием. В демо-режиме данные карты никуда не отправляются.
-        </p>
-      </div>
     </div>
   </div>
 
