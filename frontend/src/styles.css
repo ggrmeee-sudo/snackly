@@ -1,6 +1,8 @@
 :root {
   /* высота шапки + рамка: чтобы герой заполнял экран и каталог не попадал above the fold */
   --header-band-height: 80px;
+  /* Отступ снизу для тостов: плашка корзины (~72px) + её bottom (~20px) + зазор */
+  --cart-pill-clearance: 104px;
   --banner-bg: #f9f7f2;
   --bg: #ebe4d8;
   --cream: #f5f0e6;
@@ -37,7 +39,7 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   max-width: 100%;
 }
@@ -59,7 +61,7 @@ body {
   min-height: 100dvh;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  overflow-x: hidden;
+  /* Не задаём overflow-x на body — иначе в Safari ломается position:sticky у шапки */
   width: 100%;
   max-width: 100%;
   position: relative;
@@ -68,6 +70,7 @@ body {
 main#top {
   min-width: 0;
   max-width: 100%;
+  overflow-x: clip;
 }
 
 .container {
@@ -104,9 +107,11 @@ main#top {
   background: var(--banner-bg);
   border-bottom: 1px solid rgba(200, 190, 175, 0.45);
   box-shadow: var(--shadow-soft);
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 120;
+  width: 100%;
 }
 
 .header__inner {
@@ -3761,7 +3766,7 @@ button.catalog-card__price-row:focus-visible {
 .cart-toast {
   --toast-shift-x: -50%;
   position: fixed;
-  bottom: 28px;
+  bottom: calc(var(--cart-pill-clearance) + env(safe-area-inset-bottom, 0px));
   left: 50%;
   z-index: 300;
   display: flex;
@@ -3822,22 +3827,29 @@ button.catalog-card__price-row:focus-visible {
 }
 
 @media (max-width: 520px) {
+  :root {
+    --cart-pill-clearance: 112px;
+  }
+
   .cart-toast {
-    --toast-shift-x: 0;
-    left: max(12px, env(safe-area-inset-left, 0px));
-    right: max(92px, calc(12px + env(safe-area-inset-right, 0px)));
-    width: auto;
-    max-width: none;
-    bottom: max(22px, env(safe-area-inset-bottom, 0px));
+    --toast-shift-x: -50%;
+    left: 50%;
+    right: auto;
+    width: max-content;
+    max-width: calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+    bottom: calc(var(--cart-pill-clearance) + env(safe-area-inset-bottom, 0px));
     padding: 10px 14px;
     font-size: 0.84rem;
     border-radius: 12px;
   }
 
   .cart-toast.cart-toast--notice {
+    --toast-shift-x: 0;
     left: max(12px, env(safe-area-inset-left, 0px));
     right: max(12px, env(safe-area-inset-right, 0px));
-    bottom: max(96px, calc(88px + env(safe-area-inset-bottom, 0px)));
+    width: auto;
+    max-width: none;
+    bottom: calc(var(--cart-pill-clearance) + env(safe-area-inset-bottom, 0px));
     padding: 11px 14px;
   }
 }
