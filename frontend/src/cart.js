@@ -1,4 +1,6 @@
 import { PRODUCTS } from "./data/products.js";
+import { patchClientState } from "./clientStore.js";
+import { isCartPillVueActive } from "./reactiveCartPill.js";
 
 var CART_STORAGE_KEY = "snackly-cart";
 var SESSION_KEY = "snackly-session";
@@ -304,10 +306,20 @@ function syncCartChrome() {
   var cart = loadCart();
   var qty = cartTotalQty(cart);
   var show = isLoggedIn() && qty > 0;
+  var totalRub = cartTotalRub(cart);
+  var formatted = formatPriceRub(totalRub);
   var pill = document.getElementById("cart-summary-pill");
-  var pillTotal = document.getElementById("cart-summary-pill-total");
   if (pill) pill.hidden = !show;
-  if (pillTotal) pillTotal.textContent = formatPriceRub(cartTotalRub(cart));
+  patchClientState({
+    isLoggedIn: isLoggedIn(),
+    cartQuantity: qty,
+    cartTotalRub: totalRub,
+    cartTotalFormatted: formatted,
+  });
+  if (!isCartPillVueActive()) {
+    var pillTotal = document.getElementById("cart-summary-pill-total");
+    if (pillTotal) pillTotal.textContent = formatted;
+  }
 }
 
 function finalizeOrderFromCart() {
