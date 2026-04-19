@@ -243,16 +243,15 @@ export function initAuth() {
         phone: phone,
       });
       saveUsers(users);
-      if (okRegister) {
-        okRegister.textContent =
-          "Аккаунт создан! Теперь можно войти с этой почтой и паролем.";
-        okRegister.hidden = false;
-      }
+      if (okRegister) okRegister.hidden = true;
       formRegister.reset();
-      document.getElementById("login-email").value = email;
-      showAuthView("login");
-      var lp = document.getElementById("login-password");
-      if (lp) lp.focus();
+      setSession({
+        email: email,
+        name: name || "",
+        phone: phone || "",
+      });
+      document.dispatchEvent(new CustomEvent("snackly-auth-updated"));
+      closeLoginModal();
     });
   }
 
