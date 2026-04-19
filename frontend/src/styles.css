@@ -3272,6 +3272,23 @@ button.catalog-card__price-row:focus-visible {
   color: rgba(90, 82, 74, 0.88);
 }
 
+.contact-modal__inline-link {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contact-modal__inline-link:hover {
+  color: var(--accent-hover);
+}
+
+.contact-modal__inline-link:focus-visible {
+  outline: 2px solid var(--accent-hover);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
 .contact-modal__form {
   margin-top: 4px;
 }
