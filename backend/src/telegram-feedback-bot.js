@@ -9,7 +9,8 @@
     var path = require("path");
     var p = path.join(__dirname, "..", "..", ".env");
     if (!fs.existsSync(p)) return;
-    fs.readFileSync(p, "utf8").split(/\r?\n/).forEach(function (line) {
+    var raw = fs.readFileSync(p, "utf8").replace(/^\uFEFF/, "");
+    raw.split(/\r?\n/).forEach(function (line) {
       line = line.trim();
       if (!line || line[0] === "#") return;
       var i = line.indexOf("=");
@@ -22,7 +23,8 @@
       ) {
         v = v.slice(1, -1);
       }
-      if (k && process.env[k] === undefined) process.env[k] = v;
+      /* Пустая строка в process.env (часто Windows) не даёт подставить значение из .env */
+      if (k && (process.env[k] === undefined || process.env[k] === "")) process.env[k] = v;
     });
   } catch (e) {
     /* ignore */
