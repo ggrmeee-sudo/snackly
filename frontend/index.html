@@ -20,23 +20,6 @@
           decoding="async"
         />
       </a>
-      <div class="header__search" role="search">
-        <label class="visually-hidden" for="header-search">Искать в Snackly</label>
-        <span class="header__search-icon" aria-hidden="true">
-          <svg class="header__search-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6" />
-            <path d="M16 16l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-          </svg>
-        </span>
-        <input
-          type="search"
-          id="header-search"
-          class="header__search-input"
-          placeholder="Искать в Snackly"
-          autocomplete="off"
-          enterkeyhint="search"
-        />
-      </div>
       <nav class="nav nav--main" aria-label="Разделы сайта">
         <a class="nav__link nav__link--section" href="#home" data-section="home">Главная</a>
         <a class="nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
@@ -83,7 +66,7 @@
           </a>
           <button
             type="button"
-            class="nav__link nav__link--icon-tile nav__link--cart-oval"
+            class="nav__link nav__link--icon-tile"
             id="cart-link"
             data-open-cart
             hidden
@@ -141,7 +124,7 @@
           </button>
           <button
             type="button"
-            class="mobile-nav__cart-oval"
+            class="mobile-nav__link mobile-nav__link--btn"
             id="mobile-nav-cart-link"
             data-open-cart
             hidden
@@ -241,7 +224,7 @@
     <section id="catalog" class="catalog-block" aria-labelledby="catalog-heading">
       <div class="container">
         <h2 id="catalog-heading" class="catalog-block__title">Выберите свой перекус</h2>
-        <div class="catalog-toolbar catalog-toolbar--grid">
+        <div class="catalog-toolbar catalog-toolbar--one-line">
           <div class="catalog-toolbar__search">
             <div class="catalog-mini-search" role="search">
               <label class="visually-hidden" for="catalog-search">Поиск по названию</label>
@@ -260,15 +243,6 @@
               />
             </div>
           </div>
-          <div class="catalog-toolbar__sort">
-            <label class="catalog-sort__label" for="catalog-sort">Сортировать:</label>
-            <select id="catalog-sort" class="catalog-sort__select" aria-label="Сортировка каталога">
-              <option value="default" selected>По умолчанию</option>
-              <option value="price-asc">Цена по возрастанию</option>
-              <option value="price-desc">Цена по убыванию</option>
-              <option value="name-asc">Название: А-Я</option>
-            </select>
-          </div>
           <div class="catalog-toolbar__chips">
             <p id="catalog-filter-label" class="visually-hidden">Фильтр по категории товаров</p>
             <div class="catalog-filter" role="group" aria-labelledby="catalog-filter-label">
@@ -285,6 +259,15 @@
                 Орехи и сухофрукты
               </button>
             </div>
+          </div>
+          <div class="catalog-toolbar__sort">
+            <label class="catalog-sort__label" for="catalog-sort">Сортировать:</label>
+            <select id="catalog-sort" class="catalog-sort__select" aria-label="Сортировка каталога">
+              <option value="default" selected>По умолчанию</option>
+              <option value="price-asc">Цена по возрастанию</option>
+              <option value="price-desc">Цена по убыванию</option>
+              <option value="name-asc">Название: А-Я</option>
+            </select>
           </div>
           <p class="catalog-filter__status" id="catalog-filter-status" aria-live="polite"></p>
         </div>
@@ -974,11 +957,27 @@
         <form id="contact-feedback-form" class="auth-form contact-modal__form" novalidate>
           <div class="auth-form__field">
             <label class="auth-form__label" for="contact-name">Имя</label>
-            <input class="auth-form__input" id="contact-name" name="name" type="text" autocomplete="name" required />
+            <input
+              class="auth-form__input"
+              id="contact-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              placeholder="Как к вам обращаться"
+              required
+            />
           </div>
           <div class="auth-form__field">
             <label class="auth-form__label" for="contact-phone">Номер телефона</label>
-            <input class="auth-form__input" id="contact-phone" name="phone" type="tel" autocomplete="tel" required />
+            <input
+              class="auth-form__input"
+              id="contact-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="+7 900 000-00-00"
+              required
+            />
           </div>
           <div class="auth-form__field">
             <label class="auth-form__label" for="contact-message">Описание</label>
@@ -987,6 +986,7 @@
               id="contact-message"
               name="message"
               rows="4"
+              placeholder="Кратко опишите вопрос или заказ"
               required
             ></textarea>
           </div>

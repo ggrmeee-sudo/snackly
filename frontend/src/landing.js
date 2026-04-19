@@ -1,6 +1,8 @@
 /**
  * Интерактивность лендинга: мобильное меню, подсветка раздела в навигации, фильтр каталога.
  */
+import { PRODUCTS } from "./data/products.js";
+
 var SECTION_IDS = ["home", "catalog", "about", "reviews"];
 
 function getNavLinks() {
@@ -129,45 +131,34 @@ export function initMobileNav() {
   });
 }
 
-function applyCombinedCatalogSearch() {
+function applyCatalogNameSearch() {
   var grid = document.querySelector(".catalog-grid");
   if (!grid) return;
-  var headerInput = document.getElementById("header-search");
   var catalogInput = document.getElementById("catalog-search");
-  var h = headerInput ? String(headerInput.value || "").trim().toLowerCase() : "";
-  var c = catalogInput ? String(catalogInput.value || "").trim().toLowerCase() : "";
+  var q = catalogInput ? String(catalogInput.value || "").trim().toLowerCase() : "";
   var cards = grid.querySelectorAll(".catalog-card[data-product-id]");
   cards.forEach(function (card) {
     var nameEl = card.querySelector(".catalog-card__name");
     var text = nameEl ? nameEl.textContent.toLowerCase() : "";
-    var badH = h.length > 0 && text.indexOf(h) === -1;
-    var badC = c.length > 0 && text.indexOf(c) === -1;
-    if (badH || badC) card.setAttribute("data-search-hidden", "1");
+    var bad = q.length > 0 && text.indexOf(q) === -1;
+    if (bad) card.setAttribute("data-search-hidden", "1");
     else card.removeAttribute("data-search-hidden");
   });
   document.dispatchEvent(new CustomEvent("snackly-catalog-search"));
-}
-
-export function initHeaderSearch() {
-  var input = document.getElementById("header-search");
-  if (!input) return;
-  input.addEventListener("input", function () {
-    applyCombinedCatalogSearch();
-  });
 }
 
 function initCatalogToolbarSearch() {
   var input = document.getElementById("catalog-search");
   if (!input) return;
   input.addEventListener("input", function () {
-    applyCombinedCatalogSearch();
+    applyCatalogNameSearch();
   });
 }
 
-function parsePriceFromCard(card) {
-  var el = card.querySelector(".catalog-card__price");
-  if (!el) return 0;
-  var digits = String(el.textContent || "").replace(/\D/g, "");
+function parsePriceRubFromProductId(productId) {
+  var p = PRODUCTS[productId];
+  if (!p || !p.price) return 0;
+  var digits = String(p.price).replace(/\D/g, "");
   return digits ? parseInt(digits, 10) : 0;
 }
 
@@ -178,11 +169,15 @@ function applyCatalogSort(mode) {
   if (!cards.length) return;
   if (mode === "price-asc") {
     cards.sort(function (a, b) {
-      return parsePriceFromCard(a) - parsePriceFromCard(b);
+      var ida = a.getAttribute("data-product-id");
+      var idb = b.getAttribute("data-product-id");
+      return parsePriceRubFromProductId(ida) - parsePriceRubFromProductId(idb);
     });
   } else if (mode === "price-desc") {
     cards.sort(function (a, b) {
-      return parsePriceFromCard(b) - parsePriceFromCard(a);
+      var ida = a.getAttribute("data-product-id");
+      var idb = b.getAttribute("data-product-id");
+      return parsePriceRubFromProductId(idb) - parsePriceRubFromProductId(ida);
     });
   } else if (mode === "name-asc") {
     cards.sort(function (a, b) {
@@ -267,6 +262,5 @@ export function initCatalogFilter() {
 export function initLanding() {
   initScrollSpy();
   initMobileNav();
-  initHeaderSearch();
   initCatalogFilter();
 }
