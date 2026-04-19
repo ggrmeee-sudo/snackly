@@ -113,8 +113,10 @@ main#top {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: max(12px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) 12px
-    max(20px, env(safe-area-inset-left, 0px));
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-top: max(10px, env(safe-area-inset-top, 0px));
+  padding-bottom: 10px;
   min-height: 56px;
 }
 
@@ -159,8 +161,8 @@ main#top {
   flex-shrink: 0;
   text-decoration: none;
   z-index: 2;
-  /* Одинаковый «воздух» сверху и снизу у логотипа (компенсирует оптику PNG) */
-  padding-block: 5px;
+  /* Без лишнего padding-top: в PNG уже есть прозрачное поле — иначе шапка визуально «тяжелеет» сверху */
+  padding: 0 0 4px;
   box-sizing: border-box;
 }
 
@@ -170,6 +172,7 @@ main#top {
   max-width: min(200px, 42vw);
   display: block;
   object-fit: contain;
+  object-position: 50% 100%;
 }
 
 .header__trailing {
