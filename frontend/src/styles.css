@@ -286,6 +286,37 @@ button.nav__link {
   display: none !important;
 }
 
+/* Корзина в шапке: тёмно-коричневая «капсула» */
+.nav__link--cart-oval.nav__link--icon-tile {
+  background: #3d3229;
+  color: var(--cream);
+}
+
+.nav__link--cart-oval.nav__link--icon-tile:hover {
+  background: #322a23;
+  color: #fff;
+}
+
+.nav__link--cart-oval.nav__link--icon-tile:focus-visible {
+  background: #322a23;
+  color: #fff;
+  outline: 2px solid #a1825c;
+  outline-offset: 2px;
+}
+
+.nav__link--cart-oval.nav__link--icon-tile .nav__icon-svg {
+  color: inherit;
+}
+
+/* «Контакты» в центральном меню — как текстовая ссылка */
+.nav__link--header-contact {
+  border: none;
+  font: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  background: transparent;
+}
+
 #nav-profile-btn[hidden],
 #cart-link[hidden] {
   display: none !important;
@@ -570,6 +601,16 @@ button.nav__link {
   font: inherit;
   cursor: pointer;
   background: transparent;
+}
+
+.mobile-nav__link.mobile-nav__cart-oval {
+  background: #3d3229;
+  color: var(--cream);
+}
+
+.mobile-nav__link.mobile-nav__cart-oval:hover {
+  background: #322a23;
+  color: #fff;
 }
 
 #mobile-nav-cart-link[hidden] {

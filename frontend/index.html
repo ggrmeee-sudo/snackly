@@ -24,6 +24,9 @@
         <a class="nav__link nav__link--section" href="#home" data-section="home">Главная</a>
         <a class="nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
         <a class="nav__link nav__link--section" href="#about" data-section="about">О нас</a>
+        <button type="button" class="nav__link nav__link--header-contact" data-open-contact>
+          Контакты
+        </button>
         <a class="nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
       </nav>
       <div class="header__trailing">
@@ -66,7 +69,7 @@
           </a>
           <button
             type="button"
-            class="nav__link nav__link--icon-tile"
+            class="nav__link nav__link--icon-tile nav__link--cart-oval"
             id="cart-link"
             data-open-cart
             hidden
@@ -115,6 +118,7 @@
           <a class="mobile-nav__link nav__link nav__link--section" href="#home" data-section="home">Главная</a>
           <a class="mobile-nav__link nav__link nav__link--section" href="#catalog" data-section="catalog">Каталог</a>
           <a class="mobile-nav__link nav__link nav__link--section" href="#about" data-section="about">О нас</a>
+          <button type="button" class="mobile-nav__link" data-open-contact>Контакты</button>
           <a class="mobile-nav__link nav__link nav__link--section" href="#reviews" data-section="reviews">Отзывы</a>
         </div>
         <div class="mobile-nav__actions">
@@ -124,7 +128,7 @@
           </button>
           <button
             type="button"
-            class="mobile-nav__link mobile-nav__link--btn"
+            class="mobile-nav__link mobile-nav__link--btn mobile-nav__cart-oval"
             id="mobile-nav-cart-link"
             data-open-cart
             hidden
@@ -821,7 +825,9 @@
         <nav class="profile-menu" aria-label="Профиль">
           <button type="button" class="profile-menu__row" id="profile-open-payment">Оплата</button>
           <button type="button" class="profile-menu__row" id="profile-open-settings">Настройки</button>
-          <button type="button" class="profile-menu__row" id="profile-open-contact">Связаться с нами</button>
+          <button type="button" class="profile-menu__row" id="profile-open-contact" data-open-contact>
+            Связаться с нами
+          </button>
         </nav>
 
         <button type="button" class="profile-logout" id="profile-logout-btn">Выйти</button>
