@@ -18,6 +18,11 @@ import {
 import { formatCardMaskLast4, getLinkedCard, linkCardFromInputs } from "./payment.js";
 import { showCartToast, showSnacklyToast } from "./toast.js";
 
+function promptLoginToAddToCart() {
+  showSnacklyToast("Войдите в аккаунт, чтобы добавлять товары в корзину.", 3200);
+  document.dispatchEvent(new CustomEvent("snackly-open-login"));
+}
+
 function fillDeliveryFieldsFromStorage() {
   var d = loadDeliveryAddr();
   var pairs = [
@@ -205,8 +210,11 @@ if (productCards.length && productModal) {
         e.stopPropagation();
         var id = card.getAttribute("data-product-id");
         if (id) {
-          addToCart(id);
-          showCartToast();
+          if (!isLoggedIn()) {
+            promptLoginToAddToCart();
+            return;
+          }
+          if (addToCart(id)) showCartToast();
         }
         return;
       }
@@ -233,8 +241,11 @@ if (modalAddBtn) {
     e.stopPropagation();
     var id = modalAddBtn.getAttribute("data-product-id");
     if (!id) return;
-    addToCart(id);
-    showCartToast();
+    if (!isLoggedIn()) {
+      promptLoginToAddToCart();
+      return;
+    }
+    if (addToCart(id)) showCartToast();
     modalAddBtn.classList.add("product-modal__add-btn--pulse");
     window.clearTimeout(modalAddBtn._addedTimer);
     modalAddBtn._addedTimer = window.setTimeout(function () {

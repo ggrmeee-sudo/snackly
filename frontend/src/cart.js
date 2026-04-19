@@ -275,6 +275,7 @@ function renderCartDrawer() {
 }
 
 function setCartProductQty(productId, nextQty) {
+  if (!isLoggedIn()) return;
   if (!productId || !PRODUCTS[productId]) return;
   var cart = loadCart();
   if (nextQty <= 0) delete cart[productId];
@@ -290,12 +291,14 @@ function renderCartDrawerIfOpen() {
 }
 
 function addToCart(productId) {
-  if (!productId || !PRODUCTS[productId]) return;
+  if (!isLoggedIn()) return false;
+  if (!productId || !PRODUCTS[productId]) return false;
   var cart = loadCart();
   cart[productId] = (Number(cart[productId]) || 0) + 1;
   saveCart(cart);
   updateCartBadge();
   renderCartDrawerIfOpen();
+  return true;
 }
 
 function updateCartBadge() {

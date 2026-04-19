@@ -158,6 +158,8 @@ export function initAuth() {
       cd.classList.remove("is-open");
       cd.setAttribute("aria-hidden", "true");
     }
+    var pm = document.getElementById("product-modal");
+    if (pm && !pm.hidden) pm.hidden = true;
     showAuthView("login");
     loginModal.hidden = false;
     document.body.style.overflow = "hidden";
@@ -287,6 +289,10 @@ export function initAuth() {
     updateAuthNav();
     syncCartChrome();
     migrateLegacyOrdersUserEmail();
+  });
+
+  document.addEventListener("snackly-open-login", function () {
+    openLogin();
   });
 
   updateAuthNav();
