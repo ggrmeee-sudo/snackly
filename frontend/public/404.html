@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f9f7f2" />
+  <title>Страница не найдена — Snackly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap&subset=cyrillic" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: Inter, system-ui, sans-serif;
+      background: #f9f7f2;
+      color: #3d342c;
+    }
+    .box {
+      max-width: 420px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+    }
+    p {
+      margin: 0 0 24px;
+      line-height: 1.5;
+      color: #5a524a;
+      font-size: 0.95rem;
+    }
+    code {
+      font-size: 0.85em;
+      background: #ebe4d9;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    a {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      background: #6b4423;
+    }
+    a:hover { background: #5a381c; }
+    a:focus-visible {
+      outline: 3px solid #8b5a3c;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>404 — страница не найдена</h1>
+    <p>
+      Такого адреса на сайте Snackly нет. Проверьте ссылку или вернитесь на главную.
+    </p>
+    <p><code id="path"></code></p>
+    <p><a href="./">На главную</a></p>
+  </div>
+  <script>
+    document.getElementById("path").textContent = location.pathname || "/";
+  </script>
+</body>
+</html>

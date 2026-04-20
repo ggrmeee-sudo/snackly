@@ -11,6 +11,7 @@ const port = Number(process.env.PORT) || 3000;
 const projectRoot = path.join(__dirname, "..", "..");
 const frontendDist = path.join(projectRoot, "frontend", "dist");
 const distIndex = path.join(frontendDist, "index.html");
+const dist404 = path.join(frontendDist, "404.html");
 const hasBuiltClient = fs.existsSync(distIndex);
 
 function isLocalHost(host) {
@@ -54,6 +55,11 @@ if (hasBuiltClient) {
     if (req.method !== "GET" && req.method !== "HEAD") return next();
     var ext = path.extname(req.path || "");
     if (ext && ext !== ".html") return next();
+    if (fs.existsSync(dist404)) {
+      return res.status(404).sendFile(dist404, function (err) {
+        if (err) next(err);
+      });
+    }
     res.sendFile(distIndex, function (err) {
       if (err) next(err);
     });
